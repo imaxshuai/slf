@@ -4,6 +4,7 @@ import {
     Text,
     View,
     Image,
+    ImageBackground,
     Dimensions,
     TouchableOpacity
 } from 'react-native';
@@ -18,18 +19,25 @@ export class UserComponent extends Component {
         tabBarIcon: ({tintColor})=>((<Icon name="user-secret" size={25} color={tintColor}/>))
     };
 
+    constructor(...props){
+        super(...props);
+        console.log(this.sttate);
+    }
+
     toLogin(){
         console.log(this.props);
+        // console.log(navigation);
+        // console.log(navigation);
     }
 
     render() {
 
         return (
-            <View style={styles.container}>
+            <View style={styles.containerBox}>
 
                 {/*设置用户中心头部显示头像、用户名、设置及登录跳转....*/}
                 <View>
-                    <Image
+                    <ImageBackground
                         source={require("../../images/bg-user.jpg")}
                         style={styles.bgUser}
                     >
@@ -40,13 +48,17 @@ export class UserComponent extends Component {
                                 <Text style={ styles.settingsText }>设置</Text>
                             </View>
                         </View>
-                        <TouchableOpacity onPress={this.toLogin.bind(this)}>
-                            <Image
-                                source={require("../../images/header-img.png")}
-                                style={styles.headerImg}
-                            />
-                        </TouchableOpacity>
-                    </Image>
+                    </ImageBackground>
+
+                    {/*用户头像*/}
+
+                    <TouchableOpacity onPress={this.toLogin.bind(this)}>
+                        <Image
+                            source={require("../../images/header-img.png")}
+                            style={styles.headerImg}
+                        />
+                    </TouchableOpacity>
+
                 </View>
 
                 {/*中间图标功能区域*/}
@@ -54,25 +66,25 @@ export class UserComponent extends Component {
                 <View style={styles.userNav}>
                     <TouchableOpacity>
                         <View style={styles.navItem}>
-                            <Icon name="file" size={50} color="#00aea1" />
+                            <Icon name="file" size={40} color="#00aea1" />
                             <Text style={styles.navItemText}>我的发布</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <View style={styles.navItem}>
-                            <Icon name="pencil-square" size={50} color="#fe4a6c" />
+                            <Icon name="pencil-square" size={40} color="#fe4a6c" />
                             <Text style={styles.navItemText} >我的收藏</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <View style={styles.navItem}>
-                            <Icon name="briefcase" size={50} color="#ffb300" />
+                            <Icon name="briefcase" size={40} color="#ffb300" />
                             <Text style={styles.navItemText}>我的招聘</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <View style={styles.navItem}>
-                            <Icon name="tachometer" size={50} color="#fa0064" />
+                            <Icon name="tachometer" size={40} color="#fa0064" />
                             <Text style={styles.navItemText}>推广服务</Text>
                         </View>
                     </TouchableOpacity>
@@ -85,9 +97,12 @@ export class UserComponent extends Component {
 }
 
 const styles = StyleSheet.create({
+    containerBox: {
+        backgroundColor: 'rgba(0,0,0,0)'
+    },
     bgUser: {
         width: width,
-        height: 150
+        height: 130,
     },
     userText: {
         flexDirection: 'row',
@@ -98,8 +113,7 @@ const styles = StyleSheet.create({
     },
     username: {
         fontSize: 18,
-        width: 36,
-        marginRight: (width-35)/2-90,
+        marginRight: width/2-90,
     },
     settingsText: {
         fontSize: 18,
@@ -110,23 +124,21 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     settingsIcon: {
-        paddingTop: 5,
         paddingRight: 10,
     },
     headerImg: {
-        alignItems: 'center',
-        width: 100,
-        height: 100,
+        width: 80,
+        height: 80,
         borderWidth: 3,
         borderColor: "#fff",
-        borderRadius: 50,
-        marginTop: 20,
-        marginLeft: (width-100)/2,
+        borderRadius: 40,
+        position: 'relative',
+        top: -40,
+        left: (width-80)/2
     },
     userNav: {
         flexDirection: "row",
         justifyContent: "space-around",
-        marginTop: 90,
     },
     navItem: {
         justifyContent: "center",

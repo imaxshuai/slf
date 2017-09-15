@@ -27,11 +27,11 @@ export const TabRouter = TabNavigator({
         indicatorStyle: {height: 0}, // android 中TabBar下面会显示一条线，高度设为 0 后就不显示线了， 不知道还有没有其它方法隐藏？？？
         style: {
             backgroundColor: '#fff', // TabBar 背景色
-            height: 60
+            height: 50
         },
         labelStyle: {
-            fontSize: 14, // 文字大小
-            marginTop: 4
+            fontSize: 12, // 文字大小
+            marginTop: 0
         },
         iconStyle: {
             marginBottom: 0,

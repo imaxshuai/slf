@@ -29,7 +29,7 @@ class User extends Component{
         console.log(this.props);
         return(
             <View>
-                <UserComponent />
+                <UserComponent navigation={this.props.navigation} />
             </View>
         )
     }
