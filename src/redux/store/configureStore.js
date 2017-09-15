@@ -1,13 +1,13 @@
 import { createStore } from 'redux';
-import { rootReducer } from "../reducers/index";
+import { appReducer } from "../reducers/index";
 
 export const configureStore = (initialState)=>{
 
     const store = createStore(
-        rootReducer,
+        appReducer,
         initialState
     );
 
     return store;
 
-}
+};

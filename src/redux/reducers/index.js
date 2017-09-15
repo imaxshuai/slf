@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
 
 import { user } from './user';
-
-export const rootReducer = combineReducers({
-    user: user
+import { navReducer } from './nav';
+export const appReducer = combineReducers({
+    user: user,
+    nav: navReducer,
 });
 
