@@ -21,11 +21,11 @@ export class UserComponent extends Component {
 
     constructor(...props){
         super(...props);
-        console.log(this.sttate);
     }
 
     toLogin(){
         console.log(this.props);
+        this.props.navigation.navigate("Login",{'user': 'xushuai'});
         // console.log(navigation);
         // console.log(navigation);
     }
@@ -36,30 +36,24 @@ export class UserComponent extends Component {
             <View style={styles.containerBox}>
 
                 {/*设置用户中心头部显示头像、用户名、设置及登录跳转....*/}
-                <View>
-                    <ImageBackground
-                        source={require("../../images/bg-user.jpg")}
-                        style={styles.bgUser}
-                    >
-                        <View style={styles.userText}>
-                            <Text style={styles.username}>许帅</Text>
-                            <View style={styles.settingsContainer}>
-                                <Icon name="cog" size={16} style={styles.settingsIcon} />
-                                <Text style={ styles.settingsText }>设置</Text>
-                            </View>
-                        </View>
-                    </ImageBackground>
+                <ImageBackground
+                    source={require("../../images/bg-user.jpg")}
+                    style={styles.bgUser}
+                >
+                    {/*设置按钮*/}
+                    <TouchableOpacity>
+                    <Text style={ styles.settingsText }><Icon name="cog" size={16} style={styles.settingsIcon} /> 设置</Text>
+                    </TouchableOpacity>
 
                     {/*用户头像*/}
-
                     <TouchableOpacity onPress={this.toLogin.bind(this)}>
                         <Image
                             source={require("../../images/header-img.png")}
                             style={styles.headerImg}
                         />
                     </TouchableOpacity>
+                </ImageBackground>
 
-                </View>
 
                 {/*中间图标功能区域*/}
 
@@ -103,10 +97,10 @@ const styles = StyleSheet.create({
     bgUser: {
         width: width,
         height: 130,
+        position: 'relative',
     },
     userText: {
         flexDirection: 'row',
-        justifyContent: 'flex-end',
         marginTop: 50,
         marginRight: 20,
         height: 30,
@@ -117,11 +111,8 @@ const styles = StyleSheet.create({
     },
     settingsText: {
         fontSize: 18,
-        width: 50,
-    },
-    settingsContainer: {
-        width: 70,
-        flexDirection: "row",
+        textAlign: 'right',
+        padding: 20
     },
     settingsIcon: {
         paddingRight: 10,
@@ -132,13 +123,13 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: "#fff",
         borderRadius: 40,
-        position: 'relative',
-        top: -40,
-        left: (width-80)/2
+        marginTop: 25,
+        marginLeft: (width-80)/2,
     },
     userNav: {
         flexDirection: "row",
         justifyContent: "space-around",
+        marginTop: 100,
     },
     navItem: {
         justifyContent: "center",

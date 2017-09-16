@@ -16,9 +16,9 @@ export const TabRouter = TabNavigator({
     },
 
 },{
-    animationEnabled: true, // 切换页面时不显示动画
+    animationEnabled: false, // 切换页面时不显示动画
     tabBarPosition: 'bottom', // 显示在底端，android 默认是显示在页面顶端的
-    swipeEnabled: true, // 禁止左右滑动
+    swipeEnabled: false, // 禁止左右滑动
     backBehavior: 'none', // 按 back 键是否跳转到第一个 Tab， none 为不跳转
     tabBarOptions: {
         activeTintColor: '#fa0064', // 文字和图片选中颜色

@@ -14,9 +14,6 @@ export const AppNavigator = StackNavigator({
     },
     Login: {
         screen: LoginComponent,
-        navigationOptions: {
-            headerTitle: '登录'
-        }
     }
 });
 
