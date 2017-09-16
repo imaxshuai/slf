@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
-import {
-    View,
-    Text,
-    TouchableOpacity,
-    StyleSheet,
-} from 'react-native';
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+import { RepleaseComponent } from '../../components/replease/replease'
 
 class Replease extends Component{
 
@@ -28,9 +23,7 @@ class Replease extends Component{
     render(){
 
         return(
-            <View>
-                <Text>发布页面</Text>
-            </View>
+            <RepleaseComponent navigation={this.props.navigation} />
         )
     }
 

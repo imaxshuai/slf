@@ -12,9 +12,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 let { width, height } = Dimensions.get("window");
 
-export class UserComponent extends Component {
+export class RepleaseComponent extends Component {
 
     static navigationOptions = {
+        headerTitle: '选择发布分类',
         tabBarLabel: "个人中心",
         tabBarIcon: ({tintColor})=>((<Icon name="user-secret" size={25} color={tintColor}/>))
     };
@@ -28,6 +29,8 @@ export class UserComponent extends Component {
     }
 
     render() {
+
+        console.log(this.props)
 
         return (
             <View style={styles.containerBox}>

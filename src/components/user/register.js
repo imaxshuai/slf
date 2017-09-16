@@ -1,9 +1,9 @@
 import React,{ Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, Button, Platform,StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, Platform,StyleSheet } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export class LoginComponent extends Component{
+export class RegisterComponent extends Component{
 
     static navigationOptions = {
         header: null
@@ -11,6 +11,9 @@ export class LoginComponent extends Component{
 
     constructor(...props){
         super(...props);
+    }
+    changeUserInfo(){
+        console.log(this.props)
     }
 
     goBack(){
@@ -20,8 +23,8 @@ export class LoginComponent extends Component{
     doLogin(){
         this.props.navigation.navigate('User');
     }
-    toRegister(){
-        this.props.navigation.navigate('Register');
+    toLogin(){
+        this.props.navigation.navigate('Login');
     }
 
     render(){
@@ -33,8 +36,8 @@ export class LoginComponent extends Component{
                     <TouchableOpacity onPress={this.goBack.bind(this)}>
                         <Icon name="close" size={18} />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={this.toRegister.bind(this)}>
-                        <Text>注册</Text>
+                    <TouchableOpacity onPress={this.toLogin.bind(this)}>
+                        <Text>登录</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -49,8 +52,8 @@ export class LoginComponent extends Component{
                     <TouchableOpacity>
                         <TextInput placeholder="密码" style={styles.loginInput} password='true' autoCapitalize="none"  secureTextEntry={true} />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={this.doLogin.bind(this)}>
-                        <Text style={styles.loginBtn}> 登录</Text>
+                    <TouchableOpacity onPress={this.changeUserInfo.bind(this)}>
+                        <Text style={styles.loginBtn} onPress={this.doLogin.bind(this)}>注册</Text>
                     </TouchableOpacity>
                 </View>
 
