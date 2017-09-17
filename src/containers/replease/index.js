@@ -46,6 +46,11 @@ class User extends Component{
         );
     }
 
+    toClassifyList(){
+        this.props.navigation.navigate('ClassifyList');
+
+    }
+
 
     render(){
 
@@ -62,7 +67,7 @@ class User extends Component{
 
                 {/*中心内容选择分类区域*/}
                 <View style={styles.navClass}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.toClassifyList.bind(this)}>
                         <View style={styles.navItem}>
                             <Icon name="bank" size={40} color="#39a0f4" />
                             <Text style={styles.navItemText}>房屋出租</Text>

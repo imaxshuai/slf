@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         padding: 20,
         width: 100,
+        backgroundColor: 'rgba(0,0,0,0)',
         position: 'absolute',
         right: 0
     },
@@ -131,7 +132,8 @@ const styles = StyleSheet.create({
     },
     headerImgBox: {
         marginTop: 90,
-        marginLeft: (width-80)/2
+        marginLeft: (width-80)/2,
+        marginRight: (width-80)/2,
     },
     headerImg: {
         width: 80,
