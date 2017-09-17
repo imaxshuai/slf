@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { StackNavigator, addNavigationHelpers } from 'react-navigation';
 
 import { TabRouter } from './tabNavgator';
-import { LoginComponent } from '../components/user/login';
-import { RegisterComponent } from '../components/user/register';
+import { Login } from '../containers/user/login';
+import { Register } from '../containers/user/register';
 
 export const AppNavigator = StackNavigator({
     Main: {
@@ -14,10 +14,10 @@ export const AppNavigator = StackNavigator({
         }
     },
     Login: {
-        screen: LoginComponent,
+        screen: Login,
     },
     Register: {
-        screen: RegisterComponent,
+        screen: Register,
     }
 });
 

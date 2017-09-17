@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Image, Button, Platform,StyleS
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export class LoginComponent extends Component{
+export class Login extends Component{
 
     static navigationOptions = {
         header: null
@@ -25,6 +25,7 @@ export class LoginComponent extends Component{
     }
 
     render(){
+
         return (
             <View style={styles.container}>
 
@@ -63,7 +64,7 @@ export class LoginComponent extends Component{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fafafa'
+        backgroundColor: '#fff'
     },
     navTitle: {
         flexDirection: "row",

@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Image, Platform,StyleSheet } f
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export class RegisterComponent extends Component{
+export class Register extends Component{
 
     static navigationOptions = {
         header: null
