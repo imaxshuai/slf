@@ -48,7 +48,7 @@ class User extends Component{
                     {/*用户头像*/}
                     <TouchableOpacity onPress={this.toLogin.bind(this)} style={styles.headerImgBox}>
                         <Image
-                            source={require("../../images/header-img.png")}
+                            source={require("../../images/header-img-login.png")}
                             style={styles.headerImg}
                         />
                     </TouchableOpacity>
