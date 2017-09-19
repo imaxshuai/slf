@@ -31,7 +31,14 @@ export class ClassifyListComponent extends Component{
         )
     }
 
+    componentDidMount(){
+
+    }
+
     render(){
+
+        let classify = this.props.navigation.state.params;
+        console.log(this.props);
         return (
             <View style={styles.container}>
 
@@ -41,23 +48,16 @@ export class ClassifyListComponent extends Component{
                 />
 
                 <FlatList
-                    data={[
-                        {key: 'Devin'},
-                        {key: 'Jackson'},
-                        {key: 'James'},
-                        {key: 'Joel'},
-                        {key: 'John'},
-                        {key: 'Jillian'},
-                        {key: 'Jimmy'},
-                        {key: 'Julie'},
-                    ]}
+                    data={classify.list.label}
 
                     renderItem={
-                        ({item}) => (
-                            <TouchableOpacity >
-                                <Text style={styles.item}>{item.key}</Text>
-                            </TouchableOpacity>
-                        )
+                        ({item}) => {
+                            return (
+                                <TouchableOpacity >
+                                    <Text style={styles.item} key={item.id}>{item.key}</Text>
+                                </TouchableOpacity>
+                            )
+                        }
                     }
                     ItemSeparatorComponent={()=>(<View style={{height: 1,backgroundColor: '#eee'}}></View>)}
                 />
@@ -73,8 +73,9 @@ const styles = StyleSheet.create({
     },
     item: {
         paddingLeft: 30,
+        paddingBottom: 5,
         height: 30,
-        lineHeight: 30,
         marginTop: 10,
+
     }
 })
