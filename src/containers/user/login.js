@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Button, Platform,StyleSheet } from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export class Login extends Component{
 
@@ -18,6 +18,19 @@ export class Login extends Component{
     }
 
     doLogin(){
+        fetch('http://rapapi.org/mockjsdata/26250/api/user/login', {
+            method: 'POST',
+            body: 'username=15366123031&password=123123'
+        })
+            .then(res=>res.json())
+            .then((userinfo)=>{
+                console.log(userinfo);
+                this.props.navigation.navigate('User', userinfo);
+                return userinfo;
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
         this.props.navigation.navigate('User');
     }
     toRegister(){
@@ -64,13 +77,16 @@ export class Login extends Component{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff'
+        backgroundColor: '#f9f9f9'
+    },
+    loginText: {
+        fontSize: 18,
     },
     navTitle: {
         flexDirection: "row",
         justifyContent: 'space-between',
         padding: 20,
-        marginTop: Platform.OS==='ios' ? 15: 0
+        marginTop: Platform.OS==='ios' ? 15: 0,
     },
     logo: {
         width: "26%",
@@ -85,11 +101,13 @@ const styles = StyleSheet.create({
 
     },
     loginInput: {
-        marginBottom: 30,
+        marginBottom: 10,
         borderBottomWidth: Platform.OS==='ios' ? 1:0,
-        borderColor: '#ccc',
-        fontSize: 14,
+        borderColor: '#eee',
+        fontSize: 16,
         lineHeight: 30,
+        paddingTop: 10,
+        paddingBottom: 10,
 
     },
     loginBtn: {
@@ -97,9 +115,12 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 16,
         width: '100%',
-        paddingTop: 10,
-        paddingBottom: 10,
-        textAlign: 'center'
-    }
+        paddingTop: 15,
+        paddingBottom: 15,
+        textAlign: 'center',
+        marginTop: 20,
+        borderRadius: 3,
+        overflow: 'hidden',
+    },
 
 });

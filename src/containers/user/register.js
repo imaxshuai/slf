@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Platform,StyleSheet } from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export class Register extends Component{
 
@@ -20,11 +20,23 @@ export class Register extends Component{
         this.props.navigation.goBack();
     }
 
-    doLogin(){
-        this.props.navigation.navigate('User');
+    doRegister(){
+        fetch('http://rapapi.org/mockjsdata/26250/api/user/verify', {
+            method: 'POST',
+            body: 'honeNummber=15366123031&password=123123&verifyCode=941231'
+        })
+            .then(res=>res.json())
+            .then((userinfo)=>{
+                console.log(userinfo);
+                this.props.navigation.navigate('User', userinfo);
+                return userinfo;
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
     }
     toLogin(){
-        this.props.navigation.navigate('Login');
+        this.props.navigation.goBack();
     }
 
     render(){
@@ -34,10 +46,10 @@ export class Register extends Component{
                 {/*头部导航位置*/}
                 <View style={styles.navTitle}>
                     <TouchableOpacity onPress={this.goBack.bind(this)}>
-                        <Icon name="close" size={18} />
+                        <Icon name="close" size={20} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this.toLogin.bind(this)}>
-                        <Text>登录</Text>
+                        <Text style={styles.loginText}>登录</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -47,14 +59,18 @@ export class Register extends Component{
                 {/*登录FORM表单提交*/}
                 <View style={styles.loginForm}>
                     <TouchableOpacity>
-                        <TextInput placeholder="用户名" style={styles.loginInput}  autoCapitalize="none" />
+                        <TextInput placeholder="手机号" style={styles.loginInput}  autoCapitalize="none" />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <TextInput placeholder="动态码" style={styles.loginInput} password='true' autoCapitalize="none"  secureTextEntry={true} />
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <TextInput placeholder="密码" style={styles.loginInput} password='true' autoCapitalize="none"  secureTextEntry={true} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this.changeUserInfo.bind(this)}>
-                        <Text style={styles.loginBtn} onPress={this.doLogin.bind(this)}>注册</Text>
+                        <Text style={styles.loginBtn} onPress={this.doRegister.bind(this)}>注册</Text>
                     </TouchableOpacity>
+                    <Text style={styles.agreement}>注册即代表同意《搜来福使用协议》</Text>
                 </View>
 
             </View>
@@ -66,13 +82,16 @@ export class Register extends Component{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fafafa'
+        backgroundColor: '#f9f9f9'
+    },
+    loginText: {
+        fontSize: 18,
     },
     navTitle: {
         flexDirection: "row",
         justifyContent: 'space-between',
         padding: 20,
-        marginTop: Platform.OS==='ios' ? 15: 0
+        marginTop: Platform.OS==='ios' ? 15: 0,
     },
     logo: {
         width: "26%",
@@ -87,11 +106,13 @@ const styles = StyleSheet.create({
 
     },
     loginInput: {
-        marginBottom: 30,
+        marginBottom: 10,
         borderBottomWidth: Platform.OS==='ios' ? 1:0,
-        borderColor: '#ccc',
-        fontSize: 14,
+        borderColor: '#eee',
+        fontSize: 16,
         lineHeight: 30,
+        paddingTop: 10,
+        paddingBottom: 10,
 
     },
     loginBtn: {
@@ -99,9 +120,18 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 16,
         width: '100%',
-        paddingTop: 10,
-        paddingBottom: 10,
-        textAlign: 'center'
-    }
+        paddingTop: 15,
+        paddingBottom: 15,
+        textAlign: 'center',
+        marginTop: 20,
+        borderRadius: 3,
+        overflow: 'hidden',
+    },
+    agreement: {
+        textAlign: 'center',
+        color: '#aaa',
+        fontSize: 12,
+        margin: 20,
+    },
 
 });
