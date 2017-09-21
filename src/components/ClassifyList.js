@@ -13,10 +13,15 @@ import { NavbarTitleComponent } from '../components/NavbarTitle';
 
 export class ClassifyListComponent extends Component{
 
+    componentDidMount(){
+        console.log('---------------');
+        console.log(currentUser);
+    }
+
+
     _goBack(){
         this.props.navigation.goBack()
     }
-
 
     renderLeftItem(){
         return (
@@ -31,14 +36,9 @@ export class ClassifyListComponent extends Component{
         )
     }
 
-    componentDidMount(){
-
-    }
-
     render(){
 
         let classify = this.props.navigation.state.params;
-        console.log(this.props);
         return (
             <View style={styles.container}>
 

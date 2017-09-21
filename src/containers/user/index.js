@@ -27,13 +27,20 @@ class User extends Component{
         super(...props);
     }
 
+    componentDidMount(){
+        console.log(currentUser);
+        console.log(Http)
+    }
+
+    toto(){
+        console.log(User)
+    }
+
     toLogin(){
-        this.props.navigation.navigate("Login",{'user': 'xushuai'});
+        this.props.navigation.navigate("Login");
     }
 
     render(){
-
-        console.log(this.props);
 
         return(
             <View style={styles.container}>
@@ -45,6 +52,9 @@ class User extends Component{
                 >
                     {/*设置按钮*/}
                     <Text onPress={this.toLogin.bind(this)} style={ styles.settingsText }><Icon name="cog" size={16} style={styles.settingsIcon} /> 设置</Text>
+
+                    {/*用户名*/}
+                    <Text style={styles.username}>{currentUser.loginState?currentUser.userinfo.username:''}</Text>
 
                     {/*用户头像*/}
                     <TouchableOpacity onPress={this.toLogin.bind(this)} style={styles.headerImgBox}>
@@ -59,7 +69,7 @@ class User extends Component{
                 {/*中间图标功能区域*/}
 
                 <View style={styles.userNav}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.toto.bind(this)}>
                         <View style={styles.navItem}>
                             <Icon name="file" size={40} color="#00aea1" />
                             <Text style={styles.navItemText}>我的发布</Text>
@@ -126,7 +136,15 @@ const styles = StyleSheet.create({
         width: 100,
         backgroundColor: 'rgba(0,0,0,0)',
         position: 'absolute',
-        right: 0
+        right: 0,
+    },
+    username: {
+        fontSize:16,
+        textAlign: 'center',
+        width: 300,
+        position: 'absolute',
+        left: (width-300)/2,
+        top: 50
     },
     settingsIcon: {
         paddingRight: 10,

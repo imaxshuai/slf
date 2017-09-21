@@ -1,9 +1,12 @@
 import React,{ Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Button, Platform,StyleSheet } from 'react-native';
-
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux';
 
-export class Login extends Component{
+import * as userActions from '../../redux/actions/user';
+
+class Login extends Component{
 
     static navigationOptions = {
         header: null
@@ -13,28 +16,31 @@ export class Login extends Component{
         super(...props);
     }
 
+    componentDidMount(){
+        console.log(currentUser);
+    }
+
     goBack(){
         this.props.navigation.goBack();
     }
 
     doLogin(){
-        fetch('http://rapapi.org/mockjsdata/26250/api/user/login', {
-            method: 'POST',
-            body: 'username=15366123031&password=123123'
-        })
-            .then(res=>res.json())
-            .then((userinfo)=>{
-                console.log(userinfo);
-                this.props.navigation.navigate('User', userinfo);
-                return userinfo;
-            })
-            .catch((error)=>{
-                console.log(error);
-            })
-        this.props.navigation.navigate('User');
+        this.props.userActions.login();
     }
     toRegister(){
         this.props.navigation.navigate('Register');
+    }
+    toto(){
+        console.log(currentUser)
+    }
+
+    clearStorage(){
+        console.log('清除成功！');
+        storage.remove({
+            key: 'user'
+        });
+        currentUser.loginState = false;
+        currentUser.userinfo = '';
     }
 
     render(){
@@ -66,6 +72,13 @@ export class Login extends Component{
                     <TouchableOpacity onPress={this.doLogin.bind(this)}>
                         <Text style={styles.loginBtn}> 登录</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={this.toto.bind(this)}>
+                        <Text style={styles.loginBtn}> 查看信息</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={this.clearStorage.bind(this)}>
+                        <Text style={styles.loginBtn}> 清除信息</Text>
+                    </TouchableOpacity>
+
                 </View>
 
             </View>
@@ -73,6 +86,24 @@ export class Login extends Component{
     }
 
 }
+
+const mapStateToProps = (state)=>{
+    return {
+        user: state.user,
+        nav: state.nav
+    }
+};
+
+const mapDispatchToProps = (dispatch)=>{
+    return {
+        userActions: bindActionCreators(userActions, dispatch)
+    }
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Login);
 
 const styles = StyleSheet.create({
     container: {

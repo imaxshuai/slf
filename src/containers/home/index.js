@@ -22,6 +22,10 @@ class Home extends Component{
     static navigationOptions = {
         tabBarLabel: "主页",
         tabBarIcon: ({tintColor})=>((<Icon name="home" size={25} color={tintColor}/>))
+    };
+
+    componentWillMount(){
+        console.log(currentUser);
     }
 
     constructor(...props){
@@ -53,7 +57,7 @@ class Home extends Component{
             <View style={styles.container}>
 
                 {/*中心内容选择分类区域*/}
-
+                <Text onPress={()=>console.log(currentUser)}>6666666666666</Text>
 
             </View>
         )

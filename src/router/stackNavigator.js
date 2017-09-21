@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { StackNavigator, addNavigationHelpers } from 'react-navigation';
 
 import { TabRouter } from './tabNavgator';
-import { Login } from '../containers/user/login';
+import Login from '../containers/user/login';
 import { Register } from '../containers/user/register';
 import { ClassifyListComponent } from '../components/ClassifyList';
 

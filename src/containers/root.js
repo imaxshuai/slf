@@ -3,6 +3,9 @@ import { Provider } from 'react-redux';
 
 import { configureStore } from '../redux/store/configureStore';
 import AppWithNavigationState from '../router/stackNavigator';
+import Http from '../unit/http';
+import storage from '../unit/storage';
+import User from '../unit/loginState';
 
 
 

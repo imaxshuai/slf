@@ -29,7 +29,6 @@ export class NavbarTitleComponent extends Component {
     }
 
     render(){
-        console.log(this.props);
         return(
             <View style={styles.container}>
                 {/* 左边 */}

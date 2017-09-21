@@ -8,10 +8,13 @@ export class Register extends Component{
     static navigationOptions = {
         header: null
     }
-
     constructor(...props){
         super(...props);
     }
+    componentDidMount(){
+        console.log(currentUser);
+    }
+
     changeUserInfo(){
         console.log(this.props)
     }
@@ -62,7 +65,11 @@ export class Register extends Component{
                         <TextInput placeholder="手机号" style={styles.loginInput}  autoCapitalize="none" />
                     </TouchableOpacity>
                     <TouchableOpacity>
-                        <TextInput placeholder="动态码" style={styles.loginInput} password='true' autoCapitalize="none"  secureTextEntry={true} />
+                        <TextInput placeholder="动态码"
+                                   style={styles.loginInput}
+                                   password='true'
+                                   autoCapitalize="none"
+                        />
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <TextInput placeholder="密码" style={styles.loginInput} password='true' autoCapitalize="none"  secureTextEntry={true} />

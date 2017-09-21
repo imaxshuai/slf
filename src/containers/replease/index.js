@@ -26,17 +26,7 @@ class User extends Component{
     }
 
     componentDidMount(){
-        console.log(this.props);
-        console.log("--------------------------------------");
-        fetch('http://rapapi.org/mockjsdata/26250/api/user',)
-            .then(res => res.json())
-            .then(user => {
-                console.log(user);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-
+        console.log(currentUser)
     }
 
     //设置NAVBAR标题格式
