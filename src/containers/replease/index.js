@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { NavbarTitleComponent } from '../../components/NavbarTitle';
 import * as userActions from '../../redux/actions/user';
@@ -18,7 +18,7 @@ class User extends Component{
 
     static navigationOptions = {
         tabBarLabel: "发布",
-        tabBarIcon: ({tintColor})=>((<Icon name="pencil-square" size={25} color={tintColor}/>))
+        tabBarIcon: ({tintColor})=>((<Icon name="description" size={25} color={tintColor}/>))
     };
 
     constructor(...props){
@@ -69,57 +69,81 @@ class User extends Component{
                 <View style={styles.navClass}>
                     <TouchableOpacity onPress={this.toClassifyList.bind(this,{list: classify.fc})}>
                         <View style={styles.navItem}>
-                            <Icon name="bank" size={40} color="#39a0f4" />
+                            <Icon name="location-city" size={40} color="#39a0f4" />
                             <Text style={styles.navItemText}>房屋出租</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this.toClassifyList.bind(this,{list: classify.zp})}>
                         <View style={styles.navItem}>
-                            <Icon name="briefcase" size={40} color="#fe4a6c" />
+                            <Icon name="card-travel" size={40} color="#fe4a6c" />
                             <Text style={styles.navItemText} >人才招聘</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.sy})}>
                         <View style={styles.navItem}>
-                            <Icon name="suitcase" size={40} color="#42ba7b" />
+                            <Icon name="business-center" size={40} color="#42ba7b" />
                             <Text style={styles.navItemText} >商业服务</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.es})}>
                         <View style={styles.navItem}>
-                            <Icon name="shopping-bag" size={40} color="#f6552c" />
+                            <Icon name="shop" size={40} color="#f6552c" />
                             <Text style={styles.navItemText}>同城二手</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.esc})}>
                         <View style={styles.navItem}>
-                            <Icon name="car" size={40} color="#0bbaac" />
+                            <Icon name="directions-car" size={40} color="#0bbaac" />
                             <Text style={styles.navItemText}>二手车</Text>
                         </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.sh})}>
                         <View style={styles.navItem}>
-                            <Icon name="gift" size={40} color="#ffb300" />
+                            <Icon name="card-giftcard" size={40} color="#ffb300" />
                             <Text style={styles.navItemText}>生活服务</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.jy})}>
                         <View style={styles.navItem}>
-                            <Icon name="mortar-board" size={40} color="#42ba7b" />
+                            <Icon name="school" size={40} color="#42ba7b" />
                             <Text style={styles.navItemText}>教育培训</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.pet})}>
                         <View style={styles.navItem}>
-                            <Icon name="tachometer" size={40} color="#39a0f4" />
+                            <Icon name="pets" size={40} color="#39a0f4" />
                             <Text style={styles.navItemText}>宠物</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.qcfw})}>
                         <View style={styles.navItem}>
-                            <Icon name="cab" size={40} color="#fa0064" />
+                            <Icon name="local-car-wash" size={40} color="#fa0064" />
                             <Text style={styles.navItemText}>汽车服务</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.sh})}>
+                        <View style={styles.navItem}>
+                            <Icon name="loop" size={40} color="#ffb300" />
+                            <Text style={styles.navItemText}>旧物回收</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.jy})}>
+                        <View style={styles.navItem}>
+                            <Icon name="wc" size={40} color="#42ba7b" />
+                            <Text style={styles.navItemText}>交友</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.pet})}>
+                        <View style={styles.navItem}>
+                            <Icon name="picture-in-picture" size={40} color="#39a0f4" />
+                            <Text style={styles.navItemText}>票卡</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.qcfw})}>
+                        <View style={styles.navItem}>
+                            <Icon name="stars" size={40} color="#f6552c" />
+                            <Text style={styles.navItemText}>连锁加盟</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -155,7 +179,6 @@ const styles = StyleSheet.create({
     },
     navClass: {
         flexDirection: "row",
-        marginTop: 20,
         flexWrap: 'wrap',
         padding: 30,
     },
@@ -163,7 +186,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         width: (width-60)/3,
-        marginTop: 50,
+        marginTop: 30,
 
     },
     navItemText: {

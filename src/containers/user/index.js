@@ -7,10 +7,11 @@ import {
     ImageBackground,
     Dimensions,
     TouchableOpacity,
+    Platform,
 } from 'react-native';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import * as userActions from '../../redux/actions/user';
 
@@ -20,7 +21,7 @@ class User extends Component{
 
     static navigationOptions = {
         tabBarLabel: "我的",
-        tabBarIcon: ({tintColor})=>((<Icon name="user-secret" size={25} color={tintColor}/>))
+        tabBarIcon: ({tintColor})=>((<Icon name="account-circle" size={25} color={tintColor}/>))
     };
 
     constructor(...props){
@@ -51,7 +52,10 @@ class User extends Component{
                     style={styles.bgUser}
                 >
                     {/*设置按钮*/}
-                    <Text onPress={this.toLogin.bind(this)} style={ styles.settingsText }><Icon name="cog" size={16} style={styles.settingsIcon} /> 设置</Text>
+                    <View style={styles.settingsBox}>
+                        <Icon name="settings" size={16} style={styles.settingsIcon} />
+                        <Text onPress={this.toLogin.bind(this)} style={ styles.settingsText }>设置</Text>
+                    </View>
 
                     {/*用户名*/}
                     <Text style={styles.username}>{currentUser.loginState?currentUser.userinfo.username:''}</Text>
@@ -59,7 +63,7 @@ class User extends Component{
                     {/*用户头像*/}
                     <TouchableOpacity onPress={this.toLogin.bind(this)} style={styles.headerImgBox}>
                         <Image
-                            source={require("../../images/header-img-login.png")}
+                            source={currentUser.loginState?{uri: currentUser.userinfo.avatar}:require("../../images/header-img-login.png")}
                             style={styles.headerImg}
                         />
                     </TouchableOpacity>
@@ -71,25 +75,25 @@ class User extends Component{
                 <View style={styles.userNav}>
                     <TouchableOpacity onPress={this.toto.bind(this)}>
                         <View style={styles.navItem}>
-                            <Icon name="file" size={40} color="#00aea1" />
+                            <Icon name="description" size={40} color="#00aea1" />
                             <Text style={styles.navItemText}>我的发布</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <View style={styles.navItem}>
-                            <Icon name="pencil-square" size={40} color="#fe4a6c" />
+                            <Icon name="collections" size={40} color="#fe4a6c" />
                             <Text style={styles.navItemText} >我的收藏</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <View style={styles.navItem}>
-                            <Icon name="briefcase" size={40} color="#ffb300" />
+                            <Icon name="card-travel" size={40} color="#ffb300" />
                             <Text style={styles.navItemText}>我的招聘</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <View style={styles.navItem}>
-                            <Icon name="tachometer" size={40} color="#fa0064" />
+                            <Icon name="palette" size={40} color="#fa0064" />
                             <Text style={styles.navItemText}>推广服务</Text>
                         </View>
                     </TouchableOpacity>
@@ -130,24 +134,28 @@ const styles = StyleSheet.create({
         height: 130,
         position: 'relative',
     },
+    settingsBox: {
+        backgroundColor: 'transparent',
+        position: 'absolute',
+        right: 15,
+        top: Platform.OS =="ios"?20:10,
+        flexDirection: 'row',
+    },
     settingsText: {
         fontSize: 16,
-        padding: 20,
-        width: 100,
-        backgroundColor: 'rgba(0,0,0,0)',
-        position: 'absolute',
-        right: 0,
+    },
+    settingsIcon: {
+        paddingRight: 10,
+        paddingTop: 5,
     },
     username: {
         fontSize:16,
         textAlign: 'center',
         width: 300,
+        backgroundColor: 'transparent',
         position: 'absolute',
         left: (width-300)/2,
         top: 50
-    },
-    settingsIcon: {
-        paddingRight: 10,
     },
     headerImgBox: {
         marginTop: 90,

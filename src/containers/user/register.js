@@ -1,8 +1,10 @@
 import React,{ Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, Platform,StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, Platform,StyleSheet,Dimensions } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Swiper from 'react-native-swiper';
 
+let { width, height } = Dimensions.get("window");
 export class Register extends Component{
 
     static navigationOptions = {
@@ -80,6 +82,22 @@ export class Register extends Component{
                     <Text style={styles.agreement}>注册即代表同意《搜来福使用协议》</Text>
                 </View>
 
+                {/*轮播广告位展示*/}
+                <View>
+                    <Text>11111111111</Text>
+                    <Swiper style={styles.wrapper} showsButtons={true}>
+                        <View style={styles.slide1}>
+                            <Text style={styles.text}>Hello Swiper</Text>
+                        </View>
+                        <View style={styles.slide2}>
+                            <Text style={styles.text}>Beautiful</Text>
+                        </View>
+                        <View style={styles.slide3}>
+                            <Text style={styles.text}>And simple</Text>
+                        </View>
+                    </Swiper>
+                </View>
+
             </View>
         )
     }
@@ -140,5 +158,34 @@ const styles = StyleSheet.create({
         fontSize: 12,
         margin: 20,
     },
+    /*轮播图样式*/
+    wrapper: {
+        width: width,
+        height: 80,
+        backgroundColor: '#eee'
+    },
+    slide1: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#9DD6EB',
+    },
+    slide2: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#97CAE5',
+    },
+    slide3: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#92BBD9',
+    },
+    text: {
+        color: '#fff',
+        fontSize: 30,
+        fontWeight: 'bold',
+    }
 
 });
