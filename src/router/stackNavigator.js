@@ -6,6 +6,7 @@ import { TabRouter } from './tabNavgator';
 import Login from '../containers/user/login';
 import { Register } from '../containers/user/register';
 import { ClassifyListComponent } from '../components/ClassifyList';
+import { SwiperList } from '../containers/home/swiper';
 
 export const AppNavigator = StackNavigator({
     Main: {
@@ -22,9 +23,14 @@ export const AppNavigator = StackNavigator({
     },
     ClassifyList: {
         screen: ClassifyListComponent,
-        mode: 'modal',
         navigationOptions: {
             header: null,
+        }
+    },
+    SwiperList: {
+        screen: SwiperList,
+        navigationOptions: {
+            headerTitle: 'xushuai',
         }
     }
 });

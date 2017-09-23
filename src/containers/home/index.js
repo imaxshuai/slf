@@ -38,7 +38,7 @@ class Home extends Component{
     }
     //跳转列表页
     toClassifyList(){
-        alert('嘿嘿...')
+        this.props.navigation.navigate('SwiperList');
     }
 
 
@@ -196,8 +196,7 @@ class Home extends Component{
                 </View>
 
                 {/*轮播广告位展示*/}
-                <View>
-                    <Text>11111111111</Text>
+                <View style={styles.ss}>
                     <Swiper style={styles.wrapper} showsButtons={true}>
                         <View style={styles.slide1}>
                             <Text style={styles.text}>Hello Swiper</Text>
@@ -252,8 +251,9 @@ const styles = StyleSheet.create({
     city: {
         flex: 3,
         flexDirection: 'row',
-        paddingTop: 10,
         justifyContent: 'center',
+        alignItems: 'center',
+        height: 40,
     },
 
     searchInput: {
@@ -263,6 +263,7 @@ const styles = StyleSheet.create({
         height: 40,
         padding: 10,
         borderRadius: 2,
+        alignItems: 'center',
     },
     userIcon: {
         flex: 2,
@@ -334,10 +335,12 @@ const styles = StyleSheet.create({
     },
 
     /*轮播图样式*/
-    wrapper: {
+    ss: {
         width: width,
-        height: 80,
-        backgroundColor: '#eee'
+        height: 100,
+    },
+    wrapper: {
+
     },
     slide1: {
         flex: 1,
