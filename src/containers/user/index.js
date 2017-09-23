@@ -138,8 +138,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         position: 'absolute',
         right: 15,
-        top: Platform.OS =="ios"?20:10,
+        top: Platform.OS =="ios"?30:15,
         flexDirection: 'row',
+        alignItems: 'center'
     },
     settingsText: {
         fontSize: 16,
