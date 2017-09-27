@@ -1095,7 +1095,7 @@ combined-stream@^1.0.5, combined-stream@~1.0.5:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@^2.9.0:
+commander@*, commander@^2.9.0:
   version "2.11.0"
   resolved "http://registry.npm.taobao.org/commander/download/commander-2.11.0.tgz#157152fd1e7a6c8d98a5b715cf376df928004563"
 
@@ -2982,6 +2982,12 @@ minimist@~0.0.1:
   dependencies:
     minimist "0.0.8"
 
+mockjs@^1.0.1-beta3:
+  version "1.0.1-beta3"
+  resolved "http://registry.npm.taobao.org/mockjs/download/mockjs-1.0.1-beta3.tgz#d234f3c27256397564f2c955142e891909537209"
+  dependencies:
+    commander "*"
+
 morgan@~1.6.1:
   version "1.6.1"
   resolved "http://registry.npm.taobao.org/morgan/download/morgan-1.6.1.tgz#5fd818398c6819cba28a7cd6664f292fe1c0bbf2"
@@ -3405,7 +3411,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.5.8:
+prop-types@15.5.10, prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.5.8:
   version "15.5.10"
   resolved "http://registry.npm.taobao.org/prop-types/download/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
   dependencies:
@@ -3479,6 +3485,12 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
+react-native-animatable@^1.2.3:
+  version "1.2.4"
+  resolved "http://registry.npm.taobao.org/react-native-animatable/download/react-native-animatable-1.2.4.tgz#b5fb7657e8f6edadbc26697057a327fb920b3039"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/react-native-dismiss-keyboard/download/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"
@@ -3500,6 +3512,13 @@ react-native-easy-grid@^0.1.15:
   resolved "http://registry.npm.taobao.org/react-native-easy-grid/download/react-native-easy-grid-0.1.15.tgz#02939ae032d74662b50c9540d902c79866ba638a"
   dependencies:
     lodash "^4.11.1"
+
+react-native-modal@^4.0.0:
+  version "4.0.0"
+  resolved "http://registry.npm.taobao.org/react-native-modal/download/react-native-modal-4.0.0.tgz#1e11633d54ae073f42e74bb4f37ef81b5cb5a820"
+  dependencies:
+    prop-types "15.5.10"
+    react-native-animatable "^1.2.3"
 
 react-native-storage@^0.2.2:
   version "0.2.2"

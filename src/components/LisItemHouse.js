@@ -12,7 +12,13 @@ let { width } = Dimensions.get('window');
 
 export class ListItemHouseComponent extends Component{
 
+    componentDidMount(){
+        console.log('----------------------');
+    }
+
     render(){
+        console.log('----------------------');
+        console.log(this.props)
         return (
             <TouchableOpacity>
                 <View style={styles.itemBox}>

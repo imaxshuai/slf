@@ -1,3 +1,4 @@
+/*
 import React, { Component } from 'react';
 import {
     AppRegistry,
@@ -30,7 +31,7 @@ export  class SwiperList extends Component {
 }
 
 const styles = StyleSheet.create({
-    /*轮播图样式*/
+    /!*轮播图样式*!/
     ss: {
         width: width,
         height: 100,
@@ -61,4 +62,45 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
     }
-});
+});*/
+
+import React, { Component } from 'react'
+import { Text, TouchableOpacity, View } from 'react-native'
+import Modal from 'react-native-modal'
+
+export class SwiperList extends Component {
+    state = {
+        isModalVisible: false
+    };
+
+
+    _showModal = () => this.setState({ isModalVisible: true })
+
+    _hideModal = () => {
+        this.setState({ isModalVisible: false });
+    }
+
+    render () {
+        return (
+            <View style={{ flex: 1}}>
+                <TouchableOpacity onPress={this._showModal}>
+                    <Text>Show Modal</Text>
+                </TouchableOpacity>
+                <Modal
+                    isVisible={this.state.isModalVisible}
+                    animationIn='fadeIn'
+                    animationOut='fadeOut'
+                    backdropColor="#fff"
+                    backdropOpacity={1}
+                    animationInTiming={2500}
+                    style={{backgroundColor: '#fff',flex: 1, }}
+                >
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text onPress={this._hideModal.bind(this)}>Hello!</Text>
+                    </View>
+                </Modal>
+            </View>
+        )
+    }
+
+}

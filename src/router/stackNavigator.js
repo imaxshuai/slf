@@ -7,6 +7,8 @@ import Login from '../containers/user/login';
 import { Register } from '../containers/user/register';
 import { ClassifyListComponent } from '../components/ClassifyList';
 import { SwiperList } from '../containers/home/swiper';
+import { Search } from '../containers/search/search';
+import { HouseClassify } from '../containers/classify/house';
 
 export const AppNavigator = StackNavigator({
     Main: {
@@ -29,10 +31,21 @@ export const AppNavigator = StackNavigator({
     },
     SwiperList: {
         screen: SwiperList,
+    },
+    Search: {
+        screen: Search,
         navigationOptions: {
-            headerTitle: 'xushuai',
+            header: null
+        }
+    },
+    HouseClassify: {
+        screen: HouseClassify,
+        navigationOptions: {
+            header: null,
         }
     }
+},{
+
 });
 
 const AppWithNavigationState = ({ dispatch, nav }) => (

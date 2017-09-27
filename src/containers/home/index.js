@@ -8,6 +8,8 @@ import {
     TouchableOpacity,
     ScrollView,
     FlatList,
+    TouchableWithoutFeedback,
+    Platform
 } from 'react-native';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
@@ -41,7 +43,11 @@ class Home extends Component{
     }
     //跳转列表页
     toClassifyList(){
-        this.props.navigation.navigate('SwiperList');
+        this.props.navigation.navigate('HouseClassify');
+    }
+    //跳转搜索页面
+    toSearch(){
+        this.props.navigation.navigate('Search');
     }
 
 
@@ -56,10 +62,12 @@ class Home extends Component{
                         <Text style={styles.headerText}>南京</Text>
                         <Icon name="arrow-drop-down" size={22} color="#f8f8f8" />
                     </View>
-                    <View style={styles.searchInput}>
-                        <Icon name="search" size={22} color="#f8f8f8" />
-                        <Text style={styles.headerText}>找房子、找工作、找服务</Text>
-                    </View>
+                    <TouchableWithoutFeedback onPress={this.toSearch.bind(this)}>
+                        <View style={styles.searchInput}>
+                            <Icon name="search" size={22} color="#f8f8f8" />
+                            <Text style={styles.headerText}>找房子、找工作、找服务</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
                     <View style={styles.userIcon}>
                         <TouchableOpacity onPress={this.toLogin.bind(this)}>
                             <Icon name="person" size={22} color="#f8f8f8" />
@@ -225,13 +233,13 @@ class Home extends Component{
                     </View>
 
                     {/*无限下拉推广处*/}
-                    {/*<FlatList></FlatList>*/}
+                    {/*<FlatList*/}
+                        {/*data={[{title: 'dsfafdafad',name: '哈哈哈哈'},{title: '1111',name: '2222'}]}*/}
+                        {/*renderItem={({item})=><ListItemHouseComponent info={item} />}*/}
+                    {/*/>*/}
 
-                    <ListItemHouseComponent />
-                    <ListItemHouseComponent />
-                    <ListItemHouseComponent />
-                    <ListItemHouseComponent />
-                    <ListItemHouseComponent />
+
+
                 </ScrollView>
 
             </View>
@@ -270,21 +278,21 @@ const styles = StyleSheet.create({
         width: width,
         backgroundColor: '#fa0064',
         flexDirection: 'row',
-        paddingTop: 20,
+        paddingTop: Platform.OS=='ios'?25:20,
     },
     city: {
         flex: 3,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 40,
+        height: 35,
     },
 
     searchInput: {
         flex: 15,
         flexDirection: 'row',
         backgroundColor: 'rgba(255,255,255,0.6)',
-        height: 40,
+        height: 35,
         padding: 10,
         borderRadius: 2,
         alignItems: 'center',

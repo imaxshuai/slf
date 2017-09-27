@@ -7,10 +7,12 @@
 		"test": "jest"
 	},
 	"dependencies": {
+		"mockjs": "^1.0.1-beta3",
 		"prop-types": "^15.5.10",
 		"react": "16.0.0-alpha.12",
 		"react-native": "0.48.3",
 		"react-native-easy-grid": "^0.1.15",
+		"react-native-modal": "^4.0.0",
 		"react-native-storage": "^0.2.2",
 		"react-native-swiper": "^1.5.12",
 		"react-native-vector-icons": "^4.3.0",
