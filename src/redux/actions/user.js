@@ -42,12 +42,3 @@ export const getUserInfo = ()=>{
         }
     }
 };
-export const changeUserInfo = (data)=>{
-    return {
-        type: actionTypes.GET_USER_INFO,
-        data: {
-            username: data.username+'1',
-            password: data.password+'6'
-        }
-    }
-};

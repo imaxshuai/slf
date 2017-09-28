@@ -15,8 +15,10 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Swiper from 'react-native-swiper';
+import Mock from 'mockjs';
 
 import * as userActions from '../../redux/actions/user';
+import * as classifyActions from '../../redux/actions/classify';
 import { ListItemHouseComponent } from '../../components/LisItemHouse'
 
 
@@ -28,8 +30,13 @@ class Home extends Component{
         tabBarIcon: ({tintColor})=>((<Icon name="store" size={25} color={tintColor}/>))
     };
 
+    //此函数用于为给定的item生成一个不重复的key
+    _keyExtractor = (item) => item.id;
+
     componentWillMount(){
-        console.log(currentUser);
+        this.props.userActions.getUserInfo();
+        this.props.classifyAction.getHouse();
+        console.log(this.props);
     }
 
     constructor(...props){
@@ -39,7 +46,8 @@ class Home extends Component{
 
     //跳转登录页
     toLogin(){
-        this.props.navigation.navigate('Login');
+        // this.props.navigation.navigate('Login');
+        console.log(this.props)
     }
     //跳转列表页
     toClassifyList(){
@@ -53,7 +61,7 @@ class Home extends Component{
 
 
     render(){
-
+        console.log(this.props)
         return(
             <View style={styles.container}>
                 {/*首页头部搜索部分*/}
@@ -233,10 +241,12 @@ class Home extends Component{
                     </View>
 
                     {/*无限下拉推广处*/}
-                    {/*<FlatList*/}
-                        {/*data={[{title: 'dsfafdafad',name: '哈哈哈哈'},{title: '1111',name: '2222'}]}*/}
-                        {/*renderItem={({item})=><ListItemHouseComponent info={item} />}*/}
-                    {/*/>*/}
+                    <FlatList
+                        data={this.props.classify.data}
+                        extraData={this.state}
+                        keyExtractor={(item)=>item.id}
+                        renderItem={({item})=><ListItemHouseComponent info={item} />}
+                    />
 
 
 
@@ -251,13 +261,15 @@ class Home extends Component{
 const mapStateToProps = (state)=>{
     return {
         user: state.user,
-        nav: state.nav
+        nav: state.nav,
+        classify: state.classify
     }
 };
 
 const mapDispatchToProps = (dispatch)=>{
     return {
-        userActions: bindActionCreators(userActions, dispatch)
+        userActions: bindActionCreators(userActions, dispatch),
+        classifyAction: bindActionCreators(classifyActions, dispatch)
     }
 };
 

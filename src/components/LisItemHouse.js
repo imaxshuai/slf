@@ -18,30 +18,30 @@ export class ListItemHouseComponent extends Component{
 
     render(){
         console.log('----------------------');
-        console.log(this.props)
+        console.log(this.props);
         return (
-            <TouchableOpacity>
+            <TouchableOpacity key={this.props.info.id}>
                 <View style={styles.itemBox}>
                     <Image
-                        source={currentUser.loginState?{uri: currentUser.userinfo.avatar}:require("../images/header-img-login.png")}
+                        source={{uri: this.props.info.images[0]}}
                         style={styles.itemImg}
                     />
                     <View style={styles.textInfo}>
                         <Text
                             style={styles.itemTitle}
                             numberOfLines={1}
-                        >地铁房朝天宫细节98号1厅出租,快来买啊！！！</Text>
+                        >{this.props.info.title}</Text>
 
                         <View style={styles.describeText}>
                             <View style={styles.textLeft}>
-                                <Text style={styles.textLeftInfo}>整租</Text>
+                                <Text style={styles.textLeftInfo}>{this.props.info.rental_form}</Text>
                                 <View style={styles.textCutLine}></View>
-                                <Text style={styles.textLeftInfo}>92㎡</Text>
+                                <Text style={styles.textLeftInfo}>{this.props.info.house_size}㎡</Text>
                                 <View style={styles.textCutLine}></View>
                                 <Text style={styles.textLeftInfo}>中等装修</Text>
                             </View>
                             <View style={styles.textRight}>
-                                <Text  style={styles.textRightInfo}>3600元</Text>
+                                <Text  style={styles.textRightInfo}>{this.props.info.price}元</Text>
                             </View>
                         </View>
 

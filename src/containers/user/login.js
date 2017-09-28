@@ -17,7 +17,7 @@ class Login extends Component{
     }
 
     componentDidMount(){
-        console.log(currentUser);
+        console.log(this.props);
     }
 
     goBack(){
@@ -45,6 +45,7 @@ class Login extends Component{
 
     render(){
 
+        console.log(this.props.user)
         return (
             <View style={styles.container}>
 
