@@ -22,6 +22,7 @@ import { ListItemHouseComponent } from '../../components/LisItemHouse'
 
 
 let { width, height } = Dimensions.get("window");
+
 class Home extends Component{
 
     static navigationOptions = {
@@ -29,20 +30,27 @@ class Home extends Component{
         tabBarIcon: ({tintColor})=>((<Icon name="store" size={25} color={tintColor}/>))
     };
 
-    constructor(...props){
-        super(...props);
+    constructor(props){
+        super(props);
+        this.state = {
+            houseData: null,
+            refreshing: false,
+        }
     }
 
-    componentWillMount(){
-        this.props.userActions.getUserInfo();
-        this.props.classifyActions.getHouse();
-        console.log(this.props);
+    componentDidMount(){
+        this.props.classifyActions.getHouse([]);
     }
+
 
     //跳转登录页
     toLogin(){
         // this.props.navigation.navigate('Login');
-        console.log(this.props)
+        let a = [{a: 1},{b: 2}];
+        let b = [{c: 3}, {d: 4}];
+        console.log(a);
+        let c = a.concat(b);
+        console.log(c);
     }
     //跳转列表页
     toClassifyList(){
@@ -59,14 +67,19 @@ class Home extends Component{
 
     //获取下拉加载更多数据
     _getMoreHouse(){
-        this.props.classifyActions.getHouseMore();
-        console.log('--------------------------------');
-        console.log(this.props.classifyMore);
-        return this.props.classifyMore;
+        this.props.classifyActions.getHouse(this.props.classify);
     }
     //上拉页面刷新
     _onRefresh() {
-        alert('正在刷新中.... ');
+        this.setState({
+            refreshing: true
+        });
+        this.props.classifyActions.getHouse([]);
+        setTimeout(()=> {
+            this.setState({
+                refreshing: false
+            });
+        },1000)
     }
 
     _header(){
@@ -232,7 +245,7 @@ class Home extends Component{
     }
 
     render(){
-        console.log(this.props)
+        console.log(this.state);
         return(
             <View style={styles.container}>
                 {/*首页头部搜索部分*/}
@@ -260,18 +273,13 @@ class Home extends Component{
                     ListHeaderComponent={this._header.bind(this)}
                     renderItem={({item})=><ListItemHouseComponent info={item} />}
 
-                    data={this.props.classify.data}
+                    data={this.props.classify}
                     keyExtractor={(item)=>item.id}
 
-                    refreshing={false}
-                    onEndReachedThreshold={0.1}
-                    onRefresh={this._onRefresh}
-                    onEndReached={()=>{
-                        // 到达底部，加载更多列表项
-                        this.props.classifyActions.getHouseMore();
-                        console.log(this.props);
-                        this.props.classify.data = this.props.classifyMore.data;
-                    }}
+                    refreshing={this.state.refreshing}
+                    onEndReachedThreshold={0.5}
+                    onRefresh={this._onRefresh.bind(this)}
+                    onEndReached={this._getMoreHouse.bind(this)}
 
                 />
 
