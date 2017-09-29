@@ -12,3 +12,13 @@ export const classify = (state=initialState, action) => {
     }
 
 };
+
+
+export const classifyMore = (state=initialState, action)=>{
+    switch (action.type){
+        case actionTypes.GET_HOUSE_MORE:
+            return action.data;
+        default:
+            return state
+    }
+}

@@ -15,7 +15,6 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Swiper from 'react-native-swiper';
-import Mock from 'mockjs';
 
 import * as userActions from '../../redux/actions/user';
 import * as classifyActions from '../../redux/actions/classify';
@@ -30,19 +29,15 @@ class Home extends Component{
         tabBarIcon: ({tintColor})=>((<Icon name="store" size={25} color={tintColor}/>))
     };
 
-    //此函数用于为给定的item生成一个不重复的key
-    _keyExtractor = (item) => item.id;
-
-    componentWillMount(){
-        this.props.userActions.getUserInfo();
-        this.props.classifyAction.getHouse();
-        console.log(this.props);
-    }
-
     constructor(...props){
         super(...props);
     }
 
+    componentWillMount(){
+        this.props.userActions.getUserInfo();
+        this.props.classifyActions.getHouse();
+        console.log(this.props);
+    }
 
     //跳转登录页
     toLogin(){
@@ -57,8 +52,184 @@ class Home extends Component{
     toSearch(){
         this.props.navigation.navigate('Search');
     }
+    //跳转flatlist页面
+    toFlatList(){
+        this.props.navigation.navigate('FlatListExample');
+    }
 
+    //获取下拉加载更多数据
+    _getMoreHouse(){
+        this.props.classifyActions.getHouseMore();
+        console.log('--------------------------------');
+        console.log(this.props.classifyMore);
+        return this.props.classifyMore;
+    }
+    //上拉页面刷新
+    _onRefresh() {
+        alert('正在刷新中.... ');
+    }
 
+    _header(){
+        return (
+            <View>
+                {/*一级标题分类*/}
+                <View style={styles.navClass}>
+                    <TouchableOpacity onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <View style={styles.navItem}>
+                            <Icon name="location-city" size={35} color="#39a0f4" />
+                            <Text style={styles.navItemText}>房屋出租</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <View style={styles.navItem}>
+                            <Icon name="card-travel" size={35} color="#fe4a6c" />
+                            <Text style={styles.navItemText} >人才招聘</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <View style={styles.navItem}>
+                            <Icon name="business-center" size={35} color="#42ba7b" />
+                            <Text style={styles.navItemText} >商业服务</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <View style={styles.navItem}>
+                            <Icon name="shop" size={35} color="#f6552c" />
+                            <Text style={styles.navItemText}>同城二手</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <View style={styles.navItem}>
+                            <Icon name="directions-car" size={35} color="#0bbaac" />
+                            <Text style={styles.navItemText}>二手车</Text>
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <View style={styles.navItem}>
+                            <Icon name="card-giftcard" size={35} color="#ffb300" />
+                            <Text style={styles.navItemText}>生活服务</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <View style={styles.navItem}>
+                            <Icon name="school" size={35} color="#42ba7b" />
+                            <Text style={styles.navItemText}>教育培训</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <View style={styles.navItem}>
+                            <Icon name="pets" size={35} color="#39a0f4" />
+                            <Text style={styles.navItemText}>宠物</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <View style={styles.navItem}>
+                            <Icon name="local-car-wash" size={35} color="#fa0064" />
+                            <Text style={styles.navItemText}>汽车服务</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <View style={styles.navItem}>
+                            <Icon name="picture-in-picture" size={35} color="#39a0f4" />
+                            <Text style={styles.navItemText}>票卡</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <View style={styles.navItem}>
+                            <Icon name="loop" size={35} color="#ffb300" />
+                            <Text style={styles.navItemText}>旧物回收</Text>
+                        </View>
+                    </TouchableOpacity>
+                    {/*<TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <View style={styles.navItem}>
+                            <Icon name="wc" size={35} color="#42ba7b" />
+                            <Text style={styles.navItemText}>交友</Text>
+                        </View>
+                    </TouchableOpacity>*/}
+
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <View style={styles.navItem}>
+                            <Icon name="stars" size={35} color="#f6552c" />
+                            <Text style={styles.navItemText}>连锁加盟</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+
+                {/*系统消息，主要显示系统推广的*/}
+                <View>
+                    <Image source={require('../../images/ad-001.jpg')} style={styles.systemNews} />
+                </View>
+
+                <View style={styles.adInfo}>
+                    <View style={styles.adTitle}>
+                        <Text style={styles.adTitleText}>搜来福精选服务</Text>
+                    </View>
+                    <TouchableOpacity onPress={this.toFlatList.bind(this)}>
+                        <View style={styles.adItem}>
+                            <View style={styles.adTextBox}>
+                                <Text style={styles.adInfoTitle}>搜来福金融</Text>
+                                <Text style={styles.adDescrib}>简单快速放贷</Text>
+                            </View>
+                            <Icon name="developer-board" size={40} color="#39a0f4" />
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={this.toFlatList.bind(this)}>
+                        <View style={styles.adItem}>
+                            <View style={styles.adTextBox}>
+                                <Text style={styles.adInfoTitle}>搜来福金融</Text>
+                                <Text style={styles.adDescrib}>简单快速放贷</Text>
+                            </View>
+                            <Icon name="developer-board" size={40} color="#fe4a6c" />
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={this.toFlatList.bind(this)}>
+                        <View style={styles.adItem}>
+                            <View style={styles.adTextBox}>
+                                <Text style={styles.adInfoTitle}>搜来福金融</Text>
+                                <Text style={styles.adDescrib}>简单快速放贷</Text>
+                            </View>
+                            <Icon name="developer-board" size={40} color="#42ba7b" />
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={this.toFlatList.bind(this)}>
+                        <View style={styles.adItem}>
+                            <View style={styles.adTextBox}>
+                                <Text style={styles.adInfoTitle}>搜来福金融</Text>
+                                <Text style={styles.adDescrib}>简单快速放贷</Text>
+                            </View>
+                            <Icon name="developer-board" size={40} color="#39a0f4" />
+                        </View>
+                    </TouchableOpacity>
+                </View>
+
+                {/*轮播广告位展示*/}
+                <View style={styles.ss}>
+                    <Swiper
+                        showsButtons={false}
+                        autoplay={true}
+                        autoplayTimeout={3}
+                        paginationStyle={{ bottom: 5 }}
+                        dotStyle={{backgroundColor:'#fff', width: 10, height: 10}}
+                        activeDotStyle={{backgroundColor:'#fa0064', width: 10, height: 10}}
+                    >
+                        <Image source={require('../../images/carousel-01.jpg')} style={styles.carouselImg} />
+                        <Image source={require('../../images/carousel-02.jpg')} style={styles.carouselImg} />
+                        <Image source={require('../../images/carousel-03.jpg')} style={styles.carouselImg} />
+                        <Image source={require('../../images/carousel-04.jpg')} style={styles.carouselImg} />
+                        <Image source={require('../../images/carousel-05.jpg')} style={styles.carouselImg} />
+                    </Swiper>
+                </View>
+
+                <View>
+                    <View style={styles.flatListTitle}>
+                        <Text style={{fontSize: 16,color: '#000'}}>猜你喜欢</Text>
+                        <Text style={{fontSize: 12, color: '#aaa', marginTop:10,}}>猜你喜欢</Text>
+                    </View>
+                </View>
+            </View>
+        )
+    }
 
     render(){
         console.log(this.props)
@@ -83,174 +254,28 @@ class Home extends Component{
                     </View>
                 </View>
 
-                <ScrollView>
-                    {/*一级标题分类*/}
-                    <View style={styles.navClass}>
-                        <TouchableOpacity onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
-                            <View style={styles.navItem}>
-                                <Icon name="location-city" size={35} color="#39a0f4" />
-                                <Text style={styles.navItemText}>房屋出租</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
-                            <View style={styles.navItem}>
-                                <Icon name="card-travel" size={35} color="#fe4a6c" />
-                                <Text style={styles.navItemText} >人才招聘</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
-                            <View style={styles.navItem}>
-                                <Icon name="business-center" size={35} color="#42ba7b" />
-                                <Text style={styles.navItemText} >商业服务</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
-                            <View style={styles.navItem}>
-                                <Icon name="shop" size={35} color="#f6552c" />
-                                <Text style={styles.navItemText}>同城二手</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
-                            <View style={styles.navItem}>
-                                <Icon name="directions-car" size={35} color="#0bbaac" />
-                                <Text style={styles.navItemText}>二手车</Text>
-                            </View>
-                        </TouchableOpacity>
 
-                        <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
-                            <View style={styles.navItem}>
-                                <Icon name="card-giftcard" size={35} color="#ffb300" />
-                                <Text style={styles.navItemText}>生活服务</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
-                            <View style={styles.navItem}>
-                                <Icon name="school" size={35} color="#42ba7b" />
-                                <Text style={styles.navItemText}>教育培训</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
-                            <View style={styles.navItem}>
-                                <Icon name="pets" size={35} color="#39a0f4" />
-                                <Text style={styles.navItemText}>宠物</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
-                            <View style={styles.navItem}>
-                                <Icon name="local-car-wash" size={35} color="#fa0064" />
-                                <Text style={styles.navItemText}>汽车服务</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
-                            <View style={styles.navItem}>
-                                <Icon name="picture-in-picture" size={35} color="#39a0f4" />
-                                <Text style={styles.navItemText}>票卡</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
-                            <View style={styles.navItem}>
-                                <Icon name="loop" size={35} color="#ffb300" />
-                                <Text style={styles.navItemText}>旧物回收</Text>
-                            </View>
-                        </TouchableOpacity>
-                        {/*<TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
-                        <View style={styles.navItem}>
-                            <Icon name="wc" size={35} color="#42ba7b" />
-                            <Text style={styles.navItemText}>交友</Text>
-                        </View>
-                    </TouchableOpacity>*/}
+                {/*无限下拉推广处*/}
+                <FlatList
+                    ListHeaderComponent={this._header.bind(this)}
+                    renderItem={({item})=><ListItemHouseComponent info={item} />}
 
-                        <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
-                            <View style={styles.navItem}>
-                                <Icon name="stars" size={35} color="#f6552c" />
-                                <Text style={styles.navItemText}>连锁加盟</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
+                    data={this.props.classify.data}
+                    keyExtractor={(item)=>item.id}
 
-                    {/*系统消息，主要显示系统推广的*/}
-                    <View>
-                        <Image source={require('../../images/ad-001.jpg')} style={styles.systemNews} />
-                    </View>
+                    refreshing={false}
+                    onEndReachedThreshold={0.1}
+                    onRefresh={this._onRefresh}
+                    onEndReached={()=>{
+                        // 到达底部，加载更多列表项
+                        this.props.classifyActions.getHouseMore();
+                        console.log(this.props);
+                        this.props.classify.data = this.props.classifyMore.data;
+                    }}
 
-                    <View style={styles.adInfo}>
-                        <View style={styles.adTitle}>
-                            <Text style={styles.adTitleText}>搜来福精选服务</Text>
-                        </View>
-                        <TouchableOpacity>
-                            <View style={styles.adItem}>
-                                <View style={styles.adTextBox}>
-                                    <Text style={styles.adInfoTitle}>搜来福金融</Text>
-                                    <Text style={styles.adDescrib}>简单快速放贷</Text>
-                                </View>
-                                <Icon name="developer-board" size={40} color="#39a0f4" />
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <View style={styles.adItem}>
-                                <View style={styles.adTextBox}>
-                                    <Text style={styles.adInfoTitle}>搜来福金融</Text>
-                                    <Text style={styles.adDescrib}>简单快速放贷</Text>
-                                </View>
-                                <Icon name="developer-board" size={40} color="#fe4a6c" />
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <View style={styles.adItem}>
-                                <View style={styles.adTextBox}>
-                                    <Text style={styles.adInfoTitle}>搜来福金融</Text>
-                                    <Text style={styles.adDescrib}>简单快速放贷</Text>
-                                </View>
-                                <Icon name="developer-board" size={40} color="#42ba7b" />
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <View style={styles.adItem}>
-                                <View style={styles.adTextBox}>
-                                    <Text style={styles.adInfoTitle}>搜来福金融</Text>
-                                    <Text style={styles.adDescrib}>简单快速放贷</Text>
-                                </View>
-                                <Icon name="developer-board" size={40} color="#39a0f4" />
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-
-                    {/*轮播广告位展示*/}
-                    <View style={styles.ss}>
-                        <Swiper
-                            showsButtons={false}
-                            autoplay={true}
-                            autoplayTimeout={3}
-                            paginationStyle={{ bottom: 5 }}
-                            dotStyle={{backgroundColor:'#fff', width: 10, height: 10}}
-                            activeDotStyle={{backgroundColor:'#fa0064', width: 10, height: 10}}
-                        >
-                            <Image source={require('../../images/carousel-01.jpg')} style={styles.carouselImg} />
-                            <Image source={require('../../images/carousel-02.jpg')} style={styles.carouselImg} />
-                            <Image source={require('../../images/carousel-03.jpg')} style={styles.carouselImg} />
-                            <Image source={require('../../images/carousel-04.jpg')} style={styles.carouselImg} />
-                            <Image source={require('../../images/carousel-05.jpg')} style={styles.carouselImg} />
-                        </Swiper>
-                    </View>
-
-                    <View>
-                        <View style={styles.flatListTitle}>
-                            <Text style={{fontSize: 16,color: '#000'}}>猜你喜欢</Text>
-                            <Text style={{fontSize: 12, color: '#aaa', marginTop:10,}}>猜你喜欢</Text>
-                        </View>
-                    </View>
-
-                    {/*无限下拉推广处*/}
-                    <FlatList
-                        data={this.props.classify.data}
-                        extraData={this.state}
-                        keyExtractor={(item)=>item.id}
-                        renderItem={({item})=><ListItemHouseComponent info={item} />}
-                    />
+                />
 
 
-
-                </ScrollView>
 
             </View>
         )
@@ -262,14 +287,15 @@ const mapStateToProps = (state)=>{
     return {
         user: state.user,
         nav: state.nav,
-        classify: state.classify
+        classify: state.classify,
+        classifyMore: state.classifyMore
     }
 };
 
 const mapDispatchToProps = (dispatch)=>{
     return {
         userActions: bindActionCreators(userActions, dispatch),
-        classifyAction: bindActionCreators(classifyActions, dispatch)
+        classifyActions: bindActionCreators(classifyActions, dispatch)
     }
 };
 

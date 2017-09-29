@@ -6,6 +6,7 @@ import { TabRouter } from './tabNavgator';
 import Login from '../containers/user/login';
 import { Register } from '../containers/user/register';
 import { ClassifyListComponent } from '../components/ClassifyList';
+import { FlatListExample } from '../components/flatlistComponent';
 import { SwiperList } from '../containers/home/swiper';
 import { Search } from '../containers/search/search';
 import { HouseClassify } from '../containers/classify/house';
@@ -40,6 +41,12 @@ export const AppNavigator = StackNavigator({
     },
     HouseClassify: {
         screen: HouseClassify,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    FlatListExample: {
+        screen: FlatListExample,
         navigationOptions: {
             header: null,
         }
