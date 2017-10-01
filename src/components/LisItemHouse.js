@@ -13,6 +13,7 @@ let { width } = Dimensions.get('window');
 export class ListItemHouseComponent extends Component{
 
     componentDidMount(){
+        console.log(this.props);
     }
 
     render(){
