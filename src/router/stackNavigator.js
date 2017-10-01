@@ -2,6 +2,8 @@ import React,{ Component } from 'react';
 import { connect } from 'react-redux';
 import { StackNavigator, addNavigationHelpers } from 'react-navigation';
 
+
+
 import { TabRouter } from './tabNavgator';
 import Login from '../containers/user/login';
 import { Register } from '../containers/user/register';
@@ -10,6 +12,8 @@ import { FlatListExample } from '../components/flatlistComponent';
 import { SwiperList } from '../containers/home/swiper';
 import { Search } from '../containers/search/search';
 import { HouseClassify } from '../containers/classify/house';
+import HouseList from '../containers/classify/houseList';
+import { HouseDetail } from '../containers/classify/houseDetail';
 
 export const AppNavigator = StackNavigator({
     Main: {
@@ -50,7 +54,19 @@ export const AppNavigator = StackNavigator({
         navigationOptions: {
             header: null,
         }
-    }
+    },
+    HouseList: {
+        screen: HouseList,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    HouseDetail: {
+        screen: HouseDetail,
+        navigationOptions: {
+            header: null,
+        }
+    },
 },{
 
 });

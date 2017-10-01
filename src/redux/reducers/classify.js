@@ -1,6 +1,6 @@
 import * as actionTypes from '../constants/actionTypes';
 
-const initialState = {};
+const initialState = [];
 
 export const classify = (state=initialState, action) => {
 

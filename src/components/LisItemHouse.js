@@ -10,15 +10,18 @@ import {
 
 let { width } = Dimensions.get('window');
 
-export class ListItemHouseComponent extends Component{
+export default class ListItemHouseComponent extends Component{
 
     componentDidMount(){
-        console.log(this.props);
+    }
+
+    toDetail = ()=>{
+        this.props.navigation.navigate('HouseDetail',this.props.info)
     }
 
     render(){
         return (
-            <TouchableOpacity key={this.props.info.id}>
+            <TouchableOpacity key={this.props.info.id} onPress={this.toDetail}>
                 <View style={styles.itemBox}>
                     <Image
                         source={{uri: this.props.info.images[0]}}
@@ -56,6 +59,7 @@ export class ListItemHouseComponent extends Component{
     }
 
 }
+
 
 const styles = StyleSheet.create({
 

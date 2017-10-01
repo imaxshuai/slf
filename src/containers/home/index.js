@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import {
     StyleSheet,
     Text,
@@ -18,22 +18,25 @@ import Swiper from 'react-native-swiper';
 
 import * as userActions from '../../redux/actions/user';
 import * as classifyActions from '../../redux/actions/classify';
-import { ListItemHouseComponent } from '../../components/LisItemHouse'
+import ListItemHouseComponent from '../../components/LisItemHouse'
 
 
 let { width, height } = Dimensions.get("window");
 
-class Home extends Component{
+class Home extends PureComponent{
 
     static navigationOptions = {
         tabBarLabel: "主页",
         tabBarIcon: ({tintColor})=>((<Icon name="store" size={25} color={tintColor}/>))
     };
 
+    static defaultProps = {
+        classify:　[]
+    }
+
     constructor(props){
         super(props);
         this.state = {
-            houseData: null,
             refreshing: false,
         }
     }
@@ -44,16 +47,12 @@ class Home extends Component{
 
 
     //跳转登录页
-    toLogin(){
-        // this.props.navigation.navigate('Login');
-        let a = [{a: 1},{b: 2}];
-        let b = [{c: 3}, {d: 4}];
-        console.log(a);
-        let c = a.concat(b);
-        console.log(c);
+    toLogin = ()=>{
+        this.props.navigation.navigate('Login');
     }
-    //跳转列表页
-    toClassifyList(){
+    //跳转HouseClassify页
+    toClassifyList = (list)=>{
+        console.log(list);
         this.props.navigation.navigate('HouseClassify');
     }
     //跳转搜索页面
@@ -80,6 +79,12 @@ class Home extends Component{
                 refreshing: false
             });
         },1000)
+    }
+
+    createEmptyView() {
+        return (
+            <Text style={{fontSize: 40, alignSelf: 'center'}}>服务器连接失败！</Text>
+        );
     }
 
     _header(){
@@ -245,8 +250,9 @@ class Home extends Component{
     }
 
     render(){
-        console.log(this.state);
+
         return(
+
             <View style={styles.container}>
                 {/*首页头部搜索部分*/}
                 <View style={styles.homeHeader}>
@@ -261,7 +267,7 @@ class Home extends Component{
                         </View>
                     </TouchableWithoutFeedback>
                     <View style={styles.userIcon}>
-                        <TouchableOpacity onPress={this.toLogin.bind(this)}>
+                        <TouchableOpacity onPress={this.toLogin}>
                             <Icon name="person" size={22} color="#f8f8f8" />
                         </TouchableOpacity>
                     </View>
@@ -271,19 +277,19 @@ class Home extends Component{
                 {/*无限下拉推广处*/}
                 <FlatList
                     ListHeaderComponent={this._header.bind(this)}
-                    renderItem={({item})=><ListItemHouseComponent info={item} />}
-
+                    renderItem={({item})=><ListItemHouseComponent info={item} navigation={this.props.navigation} />}
+                    ListEmptyComponent={this.createEmptyView()}
                     data={this.props.classify}
                     keyExtractor={(item)=>item.id}
+
+                    initialNumToRender={3}
 
                     refreshing={this.state.refreshing}
                     onEndReachedThreshold={0.5}
                     onRefresh={this._onRefresh.bind(this)}
                     onEndReached={this._getMoreHouse.bind(this)}
-
+                    getItemLayout={(data, index) => ( {length: 130, offset: 130 * index, index} )}
                 />
-
-
 
             </View>
         )
@@ -345,11 +351,11 @@ const styles = StyleSheet.create({
     },
     userIcon: {
         flex: 2,
-        paddingTop: 10,
         alignItems: 'center',
+        paddingTop: 6.5
     },
     headerText: {
-        color: '#f8f8f8'
+        color: '#f8f8f8',
     },
 
     /*分类样式*/
