@@ -33,13 +33,23 @@ class User extends Component{
         console.log(Http)
     }
 
-    toto(){
-        console.log(User)
+    //跳转设置页面
+    toSetting = ()=>{
+        this.props.navigation.navigate("UserSetting");
     }
-
+    //跳转登录页面
     toLogin(){
         this.props.navigation.navigate("Login");
     }
+    //跳转我的发布页面
+    toUserReplease = ()=> {
+        this.props.navigation.navigate('UserReplease');
+    };
+    //跳转我的收藏页面
+    toUserCollection = ()=> {
+        console.log(this.props)
+        this.props.navigation.navigate('UserCollection');
+    };
 
     render(){
 
@@ -54,7 +64,7 @@ class User extends Component{
                     {/*设置按钮*/}
                     <View style={styles.settingsBox}>
                         <Icon name="settings" size={16} style={styles.settingsIcon} />
-                        <Text onPress={this.toLogin.bind(this)} style={ styles.settingsText }>设置</Text>
+                        <Text  onPress={this.toSetting}  style={ styles.settingsText }>设置</Text>
                     </View>
 
                     {/*用户名*/}
@@ -73,19 +83,19 @@ class User extends Component{
                 {/*中间图标功能区域*/}
 
                 <View style={styles.userNav}>
-                    <TouchableOpacity onPress={this.toto.bind(this)}>
+                    <TouchableOpacity onPress={this.toUserReplease} >
                         <View style={styles.navItem}>
                             <Icon name="description" size={40} color="#00aea1" />
                             <Text style={styles.navItemText}>我的发布</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.toUserCollection} >
                         <View style={styles.navItem}>
                             <Icon name="collections" size={40} color="#fe4a6c" />
                             <Text style={styles.navItemText} >我的收藏</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.toSetting} >
                         <View style={styles.navItem}>
                             <Icon name="card-travel" size={40} color="#ffb300" />
                             <Text style={styles.navItemText}>我的招聘</Text>
@@ -146,8 +156,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     settingsIcon: {
-        paddingRight: 10,
-        paddingTop: 5,
+        paddingRight: 5,
     },
     username: {
         fontSize:16,

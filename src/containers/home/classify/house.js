@@ -70,11 +70,11 @@ export class HouseClassify extends Component{
                             dotStyle={{backgroundColor:'#fff', width: 10, height: 10}}
                             activeDotStyle={{backgroundColor:'#fa0064', width: 10, height: 10}}
                         >
-                            <Image source={require('../../images/carousel-01.jpg')} style={styles.carouselImg} />
-                            <Image source={require('../../images/carousel-02.jpg')} style={styles.carouselImg} />
-                            <Image source={require('../../images/carousel-03.jpg')} style={styles.carouselImg} />
-                            <Image source={require('../../images/carousel-04.jpg')} style={styles.carouselImg} />
-                            <Image source={require('../../images/carousel-05.jpg')} style={styles.carouselImg} />
+                            <Image source={require('../../../images/carousel-01.jpg')} style={styles.carouselImg} />
+                            <Image source={require('../../../images/carousel-02.jpg')} style={styles.carouselImg} />
+                            <Image source={require('../../../images/carousel-03.jpg')} style={styles.carouselImg} />
+                            <Image source={require('../../../images/carousel-04.jpg')} style={styles.carouselImg} />
+                            <Image source={require('../../../images/carousel-05.jpg')} style={styles.carouselImg} />
                         </Swiper>
                     </View>
 

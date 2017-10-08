@@ -12,7 +12,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Swiper from 'react-native-swiper';
 
-import { NavbarTitleComponent } from '../../components/NavbarTitle';
+import { NavbarTitleComponent } from '../../../components/NavbarTitle';
 
 
 let { width, height } = Dimensions.get("window");

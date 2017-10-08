@@ -1,5 +1,7 @@
 import * as actionTypes from '../constants/actionTypes';
 
+import Mock from 'mockjs';
+
 export const login = ()=>{
     return (dispatch) => {
         Http.get('http://rapapi.org/mockjsdata/26250/api/user/login', {
@@ -40,5 +42,68 @@ export const getUserInfo = ()=>{
             username: 'xushuai',
             password: '123123'
         }
+    }
+};
+
+export const getMyRepleaseShow = (replease)=>{
+    return (dispatch)=> {
+        Http.post('http://rapapi.org/mockjs/26250/api/house')
+            .then((res) => {
+                if (res.success) {
+                    let c = Mock.mock(res).data;
+                    if (replease != null) {
+                        replease = replease.concat(c);
+                    }
+                    dispatch({
+                        type: actionTypes.GET_MY_REPLEASE_SHOW,
+                        data: replease
+                    })
+
+                } else {
+                    alert('服务器繁忙！！！')
+                }
+            })
+    }
+};
+
+export const getMyRepleaseAuditing = (message)=>{
+    return (dispatch)=> {
+        Http.post('http://rapapi.org/mockjs/26250/api/house')
+            .then((res) => {
+                if (res.success) {
+                    let c = Mock.mock(res).data;
+                    if (message != null) {
+                        message = message.concat(c);
+                    }
+                    dispatch({
+                        type: actionTypes.GET_MY_REPLEASE_AUDITING,
+                        data: message
+                    })
+
+                } else {
+                    alert('服务器繁忙！！！')
+                }
+            })
+    }
+};
+
+export const getMyCollection = (message)=>{
+    return (dispatch)=> {
+        Http.post('http://rapapi.org/mockjs/26250/api/house')
+            .then((res) => {
+                if (res.success) {
+                    let c = Mock.mock(res).data;
+                    if (message != null) {
+                        message = message.concat(c);
+                    }
+                    dispatch({
+                        type: actionTypes.GET_MY_COLLECTION,
+                        data: message
+                    })
+
+                } else {
+                    alert('服务器繁忙！！！')
+                }
+            })
     }
 };

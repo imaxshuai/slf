@@ -4,6 +4,10 @@ import Home from '../containers/home';
 import Replease from '../containers/replease';
 import User from '../containers/user';
 
+import UserReplease from '../containers/user/replease/index';
+import AuditindReplease from '../containers/user/replease/auditing';
+import DeleteReplease from '../containers/user/replease/delect';
+
 export const TabRouter = TabNavigator({
     Home: {
         screen: Home,
@@ -41,3 +45,35 @@ export const TabRouter = TabNavigator({
         }
     },
 });
+
+export const RepleaseTab = TabNavigator({
+    UserReplease: {
+        screen: UserReplease,
+    },
+    AuditindReplease: {
+        screen: AuditindReplease,
+    },
+    DeleteReplease: {
+        screen: DeleteReplease
+    }
+},{
+    tabBarPosition: 'top',
+    backBehavior: 'none', // 按 back 键是否跳转到第一个 Tab， none 为不跳转
+    animationEnabled: true,
+    swipeEnabled: true,
+    lazy: true,
+    tabBarOptions: {
+        activeTintColor: '#fa0064',
+        showIcon: false,
+        style: {
+            marginTop: 2,
+            backgroundColor: '#fff', // TabBar 背景色
+            borderBottomWidth: 1,
+            borderColor: '#e3e3e3',
+        },
+        labelStyle: {
+            fontSize: 16, // 文字大小
+        },
+    },
+
+})
