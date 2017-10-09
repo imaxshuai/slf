@@ -9,20 +9,22 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-import { NavbarTitleComponent } from '../components/NavbarTitle';
+import { NavbarTitleComponent } from '../../components/NavbarTitle';
 
-export class ClassifyListComponent extends Component{
+export class ClassifyList extends Component{
 
     componentDidMount(){
-        console.log('---------------');
-        console.log(currentUser);
     }
-
 
     _goBack(){
         this.props.navigation.goBack()
     }
+    //挑战发布表格页面
+    goRepleaseForm = (title)=>{
+       this.props.navigation.navigate('RrepleaseHouse', title)
+    };
 
+    //渲染头部navbar
     renderLeftItem(){
         return (
             <TouchableOpacity onPress={this._goBack.bind(this)}>
@@ -32,13 +34,13 @@ export class ClassifyListComponent extends Component{
     }
     renderTitletem(){
         return (
-            <Text style={{fontWeight: 'bold'}}>房屋出租</Text>
+            <Text style={{fontWeight: 'bold'}}>{this.props.navigation.state.params.title}</Text>
         )
     }
 
     render(){
-
         let classify = this.props.navigation.state.params;
+        console.log(classify)
         return (
             <View style={styles.container}>
 
@@ -54,7 +56,12 @@ export class ClassifyListComponent extends Component{
                         ({item}) => {
                             return (
                                 <TouchableOpacity >
-                                    <Text style={styles.item} key={item.id}>{item.key}</Text>
+                                    <Text
+                                        style={styles.item} key={item.id}
+                                        onPress={this.goRepleaseForm.bind(this, item.key)}
+                                    >
+                                        {item.key}
+                                    </Text>
                                 </TouchableOpacity>
                             )
                         }

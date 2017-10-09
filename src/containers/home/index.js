@@ -26,6 +26,7 @@ let { width, height } = Dimensions.get("window");
 class Home extends PureComponent{
 
     static navigationOptions = {
+        header: null,
         tabBarLabel: "主页",
         tabBarIcon: ({tintColor})=>((<Icon name="store" size={25} color={tintColor}/>))
     };

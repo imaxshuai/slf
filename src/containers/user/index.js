@@ -20,6 +20,7 @@ let { width, height } = Dimensions.get("window");
 class User extends Component{
 
     static navigationOptions = {
+        header: null,
         tabBarLabel: "我的",
         tabBarIcon: ({tintColor})=>((<Icon name="account-circle" size={25} color={tintColor}/>))
     };

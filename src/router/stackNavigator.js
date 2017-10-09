@@ -8,7 +8,7 @@ import { StackNavigator, addNavigationHelpers } from 'react-navigation';
 import { TabRouter, RepleaseTab } from './tabNavgator';
 import Login from '../containers/user/login';
 import { Register } from '../containers/user/register';
-import { ClassifyListComponent } from '../components/ClassifyList';
+import { ClassifyList } from '../containers/replease/classifyList';
 import { FlatListExample } from '../components/flatlistComponent';
 import { SwiperList } from '../containers/home/swiper';
 import { Search } from '../containers/search/search';
@@ -17,13 +17,11 @@ import HouseList from '../containers/home/classify/houseList';
 import { HouseDetail } from '../containers/home/classify/houseDetail';
 import UserCollection from '../containers/user/collection';
 import UserSetting from '../containers/user/setting';
+import { RrepleaseHouse } from '../containers/replease/house';
 
 export const AppNavigator = StackNavigator({
     Main: {
         screen: TabRouter,
-        navigationOptions: {
-            header: null
-        }
     },
     Login: {
         screen: Login,
@@ -32,7 +30,7 @@ export const AppNavigator = StackNavigator({
         screen: Register,
     },
     ClassifyList: {
-        screen: ClassifyListComponent,
+        screen: ClassifyList,
         navigationOptions: {
             header: null,
         }
@@ -88,6 +86,9 @@ export const AppNavigator = StackNavigator({
     },
     UserSetting: {
         screen: UserSetting,
+    },
+    RrepleaseHouse: {
+        screen: RrepleaseHouse
     },
 },{
     headerMode: 'screen',

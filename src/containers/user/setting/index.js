@@ -30,23 +30,17 @@ class UserSetting extends Component{
 
     constructor(props){
         super(props);
-        this.state = {
-            refreshing: false,
-        }
+    };
+
+    clearStorage(){
+        storage.remove({
+            key: 'user'
+        });
+        currentUser.loginState = false;
+        currentUser.userinfo = '';
+        this.props.navigation.goBack();
     }
 
-
-    getMyRelease = ()=>{
-        this.props.userActions.getMyRepleaseShow([]);
-    };
-    getMyReleaseMore = ()=>{
-        if(this.props.myReplease.length<1){
-            this.props.userActions.getMyRepleaseShow(this.props.myReplease);
-        }
-    };
-    emptyComponent = ()=> {
-        return <Text>数据获取失败！</Text>
-    };
 
     render(){
         console.log(this.props);
@@ -87,7 +81,7 @@ class UserSetting extends Component{
                     </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={this.clearStorage.bind(this)}>
                     <View style={styles.loginOut}>
                         <Text style={styles.loginOutText}>退出登录</Text>
                     </View>

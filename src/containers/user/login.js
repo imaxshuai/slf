@@ -10,7 +10,7 @@ class Login extends Component{
 
     static navigationOptions = {
         header: null
-    }
+    };
 
     constructor(...props){
         super(...props);
@@ -26,21 +26,10 @@ class Login extends Component{
 
     doLogin(){
         this.props.userActions.login();
+        this.goBack();
     }
     toRegister(){
         this.props.navigation.navigate('Register');
-    }
-    toto(){
-        console.log(currentUser)
-    }
-
-    clearStorage(){
-        console.log('清除成功！');
-        storage.remove({
-            key: 'user'
-        });
-        currentUser.loginState = false;
-        currentUser.userinfo = '';
     }
 
     render(){
@@ -72,12 +61,6 @@ class Login extends Component{
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this.doLogin.bind(this)}>
                         <Text style={styles.loginBtn}> 登录</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={this.toto.bind(this)}>
-                        <Text style={styles.loginBtn}> 查看信息</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={this.clearStorage.bind(this)}>
-                        <Text style={styles.loginBtn}> 清除信息</Text>
                     </TouchableOpacity>
 
                 </View>
