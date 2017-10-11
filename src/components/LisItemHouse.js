@@ -95,9 +95,11 @@ const styles = StyleSheet.create({
     },
     textLeft: {
         flexDirection: 'row',
+        marginTop: 2,
     },
     textLeftInfo: {
         color: '#999',
+        fontSize: 12,
     },
     textCutLine: {
         width: 1,

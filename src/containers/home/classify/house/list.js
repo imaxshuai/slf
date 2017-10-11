@@ -16,9 +16,9 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Swiper from 'react-native-swiper';
 
-import * as userActions from '../../../redux/actions/user';
-import * as classifyActions from '../../../redux/actions/classify';
-import ListItemHouseComponent from '../../../components/LisItemHouse'
+import * as userActions from '../../../../redux/actions/user';
+import * as classifyActions from '../../../../redux/actions/classify';
+import ListItemHouseComponent from '../../../../components/LisItemHouse'
 
 let { width, height } = Dimensions.get("window");
 class HouseList extends Component{
@@ -83,11 +83,11 @@ class HouseList extends Component{
                     dotStyle={{backgroundColor:'#fff', width: 10, height: 10}}
                     activeDotStyle={{backgroundColor:'#fa0064', width: 10, height: 10}}
                 >
-                    <Image source={require('../../../images/carousel-01.jpg')} style={styles.carouselImg} />
-                    <Image source={require('../../../images/carousel-02.jpg')} style={styles.carouselImg} />
-                    <Image source={require('../../../images/carousel-03.jpg')} style={styles.carouselImg} />
-                    <Image source={require('../../../images/carousel-04.jpg')} style={styles.carouselImg} />
-                    <Image source={require('../../../images/carousel-05.jpg')} style={styles.carouselImg} />
+                    <Image source={require('../../../../images/carousel-01.jpg')} style={styles.carouselImg} />
+                    <Image source={require('../../../../images/carousel-02.jpg')} style={styles.carouselImg} />
+                    <Image source={require('../../../../images/carousel-03.jpg')} style={styles.carouselImg} />
+                    <Image source={require('../../../../images/carousel-04.jpg')} style={styles.carouselImg} />
+                    <Image source={require('../../../../images/carousel-05.jpg')} style={styles.carouselImg} />
                 </Swiper>
             </View>
         )

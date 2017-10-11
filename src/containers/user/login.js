@@ -14,7 +14,12 @@ class Login extends Component{
 
     constructor(...props){
         super(...props);
+        this.state={
+            username: '',
+            password: '',
+        }
     }
+
 
     componentDidMount(){
         console.log(this.props);
@@ -25,16 +30,20 @@ class Login extends Component{
     }
 
     doLogin(){
-        this.props.userActions.login();
-        this.goBack();
+        console.log(this.state);
+        if((this.state.username=='admin')&&(this.state.password=='123123')){
+            this.props.userActions.login();
+            this.goBack();
+        }else{
+            alert('用户信息填写错误');
+        }
+
     }
     toRegister(){
         this.props.navigation.navigate('Register');
     }
 
     render(){
-
-        console.log(this.props.user)
         return (
             <View style={styles.container}>
 
@@ -54,10 +63,21 @@ class Login extends Component{
                 {/*登录FORM表单提交*/}
                 <View style={styles.loginForm}>
                     <TouchableOpacity>
-                        <TextInput placeholder="用户名" style={styles.loginInput}  autoCapitalize="none" />
+                        <TextInput
+                            placeholder="用户名"
+                            autoCapitalize="none"
+                            style={styles.loginInput}
+                            onChangeText={(text)=>this.setState({username: text})}
+                        />
                     </TouchableOpacity>
                     <TouchableOpacity>
-                        <TextInput placeholder="密码" style={styles.loginInput} password='true' autoCapitalize="none"  secureTextEntry={true} />
+                        <TextInput
+                            placeholder="密码"
+                            style={styles.loginInput}
+                            autoCapitalize="none"
+                            secureTextEntry={true}
+                            onChangeText={(text)=>this.setState({password: text})}
+                        />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this.doLogin.bind(this)}>
                         <Text style={styles.loginBtn}> 登录</Text>

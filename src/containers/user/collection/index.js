@@ -39,9 +39,12 @@ class UserCollection extends Component{
         this.props.userActions.getMyRepleaseShow([]);
     };
     getMyReleaseMore = ()=>{
-        if(this.props.myReplease.length<1){
-            this.props.userActions.getMyRepleaseShow(this.props.myReplease);
-        }
+        setTimeout(
+            ()=>{
+                if(this.props.myReplease.length<1){
+                this.props.userActions.getMyRepleaseShow(this.props.myReplease);
+            }
+        }, 5000)
     };
     emptyComponent = ()=> {
         return <Text>数据获取失败！</Text>
@@ -57,7 +60,7 @@ class UserCollection extends Component{
                     ListEmptyComponent={this.emptyComponent}
                     keyExtractor={(item)=>item.id}
                     initialNumToRender={5}
-                    refreshing={this.state.refreshing}
+                    refreshing={this.props.myReplease.length<2}
                     onEndReachedThreshold={0.5}
                     onRefresh={this.getMyRelease}
                     onEndReached={this.getMyReleaseMore}

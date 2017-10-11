@@ -12,9 +12,15 @@ import { ClassifyList } from '../containers/replease/classifyList';
 import { FlatListExample } from '../components/flatlistComponent';
 import { SwiperList } from '../containers/home/swiper';
 import { Search } from '../containers/search/search';
-import { HouseClassify } from '../containers/home/classify/house';
-import HouseList from '../containers/home/classify/houseList';
-import { HouseDetail } from '../containers/home/classify/houseDetail';
+
+import { HouseClassify } from '../containers/home/classify/house/index';
+import { JobClassify } from '../containers/home/classify/job';
+import HouseList from '../containers/home/classify/house/list';
+import JobList from '../containers/home/classify/job/list';
+import { HouseDetail } from '../containers/home/classify/house/detail';
+import { JobDetail } from '../containers/home/classify/job/detail';
+
+
 import UserCollection from '../containers/user/collection';
 import UserSetting from '../containers/user/setting';
 import { RrepleaseHouse } from '../containers/replease/house';
@@ -50,6 +56,12 @@ export const AppNavigator = StackNavigator({
             header: null,
         }
     },
+    JobClassify: {
+        screen: JobClassify,
+        navigationOptions: {
+            header: null,
+        }
+    },
     FlatListExample: {
         screen: FlatListExample,
         navigationOptions: {
@@ -62,8 +74,20 @@ export const AppNavigator = StackNavigator({
             header: null,
         }
     },
+    JobList: {
+        screen: JobList,
+        navigationOptions: {
+            header: null,
+        }
+    },
     HouseDetail: {
         screen: HouseDetail,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    JobDetail: {
+        screen: JobDetail,
         navigationOptions: {
             header: null,
         }

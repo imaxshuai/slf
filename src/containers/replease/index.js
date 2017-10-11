@@ -5,6 +5,7 @@ import {
     View,
     Dimensions,
     TouchableOpacity,
+    ScrollView,
 } from 'react-native';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
@@ -51,7 +52,7 @@ class User extends Component{
     render(){
 
         return(
-            <View style={styles.containerBox}>
+            <ScrollView style={styles.containerBox}>
 
                 {/*头部Navbar区域*/}
                 {/*<NavbarTitleComponent
@@ -143,7 +144,7 @@ class User extends Component{
                     </TouchableOpacity>
                 </View>
 
-            </View>
+            </ScrollView>
         )
     }
 
@@ -181,7 +182,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         width: (width-60)/3,
-        marginTop: 30,
+        marginTop: 20,
 
     },
     navItemText: {

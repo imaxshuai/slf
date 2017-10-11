@@ -18,7 +18,7 @@ export const login = ()=>{
                             loginState: true,
                             userinfo: res.userinfo
                         },
-                        expires: null,
+                        expires: 1000*60*24,
                     });
                     currentUser.loginState = true;
                     currentUser.userinfo = res.userinfo;

@@ -7,7 +7,9 @@ import {
     ImageBackground,
     Dimensions,
     TouchableOpacity,
+    TouchableWithoutFeedback,
     Platform,
+    ScrollView,
 } from 'react-native';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
@@ -40,7 +42,11 @@ class User extends Component{
     }
     //跳转登录页面
     toLogin(){
-        this.props.navigation.navigate("Login");
+        if(currentUser.loginState){
+            this.toSetting();
+        }else{
+            this.props.navigation.navigate("Login");
+        }
     }
     //跳转我的发布页面
     toUserReplease = ()=> {
@@ -48,14 +54,14 @@ class User extends Component{
     };
     //跳转我的收藏页面
     toUserCollection = ()=> {
-        console.log(this.props)
+        console.log(this.props);
         this.props.navigation.navigate('UserCollection');
     };
 
     render(){
 
         return(
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
 
                 {/*设置用户中心头部显示头像、用户名、设置及登录跳转....*/}
                 <ImageBackground
@@ -72,12 +78,12 @@ class User extends Component{
                     <Text style={styles.username}>{currentUser.loginState?currentUser.userinfo.username:''}</Text>
 
                     {/*用户头像*/}
-                    <TouchableOpacity onPress={this.toLogin.bind(this)} style={styles.headerImgBox}>
+                    <TouchableWithoutFeedback onPress={this.toLogin.bind(this)} style={styles.headerImgBox}>
                         <Image
                             source={currentUser.loginState?{uri: currentUser.userinfo.avatar}:require("../../images/header-img-login.png")}
                             style={styles.headerImg}
                         />
-                    </TouchableOpacity>
+                    </TouchableWithoutFeedback>
                 </ImageBackground>
 
 
@@ -111,7 +117,7 @@ class User extends Component{
                 </View>
 
 
-            </View>
+            </ScrollView>
         )
     }
 
@@ -169,9 +175,7 @@ const styles = StyleSheet.create({
         top: 50
     },
     headerImgBox: {
-        marginTop: 90,
-        marginLeft: (width-80)/2,
-        marginRight: (width-80)/2,
+
     },
     headerImg: {
         width: 80,
@@ -179,6 +183,9 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: "#fff",
         borderRadius: 40,
+        marginTop: 90,
+        marginLeft: (width-80)/2,
+        marginRight: (width-80)/2,
     },
     userNav: {
         flexDirection: "row",

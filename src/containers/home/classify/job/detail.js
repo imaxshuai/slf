@@ -12,11 +12,11 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Swiper from 'react-native-swiper';
 
-import { NavbarTitleComponent } from '../../../components/NavbarTitle';
+import { NavbarTitleComponent } from '../../../../components/NavbarTitle';
 
 
 let { width, height } = Dimensions.get("window");
-export class HouseDetail extends Component{
+export class JobDetail extends Component{
 
     componentDidMount(){
         console.log(this.props);
@@ -64,20 +64,6 @@ export class HouseDetail extends Component{
                     rightItem={this.renderRightItem}  />
                 <ScrollView>
 
-                    {/*轮播部分*/}
-                    <View style={styles.ss}>
-                        <Swiper
-                            showsButtons={false}
-                            autoplay={false}
-                            autoplayTimeout={3}
-                            paginationStyle={{ bottom: 5 }}
-                            dotStyle={{backgroundColor:'#fff', width: 10, height: 10}}
-                            activeDotStyle={{backgroundColor:'#fa0064', width: 10, height: 10}}
-                        >
-                            {info.images.map((image)=><Image source={{uri: image}} key={image} style={styles.carouselImg}/>)}
-                        </Swiper>
-                    </View>
-
                     <View style={styles.headerInfo}>
                         <Text style={styles.headerInfoTitle} >{info.title}</Text>
                         <View style={styles.extensionBox}>
@@ -90,43 +76,66 @@ export class HouseDetail extends Component{
                             <Text style={styles.headerInfoBodyTextPrice}>{info.price} 元/月</Text>
                             <View style={styles.headerInfoBodyText}>
                                 <Text style={styles.headerInfoBodyTextTime}>{info.create_time}小时前</Text>
-                                <View style={{backgroundColor: '#ccc', height: 16, width: 1, marginLeft: 10,marginRight: 10}}></View>
+                                <View style={{backgroundColor: '#ccc', height: 16, width: 1, marginLeft: 10,marginRight: 10}} />
                                 <Text style={styles.headerInfoBodyTextSeeCount}>浏览：{info.sort_id}人</Text>
                             </View>
                         </View>
                     </View>
 
                     <View style={styles.bodyInfo}>
+                        <TouchableOpacity>
+                            <View style={styles.companyArea}>
+                                <View>
+                                    <Text style={{fontSize: 15,}}>南京农纷期电子商务有限公司</Text>
+                                    <View style={styles.companyInfo}>
+                                        <View style={styles.companyInfoTextBox}>
+                                            <Icon name="person" size={14} color="#fa0064"/>
+                                            <Text style={{marginLeft: 7}}>民营公司</Text>
+                                        </View>
+                                        <View style={styles.companyInfoTextBox}>
+                                            <Icon name="person" size={14} color="#fa0064"/>
+                                            <Text style={{marginLeft: 7}}>500-1000人</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                                <Icon name="navigate-next" size={25} color="#333" />
+                            </View>
+                        </TouchableOpacity>
                         <View style={styles.bodyInfoHeader}>
                             <View  style={styles.bodyInfoHeaderText}>
-                                <Text style={styles.topText}>户型</Text>
-                                <Text style={styles.BottomText}>{info.house_type}</Text>
+                                <Text style={styles.topText}>人数</Text>
+                                <Text style={styles.BottomText}>2人</Text>
                             </View>
                             <View  style={styles.bodyInfoHeaderText}>
-                                <Text style={styles.topText}>面积</Text>
-                                <Text style={styles.BottomText}>{info.house_size}㎡</Text>
+                                <Text style={styles.topText}>学历</Text>
+                                <Text style={styles.BottomText}>本科</Text>
                             </View>
                             <View  style={styles.bodyInfoHeaderText}>
-                                <Text style={styles.topText}>方式</Text>
-                                <Text style={styles.BottomText}>{info.rental_form}</Text>
+                                <Text style={styles.topText}>工作经验</Text>
+                                <Text style={styles.BottomText}>3年</Text>
                             </View>
                         </View>
                         <View style={styles.bodyInfoBody}>
                             <View style={styles.infoCity}>
-                                <Text  style={styles.infoCityTab}>交易地点 ：</Text>
+                                <Text  style={styles.infoCityTab}>公司位置 ：</Text>
                                 <Text  style={styles.infoCityText}>{info.address}</Text>
                             </View>
                         </View>
                     </View>
 
                     <View style={styles.bodyInfoDescribe}>
-                        <Text style={styles.bodyInfoDescribeTitle}>房源详情</Text>
+                        <Text style={styles.bodyInfoDescribeTitle}>职位描述</Text>
                         <View>
+                            <Text style={styles.bodyInfoDescribeContent}>{info.house_describe}</Text>
                             <Text style={styles.bodyInfoDescribeContent}>{info.house_describe}</Text>
                         </View>
                     </View>
 
                 </ScrollView>
+
+                <View style={{height: 40, backgroundColor: '#fa0064', alignItems: 'center',justifyContent: 'center'}}>
+                    <Text style={{color: '#fff', fontSize: 16, fontWeight: '500'}}>申请职位</Text>
+                </View>
 
             </View>
         )
@@ -137,16 +146,6 @@ export class HouseDetail extends Component{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-
-    /*轮播样式*/
-    ss: {
-        width: width,
-        height: width*.65,
-    },
-    carouselImg: {
-        height: width*.65,
-        resizeMode: 'cover',
     },
 
     /*具体信息头部信息介绍*/
@@ -206,6 +205,29 @@ const styles = StyleSheet.create({
         marginTop: 10,
         padding: 10,
     },
+
+    //公司信息那一块样式
+    companyArea: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderBottomWidth: 0.3,
+        borderColor: '#333',
+        paddingBottom: 8,
+        marginBottom: 15,
+    },
+    companyInfo: {
+        flexDirection: 'row',
+    },
+    companyInfoTextBox: {
+        flexDirection: 'row',
+        marginTop: 10,
+        marginRight: 10,
+        alignItems: 'center',
+    },
+
+
+    //职位要求那一部分的样式
     bodyInfoHeader: {
         flexDirection: 'row',
     },

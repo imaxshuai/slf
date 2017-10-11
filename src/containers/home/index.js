@@ -33,7 +33,7 @@ class Home extends PureComponent{
 
     static defaultProps = {
         classify:　[]
-    }
+    };
 
     constructor(props){
         super(props);
@@ -49,7 +49,11 @@ class Home extends PureComponent{
 
     //跳转登录页
     toLogin = ()=>{
-        this.props.navigation.navigate('Login');
+        if(currentUser.loginState){
+            this.props.navigation.navigate('User');
+        }else{
+            this.props.navigation.navigate("Login");
+        }
     }
     //跳转HouseClassify页
     toClassifyList = (list)=>{
@@ -99,7 +103,7 @@ class Home extends PureComponent{
                             <Text style={styles.navItemText}>房屋出租</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                    <TouchableOpacity onPress={()=>this.props.navigation.navigate('JobClassify')}>
                         <View style={styles.navItem}>
                             <Icon name="card-travel" size={35} color="#fe4a6c" />
                             <Text style={styles.navItemText} >人才招聘</Text>
