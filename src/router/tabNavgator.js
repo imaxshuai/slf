@@ -64,7 +64,9 @@ export const RepleaseTab = TabNavigator({
     lazy: true,
     tabBarOptions: {
         activeTintColor: '#fa0064',
+        inactiveTintColor: '#666', // 文字和图片默认颜色
         showIcon: false,
+        indicatorStyle: {backgroundColor: "#fa0064",height: 1},
         style: {
             marginTop: 2,
             backgroundColor: '#fff', // TabBar 背景色

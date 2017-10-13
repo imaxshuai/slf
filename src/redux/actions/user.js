@@ -22,6 +22,7 @@ export const login = ()=>{
                     });
                     currentUser.loginState = true;
                     currentUser.userinfo = res.userinfo;
+                    currentUser.city = '南京';
                     dispatch({
                         type: actionTypes.USER_LOGIN,
                         data: res,

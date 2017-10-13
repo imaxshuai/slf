@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
     bodyText: {
         width: width/3,
         height: 40,
-        lineHeight: 40,
+        lineHeight: Platform.OS == 'ios'?40:30,
         borderWidth: 1,
         textAlign: 'center',
         borderColor: '#eee',

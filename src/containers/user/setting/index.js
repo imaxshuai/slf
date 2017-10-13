@@ -38,6 +38,7 @@ class UserSetting extends Component{
         });
         currentUser.loginState = false;
         currentUser.userinfo = '';
+        currentUser.city = '北京';
         this.props.navigation.goBack();
     }
 

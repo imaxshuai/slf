@@ -261,10 +261,13 @@ class Home extends PureComponent{
             <View style={styles.container}>
                 {/*首页头部搜索部分*/}
                 <View style={styles.homeHeader}>
-                    <View style={styles.city}>
-                        <Text style={styles.headerText}>南京</Text>
-                        <Icon name="arrow-drop-down" size={22} color="#f8f8f8" />
-                    </View>
+                    <TouchableWithoutFeedback onPress={()=> this.props.navigation.navigate('Provnces')}>
+                        <View style={styles.city}>
+                            <Text style={styles.headerText}>{currentUser.city}</Text>
+                            <Icon name="arrow-drop-down" size={22} color="#f8f8f8" />
+                        </View>
+                    </TouchableWithoutFeedback>
+
                     <TouchableWithoutFeedback onPress={this.toSearch.bind(this)}>
                         <View style={styles.searchInput}>
                             <Icon name="search" size={22} color="#f8f8f8" />
@@ -343,6 +346,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 35,
+        marginLeft: 5,
     },
 
     searchInput: {

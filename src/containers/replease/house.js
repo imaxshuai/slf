@@ -7,6 +7,7 @@ import { Text,
     StyleSheet,
     TextInput,
     Dimensions,
+    Platform,
 } from 'react-native'
 
 let {width} = Dimensions.get('window');
@@ -41,7 +42,7 @@ export class RrepleaseHouse extends Component {
                     <TextInput
                         placeholder="请输入标题"
                         autoCapitalize="none"
-                        // secureTextEntry={true} //密码输入方式
+                        underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
                         style={styles.formGroupInput} />
                 </View>
                 {/*描述*/}
@@ -52,7 +53,7 @@ export class RrepleaseHouse extends Component {
                         placeholder="请对发布的信息进行描述..."
                         autoCapitalize="none"
                         multiline={true}
-                        // secureTextEntry={true} //密码输入方式
+                        underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
                         style={styles.formGroupTextarea} />
                 </View>
 
@@ -62,7 +63,7 @@ export class RrepleaseHouse extends Component {
                     <TextInput
                         placeholder="填写发布人身份"
                         autoCapitalize="none"
-                        // secureTextEntry={true} //密码输入方式
+                        underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
                         style={styles.formGroupInput} />
                 </View>
 
@@ -72,7 +73,7 @@ export class RrepleaseHouse extends Component {
                     <TextInput
                         placeholder="价格"
                         autoCapitalize="none"
-                        // secureTextEntry={true} //密码输入方式
+                        underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
                         style={styles.formGroupInput} />
                 </View>
 
@@ -125,17 +126,18 @@ const styles = StyleSheet.create({
     },
     formGroupText: {
         height: 20,
-        lineHeight: 16,
         width: 85,
     },
     formGroupInput: {
-        fontSize: 14,
+        width: width-130,
+        padding: 0,
+        margin: 0,
         height: 20,
-        lineHeight: 20,
-        width: '80%'
     },
     formGroupTextarea: {
         height: 60,
+        padding: 0,
+        margin: 0,
         fontSize: 14,
         width: '80%'
     },
@@ -145,7 +147,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginLeft: 20,
         height: 40,
-        lineHeight: 40,
+        lineHeight: Platform.OS=='ios'?40:30,
         textAlign: 'center',
         width: width-40,
         fontSize: 16,

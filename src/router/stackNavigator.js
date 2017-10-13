@@ -12,6 +12,8 @@ import { ClassifyList } from '../containers/replease/classifyList';
 import { FlatListExample } from '../components/flatlistComponent';
 import { SwiperList } from '../containers/home/swiper';
 import { Search } from '../containers/search/search';
+import { Provnces } from '../containers/home/city/index';
+import CityList from '../containers/home/city/cityList';
 
 import { HouseClassify } from '../containers/home/classify/house/index';
 import { JobClassify } from '../containers/home/classify/job';
@@ -28,6 +30,12 @@ import { RrepleaseHouse } from '../containers/replease/house';
 export const AppNavigator = StackNavigator({
     Main: {
         screen: TabRouter,
+    },
+    Provnces: {
+        screen: Provnces,
+    },
+    CityList: {
+        screen: CityList,
     },
     Login: {
         screen: Login,
