@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
-import { Button } from 'react-native';
+import { ToastAndroid } from 'react-native';
 import { connect } from 'react-redux';
-import { StackNavigator, addNavigationHelpers } from 'react-navigation';
+import { StackNavigator, addNavigationHelpers, NavigationActions, } from 'react-navigation';
 
 
 
@@ -28,78 +28,21 @@ import UserSetting from '../containers/user/setting';
 import { RrepleaseHouse } from '../containers/replease/house';
 
 export const AppNavigator = StackNavigator({
-    Main: {
-        screen: TabRouter,
-    },
-    Provnces: {
-        screen: Provnces,
-    },
-    CityList: {
-        screen: CityList,
-    },
-    Login: {
-        screen: Login,
-    },
-    Register: {
-        screen: Register,
-    },
-    ClassifyList: {
-        screen: ClassifyList,
-        navigationOptions: {
-            header: null,
-        }
-    },
-    SwiperList: {
-        screen: SwiperList,
-    },
-    Search: {
-        screen: Search,
-        navigationOptions: {
-            header: null
-        }
-    },
-    HouseClassify: {
-        screen: HouseClassify,
-        navigationOptions: {
-            header: null,
-        }
-    },
-    JobClassify: {
-        screen: JobClassify,
-        navigationOptions: {
-            header: null,
-        }
-    },
-    FlatListExample: {
-        screen: FlatListExample,
-        navigationOptions: {
-            header: null,
-        }
-    },
-    HouseList: {
-        screen: HouseList,
-        navigationOptions: {
-            header: null,
-        }
-    },
-    JobList: {
-        screen: JobList,
-        navigationOptions: {
-            header: null,
-        }
-    },
-    HouseDetail: {
-        screen: HouseDetail,
-        navigationOptions: {
-            header: null,
-        }
-    },
-    JobDetail: {
-        screen: JobDetail,
-        navigationOptions: {
-            header: null,
-        }
-    },
+    Main: { screen: TabRouter, },
+    Provnces: { screen: Provnces,},
+    CityList: { screen: CityList,},
+    Login: { screen: Login,},
+    Register: { screen: Register,},
+    ClassifyList: { screen: ClassifyList,},
+    SwiperList: { screen: SwiperList,},
+    Search: { screen: Search, },
+    HouseClassify: { screen: HouseClassify,},
+    JobClassify: {screen: JobClassify,},
+    FlatListExample: {screen: FlatListExample,},
+    HouseList: {screen: HouseList,},
+    JobList: {screen: JobList,},
+    HouseDetail: {screen: HouseDetail,},
+    JobDetail: {screen: JobDetail,},
     UserReplease: {
         screen: RepleaseTab,
         navigationOptions: {
@@ -113,18 +56,13 @@ export const AppNavigator = StackNavigator({
             headerTintColor: '#333',
         }
     },
-    UserCollection: {
-        screen: UserCollection,
-    },
-    UserSetting: {
-        screen: UserSetting,
-    },
-    RrepleaseHouse: {
-        screen: RrepleaseHouse
-    },
+    UserCollection: {screen: UserCollection,},
+    UserSetting: {screen: UserSetting,},
+    RrepleaseHouse: {screen: RrepleaseHouse},
 },{
     headerMode: 'screen',
 });
+
 
 const AppWithNavigationState = ({ dispatch, nav }) => (
     <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav })} />
@@ -133,5 +71,6 @@ const AppWithNavigationState = ({ dispatch, nav }) => (
 const mapStateToProps = state => ({
     nav: state.nav,
 });
+
 
 export default connect(mapStateToProps)(AppWithNavigationState);

@@ -6,10 +6,11 @@ import {
     Image,
     Dimensions,
     TouchableOpacity,
-    ScrollView,
     FlatList,
     TouchableWithoutFeedback,
-    Platform
+    Platform,
+    BackHandler,
+    ToastAndroid,
 } from 'react-native';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
@@ -22,17 +23,13 @@ import ListItemHouseComponent from '../../components/LisItemHouse'
 
 
 let { width, height } = Dimensions.get("window");
-
+let lastBackPressed = new Date().getTime();
 class Home extends PureComponent{
 
     static navigationOptions = {
         header: null,
         tabBarLabel: "主页",
         tabBarIcon: ({tintColor})=>((<Icon name="store" size={25} color={tintColor}/>))
-    };
-
-    static defaultProps = {
-        classify:　[]
     };
 
     constructor(props){
@@ -42,8 +39,38 @@ class Home extends PureComponent{
         }
     }
 
-    componentDidMount(){
-        this.props.classifyActions.getHouse([]);
+
+    componentWillMount(){
+
+        //安卓返回按键点击效果
+        BackHandler.addEventListener('hardwareBackPress', () => {
+            if (this.props.nav) {
+                let routes = this.props.nav.routes;
+                let lastRoute = routes[routes.length - 1]; // 当前页面对应的route对象
+
+                if (routes.length === 1) {// 在第一页了,2秒之内点击两次返回键，退出应用
+                    if((lastBackPressed+2000) >= Date.now()){
+                        return false;
+                    }
+                    // 此处可以根据情况实现 点2次就退出应用，或者弹出rn视图等
+                    //记录点击返回键的时间
+                    lastBackPressed = Date.now();
+                    ToastAndroid.show('再按返回退出应用', ToastAndroid.SHORT);
+
+
+                } else {
+                    console.log(routes)
+                    this.props.navigation.goBack(lastRoute.key);
+                }
+            }
+            return true;
+        });
+
+    }
+    componentWillUnmount() {
+        if (Platform.OS === 'android') {
+            BackHandler.removeEventListener('hardwareBackPress',()=>{});
+        }
     }
 
 

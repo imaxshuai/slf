@@ -17,6 +17,10 @@ import Swiper from 'react-native-swiper';
 let { width, height } = Dimensions.get("window");
 export class HouseClassify extends Component{
 
+    static navigationOptions = {
+        header: null,
+    };
+
     //跳转登录页
     toLogin(){
         this.props.navigation.navigate('Replease');

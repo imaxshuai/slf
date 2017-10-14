@@ -4,25 +4,23 @@ import Mock from 'mockjs';
 
 export const login = ()=>{
     return (dispatch) => {
-        Http.get('http://rapapi.org/mockjsdata/26250/api/user/login', {
-            username: 'xushuai',
-            password: '123123',
-        })
+        Http.get('http://rapapi.org/mockjsdata/26250/api/user/login')
             .then((res) => {
                 console.log(res);
                 if(res.success){
                     console.log('用户数据读取成功');
                     storage.save({
-                        key: 'user',
+                        key: 'currentUser',
                         data: {
                             loginState: true,
-                            userinfo: res.userinfo
+                            userinfo: res.userinfo,
+                            city: '徐州'
                         },
                         expires: 1000*60*24,
                     });
                     currentUser.loginState = true;
                     currentUser.userinfo = res.userinfo;
-                    currentUser.city = '南京';
+                    currentUser.city = '徐州';
                     dispatch({
                         type: actionTypes.USER_LOGIN,
                         data: res,

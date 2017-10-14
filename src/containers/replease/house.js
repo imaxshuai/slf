@@ -9,81 +9,101 @@ import { Text,
     Dimensions,
     Platform,
 } from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialIcons'
+
+import { NavbarTitleComponent } from '../../components/NavbarTitle';
 
 let {width} = Dimensions.get('window');
 
 export class RrepleaseHouse extends Component {
 
     static navigationOptions = ({navigation}) => ({
-        headerTitle: navigation.state.params,
-        headerStyle: {
-            backgroundColor: '#fff'
-        },
-        headerTintColor: '#333',
-    })
+        header: null
+    });
+
+    //渲染头部navbar
+    renderLeftItem(){
+        return (
+            <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
+                <Icon name="navigate-before" size={25} />
+            </TouchableOpacity>
+        )
+    }
+    renderTitletem(){
+        return (
+            <Text style={{fontWeight: 'bold'}}>{this.props.navigation.state.params}</Text>
+        )
+    }
 
     render () {
 
         console.log(this.props)
         return (
-            <ScrollView style={{ flex: 1}}>
+            <View style={{ flex: 1}}>
 
-                {/*图片删除*/}
-                <TouchableOpacity onPress={()=> alert('挑战拍照或相册界面')}>
-                    <View style={styles.imgUploadBox}>
-                        <Image source={require('../../images/imgUpload.png')} style={styles.imgUploadImg} />
-                        <Text style={styles.imgUploadText}>选择要上传的照片</Text>
+                <NavbarTitleComponent
+                    leftItem={this.renderLeftItem.bind(this)}
+                    titleItem={this.renderTitletem.bind(this)}
+                />
+                <ScrollView>
+
+                    {/*图片删除*/}
+                    <TouchableOpacity onPress={()=> alert('挑战拍照或相册界面')}>
+                        <View style={styles.imgUploadBox}>
+                            <Image source={require('../../images/imgUpload.png')} style={styles.imgUploadImg} />
+                            <Text style={styles.imgUploadText}>选择要上传的照片</Text>
+                        </View>
+                    </TouchableOpacity>
+                    {/*标题*/}
+                    <View style={styles.formGroup}>
+                        <Text style={styles.formRequire}>*</Text>
+                        <Text style={styles.formGroupText}>标题</Text>
+                        <TextInput
+                            placeholder="请输入标题"
+                            autoCapitalize="none"
+                            underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                            style={styles.formGroupInput} />
                     </View>
-                </TouchableOpacity>
-                {/*标题*/}
-                <View style={styles.formGroup}>
-                    <Text style={styles.formRequire}>*</Text>
-                    <Text style={styles.formGroupText}>标题</Text>
-                    <TextInput
-                        placeholder="请输入标题"
-                        autoCapitalize="none"
-                        underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
-                        style={styles.formGroupInput} />
-                </View>
-                {/*描述*/}
-                <View style={styles.formGroup}>
-                    <Text style={styles.formRequire}>*</Text>
-                    <Text style={styles.formGroupText}>描述</Text>
-                    <TextInput
-                        placeholder="请对发布的信息进行描述..."
-                        autoCapitalize="none"
-                        multiline={true}
-                        underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
-                        style={styles.formGroupTextarea} />
-                </View>
+                    {/*描述*/}
+                    <View style={styles.formGroup}>
+                        <Text style={styles.formRequire}>*</Text>
+                        <Text style={styles.formGroupText}>描述</Text>
+                        <TextInput
+                            placeholder="请对发布的信息进行描述..."
+                            autoCapitalize="none"
+                            multiline={true}
+                            underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                            style={styles.formGroupTextarea} />
+                    </View>
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.formRequire}>*</Text>
-                    <Text style={styles.formGroupText}>发布人身份</Text>
-                    <TextInput
-                        placeholder="填写发布人身份"
-                        autoCapitalize="none"
-                        underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
-                        style={styles.formGroupInput} />
-                </View>
+                    <View style={styles.formGroup}>
+                        <Text style={styles.formRequire}>*</Text>
+                        <Text style={styles.formGroupText}>发布人身份</Text>
+                        <TextInput
+                            placeholder="填写发布人身份"
+                            autoCapitalize="none"
+                            underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                            style={styles.formGroupInput} />
+                    </View>
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.formRequire}>*</Text>
-                    <Text style={styles.formGroupText}>价格(元)</Text>
-                    <TextInput
-                        placeholder="价格"
-                        autoCapitalize="none"
-                        underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
-                        style={styles.formGroupInput} />
-                </View>
+                    <View style={styles.formGroup}>
+                        <Text style={styles.formRequire}>*</Text>
+                        <Text style={styles.formGroupText}>价格(元)</Text>
+                        <TextInput
+                            placeholder="价格"
+                            autoCapitalize="none"
+                            underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                            style={styles.formGroupInput} />
+                    </View>
 
-                <Text style={styles.submitBtn} onPress={()=>alert('功能暂时未开放...')}>
-                    立即发布
-                </Text>
+                    <Text style={styles.submitBtn} onPress={()=>alert('功能暂时未开放...')}>
+                        立即发布
+                    </Text>
 
+                </ScrollView>
 
+            </View>
 
-            </ScrollView>
         )
     }
 

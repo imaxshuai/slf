@@ -6,6 +6,7 @@ import {
     ScrollView,
     Dimensions,
     StyleSheet,
+    BackHandler,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -16,9 +17,10 @@ export class Provnces extends Component{
 
     static navigationOptions =({navigation})=>({
         headerTitle: '地区选择',
-        tintColor: '#999',
         headerTitleStyle: {
             fontSize: 14,
+            color: '#999',
+            textAlign: 'center',
         },
         headerLeft: (<TouchableWithoutFeedback onPress={()=>navigation.goBack()}>
             <Icon name="navigate-before" size={25} color="#333" style={{marginLeft: 10,}} />

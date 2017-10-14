@@ -7,12 +7,15 @@ import {
     StyleSheet,
 } from 'react-native'
 
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import { NavbarTitleComponent } from '../../components/NavbarTitle';
 
 export class ClassifyList extends Component{
 
+    static navigationOptions = ({navigation}) => ({
+        header: null
+    });
     componentDidMount(){
     }
 
@@ -28,7 +31,7 @@ export class ClassifyList extends Component{
     renderLeftItem(){
         return (
             <TouchableOpacity onPress={this._goBack.bind(this)}>
-                <Icon name="close" size={16} />
+                <Icon name="navigate-before" size={25} />
             </TouchableOpacity>
         )
     }

@@ -27,7 +27,7 @@ class CityList extends Component{
 
     changeCity = (city)=>{
         currentUser.city = city;
-        this.props.navigation.goBack(this.props.nav.routes[1].key);
+        this.props.navigation.goBack(this.props.navigation.navigate('Home'));
     }
 
     render(){

@@ -23,7 +23,9 @@ import { JobItemComponent } from '../../../../components/JobItem'
 let { width, height } = Dimensions.get("window");
 class JobList extends Component{
 
-
+    static navigationOptions = {
+        header: null
+    }
     constructor(props){
         super(props);
         this.state = {
@@ -74,22 +76,69 @@ class JobList extends Component{
     //头部广告轮播
     _header = ()=>{
         return (
-            <View style={styles.ss}>
-                <Swiper
-                    showsButtons={false}
-                    autoplay={true}
-                    autoplayTimeout={3}
-                    paginationStyle={{ bottom: 5 }}
-                    dotStyle={{backgroundColor:'#fff', width: 10, height: 10}}
-                    activeDotStyle={{backgroundColor:'#fa0064', width: 10, height: 10}}
-                >
-                    <Image source={require('../../../../images/carousel-01.jpg')} style={styles.carouselImg} />
-                    <Image source={require('../../../../images/carousel-02.jpg')} style={styles.carouselImg} />
-                    <Image source={require('../../../../images/carousel-03.jpg')} style={styles.carouselImg} />
-                    <Image source={require('../../../../images/carousel-04.jpg')} style={styles.carouselImg} />
-                    <Image source={require('../../../../images/carousel-05.jpg')} style={styles.carouselImg} />
-                </Swiper>
-            </View>
+           <View>
+
+               {/*分类产品头部搜索部分*/}
+               <View style={styles.homeHeader}>
+                   <TouchableOpacity onPress={this._goBack.bind(this)} style={styles.city} >
+                       <Icon name="navigate-before" size={25} color="#aaa" />
+                   </TouchableOpacity>
+                   <TouchableWithoutFeedback onPress={this.toSearch.bind(this)}>
+                       <View style={styles.searchInput}>
+                           <Icon name="search" size={22} color="#aaa" />
+                           <Text style={styles.headerText}>请输入要查询的关键字</Text>
+                       </View>
+                   </TouchableWithoutFeedback>
+                   <View style={styles.userIcon}>
+                       <TouchableOpacity onPress={this.toLogin.bind(this)}>
+                           <Text style={{color: '#aaa'}}>发布信息</Text>
+                       </TouchableOpacity>
+                   </View>
+               </View>
+               <View style={styles.filterArea}>
+                   <TouchableWithoutFeedback onPress={this.alertFilterCity}>
+                       <View style={styles.filterTextBox}>
+                           <Text style={styles.filterText}>全南京</Text>
+                           <Icon name="arrow-drop-down" size={18} color="#999" />
+                       </View>
+                   </TouchableWithoutFeedback>
+                   <TouchableWithoutFeedback onPress={this.alertFilterCity}>
+                       <View style={styles.filterTextBox}>
+                           <Text style={styles.filterText}>职位</Text>
+                           <Icon name="arrow-drop-down" size={18} color="#999" />
+                       </View>
+                   </TouchableWithoutFeedback>
+                   <TouchableWithoutFeedback onPress={this.alertFilterCity}>
+                       <View style={styles.filterTextBox}>
+                           <Text style={styles.filterText}>薪资水平</Text>
+                           <Icon name="arrow-drop-down" size={18} color="#999" />
+                       </View>
+                   </TouchableWithoutFeedback>
+                   <TouchableWithoutFeedback onPress={this.alertFilterCity}>
+                       <View style={styles.filterTextBox}>
+                           <Text style={styles.filterText}>筛选</Text>
+                           <Icon name="arrow-drop-down" size={18} color="#999" />
+                       </View>
+                   </TouchableWithoutFeedback>
+
+               </View>
+               <View style={styles.ss}>
+                   <Swiper
+                       showsButtons={false}
+                       autoplay={true}
+                       autoplayTimeout={3}
+                       paginationStyle={{ bottom: 5 }}
+                       dotStyle={{backgroundColor:'#fff', width: 10, height: 10}}
+                       activeDotStyle={{backgroundColor:'#fa0064', width: 10, height: 10}}
+                   >
+                       <Image source={require('../../../../images/carousel-01.jpg')} style={styles.carouselImg} />
+                       <Image source={require('../../../../images/carousel-02.jpg')} style={styles.carouselImg} />
+                       <Image source={require('../../../../images/carousel-03.jpg')} style={styles.carouselImg} />
+                       <Image source={require('../../../../images/carousel-04.jpg')} style={styles.carouselImg} />
+                       <Image source={require('../../../../images/carousel-05.jpg')} style={styles.carouselImg} />
+                   </Swiper>
+               </View>
+           </View>
         )
     }
 
@@ -97,51 +146,6 @@ class JobList extends Component{
     render() {
         return (
             <View>
-
-                {/*分类产品头部搜索部分*/}
-                <View style={styles.homeHeader}>
-                    <TouchableOpacity onPress={this._goBack.bind(this)} style={styles.city} >
-                        <Icon name="navigate-before" size={25} color="#aaa" />
-                    </TouchableOpacity>
-                    <TouchableWithoutFeedback onPress={this.toSearch.bind(this)}>
-                        <View style={styles.searchInput}>
-                            <Icon name="search" size={22} color="#aaa" />
-                            <Text style={styles.headerText}>请输入要查询的关键字</Text>
-                        </View>
-                    </TouchableWithoutFeedback>
-                    <View style={styles.userIcon}>
-                        <TouchableOpacity onPress={this.toLogin.bind(this)}>
-                            <Text style={{color: '#aaa'}}>发布信息</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={styles.filterArea}>
-                    <TouchableWithoutFeedback onPress={this.alertFilterCity}>
-                        <View style={styles.filterTextBox}>
-                            <Text style={styles.filterText}>全南京</Text>
-                            <Icon name="arrow-drop-down" size={18} color="#999" />
-                        </View>
-                    </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={this.alertFilterCity}>
-                        <View style={styles.filterTextBox}>
-                            <Text style={styles.filterText}>职位</Text>
-                            <Icon name="arrow-drop-down" size={18} color="#999" />
-                        </View>
-                    </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={this.alertFilterCity}>
-                        <View style={styles.filterTextBox}>
-                            <Text style={styles.filterText}>薪资水平</Text>
-                            <Icon name="arrow-drop-down" size={18} color="#999" />
-                        </View>
-                    </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={this.alertFilterCity}>
-                        <View style={styles.filterTextBox}>
-                            <Text style={styles.filterText}>筛选</Text>
-                            <Icon name="arrow-drop-down" size={18} color="#999" />
-                        </View>
-                    </TouchableWithoutFeedback>
-
-                </View>
 
                 {/*无限下拉推广处*/}
                 <View style={{backgroundColor: "#fff"}}>
@@ -198,6 +202,7 @@ const styles = StyleSheet.create({
         width: width,
         flexDirection: 'row',
         paddingTop: Platform.OS=='ios'?25:20,
+        backgroundColor: '#e9e9ef'
     },
     city: {
         flex: 1,

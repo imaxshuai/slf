@@ -24,6 +24,9 @@ let { width, height } = Dimensions.get("window");
 class HouseList extends Component{
 
 
+    static navigationOptions = {
+        header: null
+    }
     constructor(props){
         super(props);
         this.state = {
@@ -74,30 +77,8 @@ class HouseList extends Component{
     //头部广告轮播
     _header = ()=>{
         return (
-            <View style={styles.ss}>
-                <Swiper
-                    showsButtons={false}
-                    autoplay={true}
-                    autoplayTimeout={3}
-                    paginationStyle={{ bottom: 5 }}
-                    dotStyle={{backgroundColor:'#fff', width: 10, height: 10}}
-                    activeDotStyle={{backgroundColor:'#fa0064', width: 10, height: 10}}
-                >
-                    <Image source={require('../../../../images/carousel-01.jpg')} style={styles.carouselImg} />
-                    <Image source={require('../../../../images/carousel-02.jpg')} style={styles.carouselImg} />
-                    <Image source={require('../../../../images/carousel-03.jpg')} style={styles.carouselImg} />
-                    <Image source={require('../../../../images/carousel-04.jpg')} style={styles.carouselImg} />
-                    <Image source={require('../../../../images/carousel-05.jpg')} style={styles.carouselImg} />
-                </Swiper>
-            </View>
-        )
-    }
 
-
-    render() {
-        return (
             <View>
-
                 {/*分类产品头部搜索部分*/}
                 <View style={styles.homeHeader}>
                     <TouchableOpacity onPress={this._goBack.bind(this)} style={styles.city} >
@@ -143,24 +124,49 @@ class HouseList extends Component{
 
                 </View>
 
-                {/*无限下拉推广处*/}
-                <View style={{backgroundColor: "#fff"}}>
-                    <FlatList
-                        ListHeaderComponent={this._header.bind(this)}
-                        renderItem={({item})=><ListItemHouseComponent info={item} navigation={this.props.navigation} />}
-                        ListEmptyComponent={this.createEmptyView()}
-                        data={this.props.classify}
-                        keyExtractor={(item)=>item.id}
-
-                        initialNumToRender={5}
-
-                        refreshing={this.state.refreshing}
-                        onEndReachedThreshold={0.5}
-                        onRefresh={this._onRefresh.bind(this)}
-                        onEndReached={this._getMoreHouse.bind(this)}
-                        getItemLayout={(data, index) => ( {length: 130, offset: 130 * index, index} )}
-                    />
+                {/*轮播图*/}
+                <View style={styles.ss}>
+                    <Swiper
+                        showsButtons={false}
+                        autoplay={true}
+                        autoplayTimeout={3}
+                        paginationStyle={{ bottom: 5 }}
+                        dotStyle={{backgroundColor:'#fff', width: 10, height: 10}}
+                        activeDotStyle={{backgroundColor:'#fa0064', width: 10, height: 10}}
+                    >
+                        <Image source={require('../../../../images/carousel-01.jpg')} style={styles.carouselImg} />
+                        <Image source={require('../../../../images/carousel-02.jpg')} style={styles.carouselImg} />
+                        <Image source={require('../../../../images/carousel-03.jpg')} style={styles.carouselImg} />
+                        <Image source={require('../../../../images/carousel-04.jpg')} style={styles.carouselImg} />
+                        <Image source={require('../../../../images/carousel-05.jpg')} style={styles.carouselImg} />
+                    </Swiper>
                 </View>
+            </View>
+
+        )
+    }
+
+
+    render() {
+        return (
+
+            <View style={{backgroundColor: "#fff"}}>
+                {/*无限下拉*/}
+                <FlatList
+                    ListHeaderComponent={this._header.bind(this)}
+                    renderItem={({item})=><ListItemHouseComponent info={item} navigation={this.props.navigation} />}
+                    ListEmptyComponent={this.createEmptyView()}
+                    data={this.props.classify}
+                    keyExtractor={(item)=>item.id}
+
+                    initialNumToRender={5}
+
+                    refreshing={this.state.refreshing}
+                    onEndReachedThreshold={0.5}
+                    onRefresh={this._onRefresh.bind(this)}
+                    onEndReached={this._getMoreHouse.bind(this)}
+                    getItemLayout={(data, index) => ( {length: 130, offset: 130 * index, index} )}
+                />
             </View>
         )
     }
@@ -198,6 +204,7 @@ const styles = StyleSheet.create({
         width: width,
         flexDirection: 'row',
         paddingTop: Platform.OS=='ios'?25:20,
+        backgroundColor: '#e9e9ef',
     },
     city: {
         flex: 1,

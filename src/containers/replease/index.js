@@ -19,20 +19,26 @@ class User extends Component{
 
     static navigationOptions =({navigation})=>({
         headerTitle: "选择发布分类",
+        headerStyle: {
+            backgroundColor: '#f9f9f9',
+            borderBottomWidth: 1,
+            borderColor: '#ccc',
+        },
         headerTitleStyle: {
            fontSize: 16,
            fontWeight: '400',
+           alignSelf: 'center',
         },
         tabBarLabel: "发布",
         tabBarIcon: ({tintColor})=>((<Icon name="description" size={25} color={tintColor}/>)),
-        headerRight: (<TouchableOpacity>
-            <Text
-                style={{marginRight: 10, fontWeight: '300', fontSize: 14,}}
+        headerRight: (
+            <TouchableOpacity><Text
+                style={{marginRight: 10, fontWeight: '300', fontSize: 14 }}
                 onPress={() => {
                     navigation.navigate('UserReplease');
-                }}
-            >我的发布</Text>
-        </TouchableOpacity>),
+                }}>我的发布</Text>
+            </TouchableOpacity>
+        ),
     });
 
     constructor(...props){

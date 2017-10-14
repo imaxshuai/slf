@@ -57,6 +57,22 @@ class User extends Component{
         console.log(this.props);
         this.props.navigation.navigate('UserCollection');
     };
+    //跳转推广页面
+    toExtension =()=>{
+
+        //打印用户信息
+        console.log(currentUser);
+
+        storage.load({
+            key: 'currentUser'
+        })
+            .then(ret=>{
+                console.log(ret);
+            })
+            .catch(err=>{
+                console.log('用户数据获取不到！');
+            })
+    }
 
     render(){
 
@@ -108,7 +124,7 @@ class User extends Component{
                             <Text style={styles.navItemText}>我的招聘</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.toExtension}>
                         <View style={styles.navItem}>
                             <Icon name="palette" size={40} color="#fa0064" />
                             <Text style={styles.navItemText}>推广服务</Text>

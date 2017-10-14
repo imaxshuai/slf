@@ -18,6 +18,9 @@ import { NavbarTitleComponent } from '../../../../components/NavbarTitle';
 let { width, height } = Dimensions.get("window");
 export class HouseDetail extends Component{
 
+    static navigationOptions = {
+        header: null,
+    };
     componentDidMount(){
         console.log(this.props);
         console.log(currentUser);
