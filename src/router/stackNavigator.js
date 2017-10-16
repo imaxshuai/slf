@@ -1,8 +1,9 @@
-import React,{ Component } from 'react';
-import { ToastAndroid } from 'react-native';
+import React from 'react';
 import { connect } from 'react-redux';
 import { StackNavigator, addNavigationHelpers, NavigationActions, } from 'react-navigation';
 
+//安卓push路由跳转效果
+import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 
 
 import { TabRouter, RepleaseTab } from './tabNavgator';
@@ -61,6 +62,9 @@ export const AppNavigator = StackNavigator({
     RrepleaseHouse: {screen: RrepleaseHouse},
 },{
     headerMode: 'screen',
+    transitionConfig:()=>({
+        screenInterpolator:CardStackStyleInterpolator.forHorizontal,
+    })
 });
 
 

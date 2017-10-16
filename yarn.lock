@@ -3514,6 +3514,12 @@ react-native-animatable@^1.2.3:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-countdown@^0.0.3:
+  version "0.0.3"
+  resolved "http://registry.npm.taobao.org/react-native-countdown/download/react-native-countdown-0.0.3.tgz#50b5254294fb5da866f8913a9398f495f886534a"
+  dependencies:
+    react-timer-mixin "^0.13.3"
+
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/react-native-dismiss-keyboard/download/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"
@@ -3542,6 +3548,10 @@ react-native-modal@^4.0.0:
   dependencies:
     prop-types "15.5.10"
     react-native-animatable "^1.2.3"
+
+react-native-sk-countdown@^1.0.1:
+  version "1.0.1"
+  resolved "http://registry.npm.taobao.org/react-native-sk-countdown/download/react-native-sk-countdown-1.0.1.tgz#e467bac16949060faa3a7c0db56d460ff8420451"
 
 react-native-storage@^0.2.2:
   version "0.2.2"
@@ -3692,7 +3702,7 @@ react-test-renderer@16.0.0-alpha.12:
     fbjs "^0.8.9"
     object-assign "^4.1.0"
 
-react-timer-mixin@^0.13.2:
+react-timer-mixin@^0.13.2, react-timer-mixin@^0.13.3:
   version "0.13.3"
   resolved "http://registry.npm.taobao.org/react-timer-mixin/download/react-timer-mixin-0.13.3.tgz#0da8b9f807ec07dc3e854d082c737c65605b3d22"
 
@@ -3712,6 +3722,10 @@ react@16.0.0-alpha.12:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "^15.5.6"
+
+react_native_countdowntimer@^1.0.5:
+  version "1.0.5"
+  resolved "http://registry.npm.taobao.org/react_native_countdowntimer/download/react_native_countdowntimer-1.0.5.tgz#e99cbc1b0beccfb693520e1a815df7d2b0e9d156"
 
 read-pkg-up@^1.0.1:
   version "1.0.1"

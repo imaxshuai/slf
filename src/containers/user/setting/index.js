@@ -34,7 +34,7 @@ class UserSetting extends Component{
 
     clearStorage(){
         storage.remove({
-            key: 'user'
+            key: 'currentUser'
         });
         currentUser.loginState = false;
         currentUser.userinfo = '';

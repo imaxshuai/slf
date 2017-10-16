@@ -1,19 +1,39 @@
 import React,{ Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Platform,StyleSheet,Dimensions } from 'react-native';
-
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 let { width, height } = Dimensions.get("window");
+let timer;
+
+
 export class Register extends Component{
 
     static navigationOptions = {
-        header: null
+        header: null,
     }
     constructor(...props){
         super(...props);
+        this.state = {
+            canGetCheckCode: true,
+            checkCodeTime: 15,
+        }
     }
     componentDidMount(){
-        console.log(currentUser);
+        if(typeof(checkTime)!='undefined'&&checkTime>1){
+            this.setState({
+                canGetCheckCode: false,
+                checkCodeTime: checkTime,
+                tel: '',
+                checkCode: '',
+                password: '',
+            });
+            this.downCountTime();
+        }
+    }
+
+    componentWillUnmount(){
+        global.checkTime = this.state.checkCodeTime;
+        clearInterval(timer);
     }
 
     changeUserInfo(){
@@ -24,8 +44,67 @@ export class Register extends Component{
         this.props.navigation.goBack();
     }
 
+    getCheckCode =()=>{
+        let pattern = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[0,5-9])|(18[0,5-9]))\d{8}$/;
+        console.log(pattern.test(this.state.tel));
+
+        if(pattern.test(this.state.tel)){
+            this.setState({
+                canGetCheckCode: false,
+                checkCodeTime: 15,
+            });
+            this.downCountTime();
+        }else{
+            alert('手机号未填写或格式错误！');
+        }
+    };
+
+    downCountTime = ()=>{
+
+        timer = setInterval(()=>{
+            if(this.state.checkCodeTime>1){
+                this.state.checkCodeTime--;
+                this.setState({
+                    checkCodeTime: this.state.checkCodeTime--,
+                });
+            }else{
+                console.log('倒计时结束');
+                this.setState({
+                    canGetCheckCode: true,
+                });
+                clearInterval(timer);
+            }
+        }, 1000)
+
+    }
+
     doRegister(){
-        fetch('http://rapapi.org/mockjsdata/26250/api/user/verify', {
+        let userinfo = {
+            tel: this.state.tel,
+            checkCode: this.state.checkCode,
+            password: this.state.password,
+        };
+        let telPattern = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[0,5-9])|(18[0,5-9]))\d{8}$/;
+        let passwordPattern = /^[a-zA-Z0-9,.?~!@#$%^&*]{6,16}$/;
+
+        if(telPattern.test(userinfo.tel)){
+            if(passwordPattern.test(userinfo.password)){
+                if(userinfo.checkCode == '666666'){
+                    alert('注册成功');
+                }else{
+                    alert('验证码不正确');
+                }
+            }else{
+                alert('密码未填写或格式错误!')
+            }
+        }else{
+            alert('手机号未填写或格式错误!')
+        }
+
+
+        console.log(userinfo)
+
+/*        fetch('http://rapapi.org/mockjsdata/26250/api/user/verify', {
             method: 'POST',
             body: 'honeNummber=15366123031&password=123123&verifyCode=941231'
         })
@@ -37,13 +116,14 @@ export class Register extends Component{
             })
             .catch((error)=>{
                 console.log(error);
-            })
+            })*/
     }
     toLogin(){
         this.props.navigation.goBack();
     }
 
     render(){
+
         return (
             <View style={styles.container}>
 
@@ -63,18 +143,31 @@ export class Register extends Component{
                 {/*登录FORM表单提交*/}
                 <View style={styles.loginForm}>
                     <TouchableOpacity>
-                        <TextInput placeholder="手机号" style={styles.loginInput}  autoCapitalize="none" />
+                        <TextInput
+                            placeholder="手机号"
+                            style={styles.loginInput}
+                            autoCapitalize="none"
+                            onChangeText={(text)=>this.setState({tel: text})}                        />
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <View style={styles.CheckCodeBox}>
                         <TextInput placeholder="动态码"
                                    style={styles.loginInput}
                                    password='true'
                                    autoCapitalize="none"
+                                   onChangeText={(text)=>this.setState({checkCode: text})}
                         />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <TextInput placeholder="密码" style={styles.loginInput} password='true' autoCapitalize="none"  secureTextEntry={true} />
-                    </TouchableOpacity>
+                        {this.state.canGetCheckCode?(<Text style={styles.CheckCode} onPress={this.getCheckCode}>获取动态码</Text>):(<Text style={[styles.CheckCode,styles.noCheckCode]}>{this.state.checkCodeTime}秒后可再次获取</Text>)}
+                    </View>
+                    <View>
+                        <TextInput
+                            placeholder="密码"
+                            style={styles.loginInput}
+                            password='true'
+                            autoCapitalize="none"
+                            secureTextEntry={true}
+                            onChangeText={(text)=>this.setState({password: text})}
+                        />
+                    </View>
                     <TouchableOpacity onPress={this.changeUserInfo.bind(this)}>
                         <Text style={styles.loginBtn} onPress={this.doRegister.bind(this)}>注册</Text>
                     </TouchableOpacity>
@@ -122,6 +215,27 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10,
 
+    },
+    CheckCodeBox: {
+        position: 'relative',
+    },
+    CheckCode: {
+        borderWidth: 0.5,
+        borderColor: '#fa0064',
+        padding: 5,
+        paddingLeft: 20,
+        paddingRight: 20,
+        borderRadius: 5,
+        color: '#fa0064',
+        fontWeight: '100',
+        fontSize: 12,
+        position: 'absolute',
+        right: 0,
+        top: 7,
+    },
+    noCheckCode: {
+        borderColor: '#aaa',
+        color: '#aaa',
     },
     loginBtn: {
         backgroundColor: '#fa0064',
