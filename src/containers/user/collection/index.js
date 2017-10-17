@@ -39,15 +39,19 @@ class UserCollection extends Component{
         this.props.userActions.getMyRepleaseShow([]);
     };
     getMyReleaseMore = ()=>{
-        setTimeout(
-            ()=>{
-                if(this.props.myReplease.length<1){
-                this.props.userActions.getMyRepleaseShow(this.props.myReplease);
-            }
-        }, 5000)
+        setTimeout(()=>{
+            this.props.userActions.getMyRepleaseShow(this.props.myReplease);
+        },8000)
     };
     emptyComponent = ()=> {
-        return <Text>数据获取失败！</Text>
+
+        let error = <Text/>;
+        setTimeout(()=>{
+            error = <Text>数据获取失败！</Text>;
+            return error;
+        },5000);
+
+        return error
     };
 
     render(){

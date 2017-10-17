@@ -10,7 +10,6 @@ import { TabRouter, RepleaseTab } from './tabNavgator';
 import Login from '../containers/user/login';
 import { Register } from '../containers/user/register';
 import { ClassifyList } from '../containers/replease/classifyList';
-import { FlatListExample } from '../components/flatlistComponent';
 import { SwiperList } from '../containers/home/swiper';
 import { Search } from '../containers/search/search';
 import { Provnces } from '../containers/home/city/index';
@@ -39,7 +38,6 @@ export const AppNavigator = StackNavigator({
     Search: { screen: Search, },
     HouseClassify: { screen: HouseClassify,},
     JobClassify: {screen: JobClassify,},
-    FlatListExample: {screen: FlatListExample,},
     HouseList: {screen: HouseList,},
     JobList: {screen: JobList,},
     HouseDetail: {screen: HouseDetail,},

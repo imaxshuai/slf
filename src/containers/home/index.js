@@ -93,7 +93,7 @@ class Home extends PureComponent{
     }
     //跳转flatlist页面
     toFlatList(){
-        this.props.navigation.navigate('FlatListExample');
+        this.props.navigation.navigate('SwiperList');
     }
 
     //获取下拉加载更多数据

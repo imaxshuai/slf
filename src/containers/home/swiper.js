@@ -66,19 +66,37 @@ const styles = StyleSheet.create({
 
 import React, { Component } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
-import Modal from 'react-native-modal'
+import Modal from 'react-native-modal';
+import {MessageBar, MessageBarManager} from 'react-native-message-bar';
 
 export class SwiperList extends Component {
     state = {
         isModalVisible: false
     };
 
+    componentDidMount(){
+        MessageBarManager.registerMessageBar(this.refs.alert);
+    }
 
-    _showModal = () => this.setState({ isModalVisible: true })
+    componentWillUnmount() {
+        MessageBarManager.unregisterMessageBar();
+    }
+
+    alert = ()=>{
+        MessageBarManager.showAlert({
+            title: '系统提示',
+            message: '登陆成功拉！',
+            alertType: 'info',
+            stylesheetInfo: {backgroundColor: 'black', strokeColor: 'gray' }, //默认是蓝色，与info
+            animationType: 'SlideFromRight'
+        });
+    }
+
+    _showModal = () => this.setState({ isModalVisible: true });
 
     _hideModal = () => {
         this.setState({ isModalVisible: false });
-    }
+    };
 
     render () {
         return (
@@ -86,6 +104,13 @@ export class SwiperList extends Component {
                 <TouchableOpacity onPress={this._showModal}>
                     <Text>Show Modal</Text>
                 </TouchableOpacity>
+
+                <Text onPress={this.alert}>点我</Text>
+
+                <MessageBar ref="alert" />
+
+
+
                 <Modal
                     isVisible={this.state.isModalVisible}
                     animationIn='fadeIn'

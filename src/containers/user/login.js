@@ -3,14 +3,28 @@ import { View, Text, TextInput, TouchableOpacity, Image, Button, Platform,StyleS
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
+import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 
 import * as userActions from '../../redux/actions/user';
 
 class Login extends Component{
 
-    static navigationOptions = {
-        header: null
-    };
+    static navigationOptions =({navigation})=>({
+        headerTitle: '',
+        headerLeft: (
+            <TouchableOpacity onPress={()=>navigation.goBack()}>
+                <Icon name="navigate-before" size={25} color="#666" />
+            </TouchableOpacity>
+        ),
+        headerRight: (
+            <Text style={{color: '#333', paddingRight: 10, fontSize: 16,}} onPress={()=>navigation.navigate('Register')}>注册</Text>
+        ),
+        headerStyle: {
+            backgroundColor: '#f9f9f9',
+            borderBottomWidth: 0,
+        }
+
+    });
 
     constructor(...props){
         super(...props);
@@ -22,7 +36,10 @@ class Login extends Component{
 
 
     componentDidMount(){
-        console.log(this.props);
+        MessageBarManager.registerMessageBar(this.refs.alert)
+    }
+    componentWillUnmount(){
+        MessageBarManager.unregisterMessageBar();
     }
 
     goBack(){
@@ -35,7 +52,12 @@ class Login extends Component{
             this.props.userActions.login();
             this.goBack();
         }else{
-            alert('用户信息填写错误');
+            MessageBarManager.showAlert({
+                message: '用户名或密码填写错误',
+                alertType: 'error',
+                animationType: 'SlideFromRight',
+                avatar: (<Icon name="info" color="#fff" size={20} />)
+            })
         }
 
     }
@@ -47,15 +69,7 @@ class Login extends Component{
         return (
             <View style={styles.container}>
 
-                {/*头部导航位置*/}
-                <View style={styles.navTitle}>
-                    <TouchableOpacity onPress={this.goBack.bind(this)}>
-                        <Icon name="close" size={18} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={this.toRegister.bind(this)}>
-                        <Text>注册</Text>
-                    </TouchableOpacity>
-                </View>
+                <MessageBar ref="alert" />
 
                 {/*Logo摆放位置*/}
                 <Image source={require('../../images/logo.png')} style={styles.logo} />

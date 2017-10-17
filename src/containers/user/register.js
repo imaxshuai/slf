@@ -1,6 +1,7 @@
 import React,{ Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Platform,StyleSheet,Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 
 let { width, height } = Dimensions.get("window");
 let timer;
@@ -8,17 +9,36 @@ let timer;
 
 export class Register extends Component{
 
-    static navigationOptions = {
-        header: null,
-    }
+    static navigationOptions =({navigation})=>({
+        headerTitle: '',
+        headerLeft: (
+            <TouchableOpacity onPress={()=>navigation.goBack()}>
+                <Icon name="navigate-before" size={25} color="#666" />
+            </TouchableOpacity>
+        ),
+        headerRight: (
+            <Text style={{color: '#333', paddingRight: 10, fontSize: 16}} onPress={()=>navigation.goBack()}>登录</Text>
+        ),
+        headerStyle: {
+            backgroundColor: '#f9f9f9',
+            borderBottomWidth: 0,
+        }
+
+    });
+
     constructor(...props){
         super(...props);
         this.state = {
             canGetCheckCode: true,
-            checkCodeTime: 15,
+            checkCodeTime: 0,
         }
     }
     componentDidMount(){
+
+        //注册消息提示
+        MessageBarManager.registerMessageBar(this.refs.alert);
+
+        //获取倒计时所剩时间，继续倒计时
         if(typeof(checkTime)!='undefined'&&checkTime>1){
             this.setState({
                 canGetCheckCode: false,
@@ -32,6 +52,10 @@ export class Register extends Component{
     }
 
     componentWillUnmount(){
+        //移除提示消息
+        MessageBarManager.unregisterMessageBar();
+
+        //获取退出时倒计时剩下的时间
         global.checkTime = this.state.checkCodeTime;
         clearInterval(timer);
     }
@@ -55,7 +79,12 @@ export class Register extends Component{
             });
             this.downCountTime();
         }else{
-            alert('手机号未填写或格式错误！');
+            MessageBarManager.showAlert({
+                message: '手机号未填写或格式错误！',
+                alertType: 'warning',
+                animationType: 'SlideFromRight',
+                avatar: (<Icon name="info" size={20} color="#fff" />)
+            });
         }
     };
 
@@ -76,7 +105,7 @@ export class Register extends Component{
             }
         }, 1000)
 
-    }
+    };
 
     doRegister(){
         let userinfo = {
@@ -84,39 +113,67 @@ export class Register extends Component{
             checkCode: this.state.checkCode,
             password: this.state.password,
         };
+        console.log(userinfo);
         let telPattern = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[0,5-9])|(18[0,5-9]))\d{8}$/;
         let passwordPattern = /^[a-zA-Z0-9,.?~!@#$%^&*]{6,16}$/;
+        let checkCodePattern = /^[a-zA-Z0-9]{6}$/;
 
         if(telPattern.test(userinfo.tel)){
-            if(passwordPattern.test(userinfo.password)){
-                if(userinfo.checkCode == '666666'){
-                    alert('注册成功');
+            if(passwordPattern.test(userinfo.password)&&typeof(userinfo.password)!='undefined'){
+                if(checkCodePattern.test(userinfo.checkCode)){
+                    fetch('http://localhost:3000/api/users/register', {
+                        method: 'POST',
+                        body: JSON.stringify(userinfo)
+                    })
+                        .then(res=>res.json())
+                        .then((userinfo)=>{
+                            if(userinfo.success){
+                                MessageBarManager.showAlert({
+                                    message: '注册成功！',
+                                    alertType: 'info',
+                                    animationType: 'SlideFromRight',
+                                    avatar: (<Icon name="info" size={20} color="#fff" />)
+                                });
+                                setTimeout(()=>{
+                                    this.props.navigation.navigate('User', userinfo);
+                                },1500)
+                            }else{
+                                MessageBarManager.showAlert({
+                                    message: '注册失败！手机号已存在。',
+                                    alertType: 'error',
+                                    animationType: 'SlideFromRight',
+                                    avatar: (<Icon name="info" size={20} color="#fff" />)
+                                });
+                            }
+                        })
+                        .catch((error)=>{
+                            console.log(error);
+                        })
                 }else{
-                    alert('验证码不正确');
+                    MessageBarManager.showAlert({
+                        message: '动态码未填写或格式错误！',
+                        alertType: 'warning',
+                        animationType: 'SlideFromRight',
+                        avatar: (<Icon name="info" size={20} color="#fff" />)
+                    });
                 }
             }else{
-                alert('密码未填写或格式错误!')
+                MessageBarManager.showAlert({
+                    message: '密码未填写或格式错误！',
+                    alertType: 'warning',
+                    animationType: 'SlideFromRight',
+                    avatar: (<Icon name="info" size={20} color="#fff" />)
+                });
             }
         }else{
-            alert('手机号未填写或格式错误!')
+            MessageBarManager.showAlert({
+                message: '手机号未填写或格式错误！',
+                alertType: 'warning',
+                animationType: 'SlideFromRight',
+                avatar: (<Icon name="info" size={20} color="#fff" />)
+            });
         }
 
-
-        console.log(userinfo)
-
-/*        fetch('http://rapapi.org/mockjsdata/26250/api/user/verify', {
-            method: 'POST',
-            body: 'honeNummber=15366123031&password=123123&verifyCode=941231'
-        })
-            .then(res=>res.json())
-            .then((userinfo)=>{
-                console.log(userinfo);
-                this.props.navigation.navigate('User', userinfo);
-                return userinfo;
-            })
-            .catch((error)=>{
-                console.log(error);
-            })*/
     }
     toLogin(){
         this.props.navigation.goBack();
@@ -127,16 +184,7 @@ export class Register extends Component{
         return (
             <View style={styles.container}>
 
-                {/*头部导航位置*/}
-                <View style={styles.navTitle}>
-                    <TouchableOpacity onPress={this.goBack.bind(this)}>
-                        <Icon name="close" size={20} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={this.toLogin.bind(this)}>
-                        <Text style={styles.loginText}>登录</Text>
-                    </TouchableOpacity>
-                </View>
-
+                <MessageBar ref="alert" />
                 {/*Logo摆放位置*/}
                 <Image source={require('../../images/logo.png')} style={styles.logo} />
 
