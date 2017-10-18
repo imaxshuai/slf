@@ -127,19 +127,20 @@ export class Register extends Component{
                     })
                         .then(res=>res.json())
                         .then((userinfo)=>{
+                        console.log(userinfo);
                             if(userinfo.success){
                                 MessageBarManager.showAlert({
-                                    message: '注册成功！',
+                                    message: userinfo.info,
                                     alertType: 'info',
                                     animationType: 'SlideFromRight',
                                     avatar: (<Icon name="info" size={20} color="#fff" />)
                                 });
                                 setTimeout(()=>{
-                                    this.props.navigation.navigate('User', userinfo);
+                                    this.props.navigation.goBack();
                                 },1500)
                             }else{
                                 MessageBarManager.showAlert({
-                                    message: '注册失败！手机号已存在。',
+                                    message: userinfo.info,
                                     alertType: 'error',
                                     animationType: 'SlideFromRight',
                                     avatar: (<Icon name="info" size={20} color="#fff" />)
@@ -174,9 +175,6 @@ export class Register extends Component{
             });
         }
 
-    }
-    toLogin(){
-        this.props.navigation.goBack();
     }
 
     render(){

@@ -4,6 +4,7 @@ import {
     Text,
     View,
     Image,
+    ImageBackground,
     Dimensions,
     TouchableOpacity,
     TouchableWithoutFeedback,
@@ -13,7 +14,6 @@ import {
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import ParallaxView from 'react-native-parallax-view';
 
 import * as userActions from '../../redux/actions/user';
 
@@ -77,67 +77,63 @@ class User extends Component{
     render(){
 
         return(
-            <View style={{flex:1, backgroundColor: '#fff'}}>
-                <ParallaxView
-                    backgroundSource={require("../../images/bg-user.jpg")}
-                    windowHeight={150}
+            <ScrollView style={styles.container}>
+
+                {/*设置用户中心头部显示头像、用户名、设置及登录跳转....*/}
+                <ImageBackground
+                    source={require("../../images/bg-user.jpg")}
+                    style={styles.bgUser}
                 >
-                    <ScrollView style={styles.container}>
+                    {/*设置按钮*/}
+                    <View style={styles.settingsBox}>
+                        <Icon name="settings" size={16} style={styles.settingsIcon} />
+                        <Text  onPress={this.toSetting}  style={ styles.settingsText }>设置</Text>
+                    </View>
 
-                        {/*设置用户中心头部显示头像、用户名、设置及登录跳转....*/}
-                        <View>
-                            {/*设置按钮*/}
-                            <View style={styles.settingsBox}>
-                                <Icon name="settings" size={16} style={styles.settingsIcon} />
-                                <Text  onPress={this.toSetting}  style={ styles.settingsText }>设置</Text>
-                            </View>
+                    {/*用户名*/}
+                    <Text style={styles.username}>{currentUser.loginState?currentUser.userinfo.username:''}</Text>
 
-                            {/*用户名*/}
-                            <Text style={styles.username}>{currentUser.loginState?currentUser.userinfo.username:''}</Text>
+                    {/*用户头像*/}
+                    <TouchableWithoutFeedback onPress={this.toLogin.bind(this)} style={styles.headerImgBox}>
+                        <Image
+                            source={currentUser.loginState?{uri: currentUser.userinfo.avatar}:require("../../images/header-img-login.png")}
+                            style={styles.headerImg}
+                        />
+                    </TouchableWithoutFeedback>
+                </ImageBackground>
 
-                            {/*用户头像*/}
-                            <TouchableWithoutFeedback onPress={this.toLogin.bind(this)} style={styles.headerImgBox}>
-                                <Image
-                                    source={currentUser.loginState?{uri: currentUser.userinfo.avatar}:require("../../images/header-img-login.png")}
-                                    style={styles.headerImg}
-                                />
-                            </TouchableWithoutFeedback>
+
+                {/*中间图标功能区域*/}
+
+                <View style={styles.userNav}>
+                    <TouchableOpacity onPress={this.toUserReplease} >
+                        <View style={styles.navItem}>
+                            <Icon name="description" size={40} color="#00aea1" />
+                            <Text style={styles.navItemText}>我的发布</Text>
                         </View>
-
-
-                        {/*中间图标功能区域*/}
-
-                        <View style={styles.userNav}>
-                            <TouchableOpacity onPress={this.toUserReplease} >
-                                <View style={styles.navItem}>
-                                    <Icon name="description" size={40} color="#00aea1" />
-                                    <Text style={styles.navItemText}>我的发布</Text>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={this.toUserCollection} >
-                                <View style={styles.navItem}>
-                                    <Icon name="collections" size={40} color="#fe4a6c" />
-                                    <Text style={styles.navItemText} >我的收藏</Text>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={this.toSetting} >
-                                <View style={styles.navItem}>
-                                    <Icon name="card-travel" size={40} color="#ffb300" />
-                                    <Text style={styles.navItemText}>我的招聘</Text>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={this.toExtension}>
-                                <View style={styles.navItem}>
-                                    <Icon name="palette" size={40} color="#fa0064" />
-                                    <Text style={styles.navItemText}>推广服务</Text>
-                                </View>
-                            </TouchableOpacity>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={this.toUserCollection} >
+                        <View style={styles.navItem}>
+                            <Icon name="collections" size={40} color="#fe4a6c" />
+                            <Text style={styles.navItemText} >我的收藏</Text>
                         </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={this.toSetting} >
+                        <View style={styles.navItem}>
+                            <Icon name="card-travel" size={40} color="#ffb300" />
+                            <Text style={styles.navItemText}>我的招聘</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={this.toExtension}>
+                        <View style={styles.navItem}>
+                            <Icon name="palette" size={40} color="#fa0064" />
+                            <Text style={styles.navItemText}>推广服务</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
 
 
-                    </ScrollView>
-                </ParallaxView>
-            </View>
+            </ScrollView>
         )
     }
 
@@ -164,8 +160,12 @@ export default connect(
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        position: 'absolute',
-        top: -130,
+        backgroundColor: '#fff',
+    },
+    bgUser: {
+        width: width,
+        height: 130,
+        position: 'relative',
     },
     settingsBox: {
         backgroundColor: 'transparent',
@@ -190,6 +190,9 @@ const styles = StyleSheet.create({
         left: (width-300)/2,
         top: 50
     },
+    headerImgBox: {
+
+    },
     headerImg: {
         width: 80,
         height: 80,
@@ -203,7 +206,7 @@ const styles = StyleSheet.create({
     userNav: {
         flexDirection: "row",
         justifyContent: "space-around",
-        marginTop: 50,
+        marginTop: 100,
     },
     navItem: {
         justifyContent: "center",
