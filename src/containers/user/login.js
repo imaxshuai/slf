@@ -29,7 +29,7 @@ class Login extends Component{
     constructor(...props){
         super(...props);
         this.state={
-            username: '',
+            tel: '',
             password: '',
         }
     }
@@ -46,18 +46,54 @@ class Login extends Component{
         this.props.navigation.goBack();
     }
 
+    //警告提示
+    messageWarning = (info)=>{
+        MessageBarManager.showAlert({
+            message: info,
+            alertType: 'warning',
+            animationType: 'SlideFromRight',
+            avatar: (<Icon name="info" size={20} color="#fff" />)
+        });
+    }
+    //进行用户数据注册
     doLogin(){
-        console.log(this.state);
-        if((this.state.username=='admin')&&(this.state.password=='123123')){
-            this.props.userActions.login();
-            this.goBack();
+        let userinfo = {
+            tel: this.state.tel,
+            password: this.state.password,
+        };
+        console.log(userinfo);
+        let telPattern = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[0,5-9])|(18[0,5-9]))\d{8}$/;
+        let passwordPattern = /^[a-zA-Z0-9,.?~!@#$%^&*]{6,16}$/;
+
+        if(telPattern.test(userinfo.tel)){
+            if(passwordPattern.test(userinfo.password)&&typeof(userinfo.password)!='undefined'){
+                Http.post('http://localhost:3000/api/users/login', userinfo)
+                    .then((res)=>{
+                    console.log(res);
+                        if(res.success){
+                            this.messageWarning(res.info);
+                            storage.save({
+                                key: 'currentUser',
+                                data: {
+                                    userinfo: res.userinfo,
+                                },
+                                expires: null,
+                            });
+                            currentUser.userinfo = res.userinfo;
+                            currentUser.loginState = true;
+                            this.props.navigation.goBack()
+                        }else{
+                            this.messageWarning(res.info);
+                        }
+                    })
+                    .catch((error)=>{
+                        throw error;
+                    })
+            }else{
+                this.messageWarning('密码未填写或格式错误')
+            }
         }else{
-            MessageBarManager.showAlert({
-                message: '用户名或密码填写错误',
-                alertType: 'error',
-                animationType: 'SlideFromRight',
-                avatar: (<Icon name="info" color="#fff" size={20} />)
-            })
+            this.messageWarning('手机号未填写或格式错误');
         }
 
     }
@@ -78,10 +114,10 @@ class Login extends Component{
                 <View style={styles.loginForm}>
                     <TouchableOpacity>
                         <TextInput
-                            placeholder="用户名"
+                            placeholder="手机号"
                             autoCapitalize="none"
                             style={styles.loginInput}
-                            onChangeText={(text)=>this.setState({username: text})}
+                            onChangeText={(text)=>this.setState({tel: text})}
                         />
                     </TouchableOpacity>
                     <TouchableOpacity>

@@ -60,12 +60,7 @@ Http.get = (url, params, headers) => {
 Http.post = (url, params, headers) => {
     if (params) {
         // 初始化FormData
-        var formData = new FormData();
-
-        // 获取 params 内所有的 key
-        let paramsKeyArray = Object.keys(params);
-        // 通过 forEach 方法拿到数组中每个元素,将元素与参数的值进行拼接处理,并且放入 paramsArray 中
-        paramsKeyArray.forEach(key => formData.append(key, params[key]));
+        var formData = JSON.stringify(params);
     }
 
     return new Promise(function (resolve, reject) {

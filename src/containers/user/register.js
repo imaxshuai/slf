@@ -2,12 +2,14 @@ import React,{ Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Platform,StyleSheet,Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as userActions from '../../redux/actions/user'
 
 let { width, height } = Dimensions.get("window");
 let timer;
 
-
-export class Register extends Component{
+class Register extends Component{
 
     static navigationOptions =({navigation})=>({
         headerTitle: '',
@@ -31,6 +33,7 @@ export class Register extends Component{
         this.state = {
             canGetCheckCode: true,
             checkCodeTime: 0,
+            canAlert: false,
         }
     }
     componentDidMount(){
@@ -60,14 +63,7 @@ export class Register extends Component{
         clearInterval(timer);
     }
 
-    changeUserInfo(){
-        console.log(this.props)
-    }
-
-    goBack(){
-        this.props.navigation.goBack();
-    }
-
+    //获取短信验证码
     getCheckCode =()=>{
         let pattern = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[0,5-9])|(18[0,5-9]))\d{8}$/;
         console.log(pattern.test(this.state.tel));
@@ -88,6 +84,7 @@ export class Register extends Component{
         }
     };
 
+    //倒计时
     downCountTime = ()=>{
 
         timer = setInterval(()=>{
@@ -97,7 +94,6 @@ export class Register extends Component{
                     checkCodeTime: this.state.checkCodeTime--,
                 });
             }else{
-                console.log('倒计时结束');
                 this.setState({
                     canGetCheckCode: true,
                 });
@@ -107,6 +103,17 @@ export class Register extends Component{
 
     };
 
+    //警告提示
+    messageWarning = (info)=>{
+        MessageBarManager.showAlert({
+            message: info,
+            alertType: 'warning',
+            animationType: 'SlideFromRight',
+            avatar: (<Icon name="info" size={20} color="#fff" />)
+        });
+    }
+
+    //进行用户数据注册
     doRegister(){
         let userinfo = {
             tel: this.state.tel,
@@ -121,61 +128,39 @@ export class Register extends Component{
         if(telPattern.test(userinfo.tel)){
             if(passwordPattern.test(userinfo.password)&&typeof(userinfo.password)!='undefined'){
                 if(checkCodePattern.test(userinfo.checkCode)){
-                    fetch('http://localhost:3000/api/users/register', {
-                        method: 'POST',
-                        body: JSON.stringify(userinfo)
-                    })
-                        .then(res=>res.json())
-                        .then((userinfo)=>{
-                        console.log(userinfo);
-                            if(userinfo.success){
-                                MessageBarManager.showAlert({
-                                    message: userinfo.info,
-                                    alertType: 'info',
-                                    animationType: 'SlideFromRight',
-                                    avatar: (<Icon name="info" size={20} color="#fff" />)
+                    Http.post('http://localhost:3000/api/users/register', userinfo)
+                        .then((res)=>{
+                            if(res.success){
+                                this.messageWarning(res.info);
+                                storage.save({
+                                    key: 'currentUser',
+                                    data: {
+                                        userinfo: res.userinfo,
+                                    },
+                                    expires: null,
                                 });
-                                setTimeout(()=>{
-                                    this.props.navigation.goBack();
-                                },1500)
+                                currentUser.userinfo = res.userinfo;
+                                currentUser.loginState = true;
+                                this.props.navigation.goBack(this.props.nav.routes[1].key)
                             }else{
-                                MessageBarManager.showAlert({
-                                    message: userinfo.info,
-                                    alertType: 'error',
-                                    animationType: 'SlideFromRight',
-                                    avatar: (<Icon name="info" size={20} color="#fff" />)
-                                });
+                                this.messageWarning(res.info);
                             }
                         })
                         .catch((error)=>{
-                            console.log(error);
+                            throw error;
                         })
                 }else{
-                    MessageBarManager.showAlert({
-                        message: '动态码未填写或格式错误！',
-                        alertType: 'warning',
-                        animationType: 'SlideFromRight',
-                        avatar: (<Icon name="info" size={20} color="#fff" />)
-                    });
+                    this.messageWarning('动态码未填写或格式错误')
                 }
             }else{
-                MessageBarManager.showAlert({
-                    message: '密码未填写或格式错误！',
-                    alertType: 'warning',
-                    animationType: 'SlideFromRight',
-                    avatar: (<Icon name="info" size={20} color="#fff" />)
-                });
+                this.messageWarning('密码未填写或格式错误')
             }
         }else{
-            MessageBarManager.showAlert({
-                message: '手机号未填写或格式错误！',
-                alertType: 'warning',
-                animationType: 'SlideFromRight',
-                avatar: (<Icon name="info" size={20} color="#fff" />)
-            });
+            this.messageWarning('手机号未填写或格式错误');
         }
 
     }
+
 
     render(){
 
@@ -214,7 +199,7 @@ export class Register extends Component{
                             onChangeText={(text)=>this.setState({password: text})}
                         />
                     </View>
-                    <TouchableOpacity onPress={this.changeUserInfo.bind(this)}>
+                    <TouchableOpacity>
                         <Text style={styles.loginBtn} onPress={this.doRegister.bind(this)}>注册</Text>
                     </TouchableOpacity>
                     <Text style={styles.agreement}>注册即代表同意《搜来福使用协议》</Text>
@@ -225,6 +210,25 @@ export class Register extends Component{
     }
 
 }
+
+
+const mapStateToProps = (state)=>{
+    return {
+        user: state.user,
+        nav: state.nav,
+    }
+}
+
+const mapDispatchToProps = (dispatch)=>{
+    return {
+        userActions: bindActionCreators(userActions, dispatch)
+    }
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Register)
 
 const styles = StyleSheet.create({
     container: {

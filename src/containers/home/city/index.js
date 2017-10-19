@@ -27,6 +27,15 @@ export class Provnces extends Component{
         </TouchableWithoutFeedback>)
     });
 
+    chooseCity = (city)=>{
+        storage.save({
+            key: 'City',
+            data: city
+        });
+        City = city;
+        this.props.navigation.goBack()
+    }
+
     render(){
         return (
             <ScrollView style={styles.cityBox}>
@@ -34,34 +43,34 @@ export class Provnces extends Component{
                     <Text style={styles.classifyTitle}>热门城市</Text>
                     <View style={styles.cityArea}>
                         <Text style={styles.cityText}
-                              onPress={()=>{currentUser.city='北京';this.props.navigation.goBack()}}
+                              onPress={this.chooseCity.bind(this, '北京')}
                         >北京</Text>
                         <Text style={styles.cityText}
-                              onPress={()=>{currentUser.city='上海';this.props.navigation.goBack()}}
+                              onPress={this.chooseCity.bind(this, '上海')}
                         >上海</Text>
                         <Text style={styles.cityText}
-                              onPress={()=>{currentUser.city='广州';this.props.navigation.goBack()}}
+                              onPress={this.chooseCity.bind(this, '广州')}
                         >广州</Text>
                         <Text style={styles.cityText}
-                              onPress={()=>{currentUser.city='深圳';this.props.navigation.goBack()}}
+                              onPress={this.chooseCity.bind(this, '深圳')}
                         >深圳</Text>
                         <Text style={styles.cityText}
-                              onPress={()=>{currentUser.city='成都';this.props.navigation.goBack()}}
+                              onPress={this.chooseCity.bind(this, '城都')}
                         >成都</Text>
                         <Text style={styles.cityText}
-                              onPress={()=>{currentUser.city='杭州';this.props.navigation.goBack()}}
+                              onPress={this.chooseCity.bind(this, '杭州')}
                         >杭州</Text>
                         <Text style={styles.cityText}
-                              onPress={()=>{currentUser.city='南京';this.props.navigation.goBack()}}
+                              onPress={this.chooseCity.bind(this, '南京')}
                         >南京</Text>
                         <Text style={styles.cityText}
-                              onPress={()=>{currentUser.city='天津';this.props.navigation.goBack()}}
+                              onPress={this.chooseCity.bind(this, '天津')}
                         >天津</Text>
                         <Text style={styles.cityText}
-                              onPress={()=>{currentUser.city='武汉';this.props.navigation.goBack()}}
+                              onPress={this.chooseCity.bind(this, '武汉')}
                         >武汉</Text>
                         <Text style={styles.cityText}
-                              onPress={()=>{currentUser.city='重庆';this.props.navigation.goBack()}}
+                              onPress={this.chooseCity.bind(this, '重庆')}
                         >重庆</Text>
                     </View>
                 </View>

@@ -9,7 +9,8 @@ export const user = (state=initialState, action) => {
         case actionTypes.USER_LOGIN:
             return action.data;
         case actionTypes.GET_USER_INFO:
-            console.log(action.data);
+            return action.data;
+        case actionTypes.USER_REGISTER:
             return action.data;
         default:
             return state

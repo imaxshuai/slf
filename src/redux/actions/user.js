@@ -16,7 +16,7 @@ export const login = ()=>{
                             userinfo: res.userinfo,
                             city: '徐州'
                         },
-                        expires: 1000*60*24,
+                        expires: 1000*60*24*30,
                     });
                     currentUser.loginState = true;
                     currentUser.userinfo = res.userinfo;
@@ -32,7 +32,6 @@ export const login = ()=>{
             });
     }
 };
-
 
 export const getUserInfo = ()=>{
     return {

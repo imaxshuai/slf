@@ -8,7 +8,7 @@ import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/Car
 
 import { TabRouter, RepleaseTab } from './tabNavgator';
 import Login from '../containers/user/login';
-import { Register } from '../containers/user/register';
+import Register from '../containers/user/register';
 import { ClassifyList } from '../containers/replease/classifyList';
 import { SwiperList } from '../containers/home/swiper';
 import { Search } from '../containers/search/search';

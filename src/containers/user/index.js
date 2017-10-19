@@ -33,7 +33,7 @@ class User extends Component{
 
     componentDidMount(){
         console.log(currentUser);
-        console.log(Http)
+        console.log()
     }
 
     //跳转设置页面
@@ -76,6 +76,7 @@ class User extends Component{
 
     render(){
 
+        console.log(currentUser);
         return(
             <ScrollView style={styles.container}>
 
@@ -96,7 +97,7 @@ class User extends Component{
                     {/*用户头像*/}
                     <TouchableWithoutFeedback onPress={this.toLogin.bind(this)} style={styles.headerImgBox}>
                         <Image
-                            source={currentUser.loginState?{uri: currentUser.userinfo.avatar}:require("../../images/header-img-login.png")}
+                            source={currentUser.loginState?{uri: 'http://localhost:3000/images/'+currentUser.userinfo.avatar}:require("../../images/header-img-login.png")}
                             style={styles.headerImg}
                         />
                     </TouchableWithoutFeedback>
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         position: 'absolute',
         left: (width-300)/2,
-        top: 50
+        top: 60
     },
     headerImgBox: {
 

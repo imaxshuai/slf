@@ -26,8 +26,12 @@ class CityList extends Component{
     });
 
     changeCity = (city)=>{
-        currentUser.city = city;
-        this.props.navigation.goBack(this.props.navigation.navigate('Home'));
+        storage.save({
+            key: 'City',
+            data: city
+        });
+        City = city;
+        this.props.navigation.navigate('Home');
     }
 
     render(){

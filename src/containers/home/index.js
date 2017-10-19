@@ -290,7 +290,7 @@ class Home extends PureComponent{
                 <View style={styles.homeHeader}>
                     <TouchableWithoutFeedback onPress={()=> this.props.navigation.navigate('Provnces')}>
                         <View style={styles.city}>
-                            <Text style={styles.headerText}>{currentUser.city}</Text>
+                            <Text style={styles.headerText}>{City}</Text>
                             <Icon name="arrow-drop-down" size={22} color="#f8f8f8" />
                         </View>
                     </TouchableWithoutFeedback>
