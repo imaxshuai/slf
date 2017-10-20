@@ -25,7 +25,12 @@ import { JobDetail } from '../containers/home/classify/job/detail';
 
 import UserCollection from '../containers/user/collection';
 import UserSetting from '../containers/user/setting';
-import { RrepleaseHouse } from '../containers/replease/house';
+import { RrepleaseHouse } from '../containers/replease/house/house';
+import { Replease1to1 } from '../containers/replease/house/xflp';
+import { Replease1to2 } from '../containers/replease/house/esf';
+
+
+
 
 export const AppNavigator = StackNavigator({
     Main: { screen: TabRouter, },
@@ -58,6 +63,8 @@ export const AppNavigator = StackNavigator({
     UserCollection: {screen: UserCollection,},
     UserSetting: {screen: UserSetting,},
     RrepleaseHouse: {screen: RrepleaseHouse},
+    Replease1to1: {screen: Replease1to1},
+    Replease1to2: {screen: Replease1to2},
 },{
     headerMode: 'screen',
     transitionConfig:()=>({

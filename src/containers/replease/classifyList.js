@@ -14,7 +14,16 @@ import { NavbarTitleComponent } from '../../components/NavbarTitle';
 export class ClassifyList extends Component{
 
     static navigationOptions = ({navigation}) => ({
-        header: null
+        headerTitle: navigation.state.params.title,
+        headerLeft: (
+            <TouchableOpacity onPress={()=>navigation.goBack()}>
+                <Icon name="navigate-before" size={25} color="#333" />
+            </TouchableOpacity>
+        ),
+        headerTitleStyle: {
+            fontSize: 16,
+            color: '#333'
+        }
     });
     componentDidMount(){
     }
@@ -23,23 +32,14 @@ export class ClassifyList extends Component{
         this.props.navigation.goBack()
     }
     //挑战发布表格页面
-    goRepleaseForm = (title)=>{
-       this.props.navigation.navigate('RrepleaseHouse', title)
+    goRepleaseForm = (message)=>{
+        message.titleId = this.props.navigation.state.params.id;
+        console.log(message);
+        let conponentName = 'Replease'+message.titleId+'to'+message.id;
+        console.log(conponentName);
+       this.props.navigation.navigate(conponentName, message.key)
     };
 
-    //渲染头部navbar
-    renderLeftItem(){
-        return (
-            <TouchableOpacity onPress={this._goBack.bind(this)}>
-                <Icon name="navigate-before" size={25} />
-            </TouchableOpacity>
-        )
-    }
-    renderTitletem(){
-        return (
-            <Text style={{fontWeight: 'bold'}}>{this.props.navigation.state.params.title}</Text>
-        )
-    }
 
     render(){
         let classify = this.props.navigation.state.params;
@@ -47,13 +47,8 @@ export class ClassifyList extends Component{
         return (
             <View style={styles.container}>
 
-                <NavbarTitleComponent
-                    leftItem={this.renderLeftItem.bind(this)}
-                    titleItem={this.renderTitletem.bind(this)}
-                />
-
                 <FlatList
-                    data={classify.list.label}
+                    data={classify.label}
 
                     renderItem={
                         ({item}) => {
@@ -61,7 +56,7 @@ export class ClassifyList extends Component{
                                 <TouchableOpacity >
                                     <Text
                                         style={styles.item} key={item.id}
-                                        onPress={this.goRepleaseForm.bind(this, item.key)}
+                                        onPress={this.goRepleaseForm.bind(this, item)}
                                     >
                                         {item.key}
                                     </Text>

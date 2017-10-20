@@ -69,80 +69,80 @@ class User extends Component{
 
                 {/*中心内容选择分类区域*/}
                 <View style={styles.navClass}>
-                    <TouchableOpacity onPress={this.toClassifyList.bind(this,{list: classify.fc, title: '房屋出租'})}>
+                    <TouchableOpacity onPress={this.toClassifyList.bind(this,classify.fc)}>
                         <View style={styles.navItem}>
                             <Icon name="location-city" size={40} color="#39a0f4" />
                             <Text style={styles.navItemText}>房屋出租</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={this.toClassifyList.bind(this,{list: classify.zp, title: '人才招聘'})}>
+                    <TouchableOpacity onPress={this.toClassifyList.bind(this,classify.zp)}>
                         <View style={styles.navItem}>
                             <Icon name="card-travel" size={40} color="#fe4a6c" />
                             <Text style={styles.navItemText} >人才招聘</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.sy, title: '商业服务'})}>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,classify.sy)}>
                         <View style={styles.navItem}>
                             <Icon name="business-center" size={40} color="#42ba7b" />
                             <Text style={styles.navItemText} >商业服务</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.es, title: '同城二手'})}>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,classify.es)}>
                         <View style={styles.navItem}>
                             <Icon name="shop" size={40} color="#f6552c" />
                             <Text style={styles.navItemText}>同城二手</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.esc, title: '二手车'})}>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,classify.esc)}>
                         <View style={styles.navItem}>
                             <Icon name="directions-car" size={40} color="#0bbaac" />
                             <Text style={styles.navItemText}>二手车</Text>
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.sh, title: '生活服务'})}>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,classify.sh)}>
                         <View style={styles.navItem}>
                             <Icon name="card-giftcard" size={40} color="#ffb300" />
                             <Text style={styles.navItemText}>生活服务</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.jy, title: '教育培训'})}>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,classify.jy)}>
                         <View style={styles.navItem}>
                             <Icon name="school" size={40} color="#42ba7b" />
                             <Text style={styles.navItemText}>教育培训</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.pet, title: '宠物'})}>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,classify.pet)}>
                         <View style={styles.navItem}>
                             <Icon name="pets" size={40} color="#39a0f4" />
                             <Text style={styles.navItemText}>宠物</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.qcfw, title: '汽车服务'})}>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,classify.qcfw)}>
                         <View style={styles.navItem}>
                             <Icon name="local-car-wash" size={40} color="#fa0064" />
                             <Text style={styles.navItemText}>汽车服务</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.sh, title: '旧物回收'})}>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,classify.jwhs)}>
                         <View style={styles.navItem}>
                             <Icon name="loop" size={40} color="#ffb300" />
                             <Text style={styles.navItemText}>旧物回收</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.jy, title: '交友'})}>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,classify.jy)}>
                         <View style={styles.navItem}>
                             <Icon name="wc" size={40} color="#42ba7b" />
                             <Text style={styles.navItemText}>交友</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.pet, title: ''})}>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,classify.fc)}>
                         <View style={styles.navItem}>
                             <Icon name="picture-in-picture" size={40} color="#39a0f4" />
                             <Text style={styles.navItemText}>票卡</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: classify.qcfw, title: ''})}>
+                    <TouchableOpacity  onPress={this.toClassifyList.bind(this,classify.fc)}>
                         <View style={styles.navItem}>
                             <Icon name="stars" size={40} color="#f6552c" />
                             <Text style={styles.navItemText}>连锁加盟</Text>
@@ -199,9 +199,10 @@ const styles = StyleSheet.create({
 
 const classify = {
     "fc": {
+        "id": 1,
         "title": "房产租售",
         "label": [
-            { "id":"1", "key": "新房楼盘" },    { "id":"", "key": "二手房" },    { "id":"3", "key": "房屋出租" },
+            { "id":"1", "key": "新房楼盘" },    { "id":"2", "key": "二手房" },    { "id":"3", "key": "房屋出租" },
             { "id":"4", "key": "求租房屋" },    { "id":"5", "key": "短租日租" },    { "id":"6", "key": "商铺出租" },
             { "id":"7", "key": "商铺出售" },    { "id":"8", "key": "商铺转让" },    { "id":"9", "key": "写字楼出售" },
             { "id":"10", "key": "厂房" },    { "id":"11", "key": "仓库" },    { "id":"12", "key": "土地" },
@@ -209,6 +210,7 @@ const classify = {
         ]
     },
     "zp": {
+        "id": 2,
         "title": "人才招聘",
         "label": [
             { "id":"1", "key": "销售/采购/贸易" },    { "id":"2", "key": "家政/保安/物业" },    { "id":"3", "key": "技工/普工/司机" },
@@ -224,6 +226,7 @@ const classify = {
         ]
     },
     "sy": {
+        "id": 3,
         "title": "商业服务",
         "label": [
             { "id":"1", "key": "公司注册" },    { "id":"2", "key": "商业金融" },    { "id":"3", "key": "会计财务" },
@@ -237,6 +240,7 @@ const classify = {
         ]
     },
     "es": {
+        "id": 4,
         "title": "同城二手",
         "label": [
             { "id":"1", "key": "手机" },    { "id":"2", "key": "手机配件" },    { "id":"3", "key": "笔记本电脑" },
@@ -249,6 +253,7 @@ const classify = {
             { "id":"22", "key": "办公用品" },    { "id":"23", "key": "农林牧副渔" },    { "id":"24", "key": "二手求购" }
         ]
     },"esc": {
+        "id": 5,
         "title": "二手车",
         "label": [
             { "id":"1", "key": "二手车" },    { "id":"2", "key": "二手皮卡" },    { "id":"3", "key": "二手电动车" },
@@ -256,6 +261,7 @@ const classify = {
             { "id":"7", "key": "二手工程车" },    { "id":"8", "key": "二手工业设备" }
         ]
     },"sh": {
+        "id": 6,
         "title": "生活服务",
         "label": [
             { "id":"1", "key": "家政服务" },    { "id":"2", "key": "维修服务" },    { "id":"3", "key": "美食餐饮" },
@@ -268,6 +274,7 @@ const classify = {
             { "id":"22", "key": "白事服务" }
         ]
     },"jy": {
+        "id": 7,
         "title": "教育培训",
         "label": [
             { "id":"1", "key": "职业技能" },    { "id":"2", "key": "学历教育" },    { "id":"3", "key": "家教" },
@@ -276,12 +283,14 @@ const classify = {
             { "id":"10", "key": "户外拓展" },    { "id":"11", "key": "其他" }
         ]
     },"pet": {
+        "id": 8,
         "title": "宠物",
         "label": [
             { "id":"1", "key": "猫" },    { "id":"2", "key": "狗" },    { "id":"3", "key": "花/鸟/鱼" },
             { "id":"4", "key": "其他宠物" },    { "id":"5", "key": "宠物用品/服务" },    { "id":"6", "key": "宠物赠送" }
         ]
     },"qcfw": {
+        "id": 9,
         "title": "汽车服务",
         "label": [
             { "id":"1", "key": "汽车美容" },    { "id":"2", "key": "汽车维修" },    { "id":"3", "key": "汽车改装" },

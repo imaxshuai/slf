@@ -11,11 +11,11 @@ import { Text,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
-import { NavbarTitleComponent } from '../../components/NavbarTitle';
+import { NavbarTitleComponent } from '../../../components/NavbarTitle';
 
 let {width} = Dimensions.get('window');
 
-export class RrepleaseHouse extends Component {
+export class Replease1to1 extends Component {
 
     static navigationOptions = ({navigation}) => ({
         header: null
@@ -37,7 +37,7 @@ export class RrepleaseHouse extends Component {
 
     render () {
 
-        console.log(this.props)
+        console.log(this.props);
         return (
             <View style={{ flex: 1}}>
 
@@ -50,7 +50,7 @@ export class RrepleaseHouse extends Component {
                     {/*图片删除*/}
                     <TouchableOpacity onPress={()=> alert('挑战拍照或相册界面')}>
                         <View style={styles.imgUploadBox}>
-                            <Image source={require('../../images/imgUpload.png')} style={styles.imgUploadImg} />
+                            <Image source={require('../../../images/imgUpload.png')} style={styles.imgUploadImg} />
                             <Text style={styles.imgUploadText}>选择要上传的照片</Text>
                         </View>
                     </TouchableOpacity>

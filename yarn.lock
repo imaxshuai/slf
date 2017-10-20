@@ -104,6 +104,12 @@ aproba@^1.0.3:
   version "1.1.2"
   resolved "http://registry.npm.taobao.org/aproba/download/aproba-1.1.2.tgz#45c6629094de4e96f693ef7eab74ae079c240fc1"
 
+apsl-react-native-button@~3.0.0:
+  version "3.0.2"
+  resolved "http://registry.npm.taobao.org/apsl-react-native-button/download/apsl-react-native-button-3.0.2.tgz#705d5658b59b615cf0c3d62f0c40b80d1d2c9f81"
+  dependencies:
+    lodash.isequal "^4.1.4"
+
 are-we-there-yet@~1.1.2:
   version "1.1.4"
   resolved "http://registry.npm.taobao.org/are-we-there-yet/download/are-we-there-yet-1.1.4.tgz#bb5dca382bb94f05e15194373d16fd3ba1ca110d"
@@ -2735,6 +2741,10 @@ lodash._root@^3.0.0:
   version "3.0.1"
   resolved "http://registry.npm.taobao.org/lodash._root/download/lodash._root-3.0.1.tgz#fba1c4524c19ee9a5f8136b4609f017cf4ded692"
 
+lodash.debounce@^4.0.8:
+  version "4.0.8"
+  resolved "http://registry.npm.taobao.org/lodash.debounce/download/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+
 lodash.escape@^3.0.0:
   version "3.2.0"
   resolved "http://registry.npm.taobao.org/lodash.escape/download/lodash.escape-3.2.0.tgz#995ee0dc18c1b48cc92effae71a10aab5b487698"
@@ -2748,6 +2758,10 @@ lodash.isarguments@^3.0.0:
 lodash.isarray@^3.0.0:
   version "3.0.4"
   resolved "http://registry.npm.taobao.org/lodash.isarray/download/lodash.isarray-3.0.4.tgz#79e4eb88c36a8122af86f844aa9bcd851b5fbb55"
+
+lodash.isequal@^4.1.4:
+  version "4.5.0"
+  resolved "http://registry.npm.taobao.org/lodash.isequal/download/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
 
 lodash.isplainobject@^3.2.0:
   version "3.2.0"
@@ -3002,6 +3016,10 @@ mockjs@^1.0.1-beta3:
   resolved "http://registry.npm.taobao.org/mockjs/download/mockjs-1.0.1-beta3.tgz#d234f3c27256397564f2c955142e891909537209"
   dependencies:
     commander "*"
+
+moment@~2.18.1:
+  version "2.18.1"
+  resolved "http://registry.npm.taobao.org/moment/download/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
 morgan@~1.6.1:
   version "1.6.1"
@@ -3457,6 +3475,10 @@ qs@4.0.0:
   version "4.0.0"
   resolved "http://registry.npm.taobao.org/qs/download/qs-4.0.0.tgz#c31d9b74ec27df75e543a86c78728ed8d4623607"
 
+qs@^5.2.0:
+  version "5.2.1"
+  resolved "http://registry.npm.taobao.org/qs/download/qs-5.2.1.tgz#801fee030e0b9450d6385adc48a4cc55b44aedfc"
+
 qs@~6.4.0:
   version "6.4.0"
   resolved "http://registry.npm.taobao.org/qs/download/qs-6.4.0.tgz#13e26d28ad6b0ffaa91312cd3bf708ed351e7233"
@@ -3514,6 +3536,10 @@ react-native-animatable@^1.2.3:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-button@~1.8.2:
+  version "1.8.2"
+  resolved "http://registry.npm.taobao.org/react-native-button/download/react-native-button-1.8.2.tgz#49e5cadd22ee443adea52a85539d288aa2117ade"
+
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/react-native-dismiss-keyboard/download/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"
@@ -3535,6 +3561,29 @@ react-native-easy-grid@^0.1.15:
   resolved "http://registry.npm.taobao.org/react-native-easy-grid/download/react-native-easy-grid-0.1.15.tgz#02939ae032d74662b50c9540d902c79866ba638a"
   dependencies:
     lodash "^4.11.1"
+
+react-native-gifted-form@^0.1.0:
+  version "0.1.0"
+  resolved "http://registry.npm.taobao.org/react-native-gifted-form/download/react-native-gifted-form-0.1.0.tgz#b31476699a69108484310d73a8bcc01a8270110c"
+  dependencies:
+    apsl-react-native-button "~3.0.0"
+    moment "~2.18.1"
+    react-native-button "~1.8.2"
+    react-native-gifted-spinner "~0.1.0"
+    react-native-google-places-autocomplete "~1.2.0"
+    react-timer-mixin "~0.13.3"
+    validator "~7.1.0"
+
+react-native-gifted-spinner@~0.1.0:
+  version "0.1.0"
+  resolved "http://registry.npm.taobao.org/react-native-gifted-spinner/download/react-native-gifted-spinner-0.1.0.tgz#2c76094fa0469c59e96dead270cd5bca5a55962a"
+
+react-native-google-places-autocomplete@~1.2.0:
+  version "1.2.12"
+  resolved "http://registry.npm.taobao.org/react-native-google-places-autocomplete/download/react-native-google-places-autocomplete-1.2.12.tgz#714c731be35bfca190239d98cbc7e0d518b38d98"
+  dependencies:
+    lodash.debounce "^4.0.8"
+    qs "^5.2.0"
 
 react-native-message-bar@^2.0.4:
   version "2.0.4"
@@ -3706,7 +3755,7 @@ react-test-renderer@16.0.0-alpha.12:
     fbjs "^0.8.9"
     object-assign "^4.1.0"
 
-react-timer-mixin@^0.13.2:
+react-timer-mixin@^0.13.2, react-timer-mixin@~0.13.3:
   version "0.13.3"
   resolved "http://registry.npm.taobao.org/react-timer-mixin/download/react-timer-mixin-0.13.3.tgz#0da8b9f807ec07dc3e854d082c737c65605b3d22"
 
@@ -4358,6 +4407,22 @@ tar@^2.2.1:
     fstream "^1.0.2"
     inherits "2"
 
+tcomb-form-native@^0.6.11:
+  version "0.6.11"
+  resolved "http://registry.npm.taobao.org/tcomb-form-native/download/tcomb-form-native-0.6.11.tgz#1fda9d8fc4ed9e954e60f08d4d976ec85e04697e"
+  dependencies:
+    tcomb-validation "^3.0.0"
+
+tcomb-validation@^3.0.0:
+  version "3.4.1"
+  resolved "http://registry.npm.taobao.org/tcomb-validation/download/tcomb-validation-3.4.1.tgz#a7696ec176ce56a081d9e019f8b732a5a8894b65"
+  dependencies:
+    tcomb "^3.0.0"
+
+tcomb@^3.0.0:
+  version "3.2.24"
+  resolved "http://registry.npm.taobao.org/tcomb/download/tcomb-3.2.24.tgz#7f427053cc393b5997c4c3d859ca20411180887b"
+
 temp@0.8.3:
   version "0.8.3"
   resolved "http://registry.npm.taobao.org/temp/download/temp-0.8.3.tgz#e0c6bc4d26b903124410e4fed81103014dfc1f59"
@@ -4533,6 +4598,10 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "~1.0.0"
     spdx-expression-parse "~1.0.0"
+
+validator@~7.1.0:
+  version "7.1.0"
+  resolved "http://registry.npm.taobao.org/validator/download/validator-7.1.0.tgz#331695afc7e6d72f980bddd68aa296d6b3d6c8b6"
 
 vary@~1.0.1:
   version "1.0.1"

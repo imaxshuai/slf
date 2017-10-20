@@ -65,14 +65,20 @@ const styles = StyleSheet.create({
 });*/
 
 import React, { Component } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Text, TouchableOpacity, View, Animated, StyleSheet, Picker, PickerIOS } from 'react-native'
 import Modal from 'react-native-modal';
 import {MessageBar, MessageBarManager} from 'react-native-message-bar';
 
 export class SwiperList extends Component {
-    state = {
-        isModalVisible: false
-    };
+    constructor(...props){
+        super(...props);
+        this.state = {
+            isModalVisible: false,
+            left1: new Animated.Value(0),
+            rotation2: new Animated.Value(0),
+            language:null,
+        };
+    }
 
     componentDidMount(){
         MessageBarManager.registerMessageBar(this.refs.alert);
@@ -98,6 +104,21 @@ export class SwiperList extends Component {
         this.setState({ isModalVisible: false });
     };
 
+    //动画效果
+    ani01 = ()=>{
+        Animated.spring(this.state.left1, {
+            toValue: 150,        //属性目标值
+            friction: 2,        //摩擦力 （越小 振幅越大）
+            tension: 100,        //拉力
+        }).start();
+    }
+    ani02 = ()=>{
+        Animated.timing(this.state.rotation2, {
+            toValue: 1,        //属性目标值
+            duration: 3000    //动画执行时间
+        }).start();    //执行动画
+    }
+
     render () {
         return (
             <View style={{ flex: 1}}>
@@ -107,7 +128,42 @@ export class SwiperList extends Component {
 
                 <Text onPress={this.alert}>点我</Text>
 
+                <Text onPress={this.ani01}>让我跳吧</Text>
+                <Text onPress={this.ani02}>让我转吧</Text>
+
                 <MessageBar ref="alert" />
+
+                <Animated.Image
+                    style={[styles.image,{left: this.state.left1}]}
+                    source={require('../../images/header-img-login.png')}
+                />
+                <Animated.Image
+                    style={[styles.image,{
+                        transform:[
+                            {
+                                rotateX: this.state.rotation2.interpolate({
+                                    inputRange:[0,1],
+                                    outputRange:['0deg','360deg']
+                                })
+                            }
+                        ]
+                    }]}
+                    source={require('../../images/header-img-login.png')}
+                />
+
+                <PickerIOS
+                    prompt='请选择操作语言' //带标题的弹出框
+                    selectedValue={this.state.language}
+                    onValueChange={lang =>{this.setState({language:lang})}}
+                    mode='dialog'>
+                    <Picker.Item label='java' value='java'/>
+                    <Picker.Item label='javaScript' value='javaScript'/>
+                    <Picker.Item label='Php' value='Php'/>
+                    <Picker.Item label='Android' value='Android'/>
+                    <Picker.Item label='React-native' value='React-native'/>
+                </PickerIOS>
+                <Text>您选择的是:{this.state.language}</Text>
+
 
 
 
@@ -129,3 +185,10 @@ export class SwiperList extends Component {
     }
 
 }
+
+const styles = StyleSheet.create({
+    image: {
+        width: 100,
+        height: 100,
+    }
+});
