@@ -1,74 +1,10 @@
-/*
-import React, { Component } from 'react';
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    Dimensions
-} from 'react-native';
-import Swiper from 'react-native-swiper';
-let { width, height } = Dimensions.get("window");
-
-export  class SwiperList extends Component {
-    render() {
-        return (
-            <View style={styles.ss}>
-                <Swiper style={styles.wrapper} showsButtons={true}>
-                    <View style={styles.slide1}>
-                        <Text style={styles.text}>Hello Swiper</Text>
-                    </View>
-                    <View style={styles.slide2}>
-                        <Text style={styles.text}>Beautiful</Text>
-                    </View>
-                    <View style={styles.slide3}>
-                        <Text style={styles.text}>And simple</Text>
-                    </View>
-                </Swiper>
-            </View>
-        );
-    }
-}
-
-const styles = StyleSheet.create({
-    /!*轮播图样式*!/
-    ss: {
-        width: width,
-        height: 100,
-    },
-    wrapper: {
-
-    },
-    slide1: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#9DD6EB',
-    },
-    slide2: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#97CAE5',
-    },
-    slide3: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#92BBD9',
-    },
-    text: {
-        color: '#fff',
-        fontSize: 30,
-        fontWeight: 'bold',
-    }
-});*/
 
 import React, { Component } from 'react'
-import { Text, TouchableOpacity, View, Animated, StyleSheet, Picker, PickerIOS } from 'react-native'
+import { Text, TouchableOpacity, View, Animated, StyleSheet, Picker, PickerIOS, Dimensions } from 'react-native'
 import Modal from 'react-native-modal';
 import {MessageBar, MessageBarManager} from 'react-native-message-bar';
 
+const {width} = Dimensions.get('window')
 export class SwiperList extends Component {
     constructor(...props){
         super(...props);
@@ -122,9 +58,6 @@ export class SwiperList extends Component {
     render () {
         return (
             <View style={{ flex: 1}}>
-                <TouchableOpacity onPress={this._showModal}>
-                    <Text>Show Modal</Text>
-                </TouchableOpacity>
 
                 <Text onPress={this.alert}>点我</Text>
 
@@ -151,35 +84,36 @@ export class SwiperList extends Component {
                     source={require('../../images/header-img-login.png')}
                 />
 
-                <PickerIOS
-                    prompt='请选择操作语言' //带标题的弹出框
-                    selectedValue={this.state.language}
-                    onValueChange={lang =>{this.setState({language:lang})}}
-                    mode='dialog'>
-                    <Picker.Item label='java' value='java'/>
-                    <Picker.Item label='javaScript' value='javaScript'/>
-                    <Picker.Item label='Php' value='Php'/>
-                    <Picker.Item label='Android' value='Android'/>
-                    <Picker.Item label='React-native' value='React-native'/>
-                </PickerIOS>
+                <View style={{flexDirection: 'row'}}>
+                    <PickerIOS
+                        prompt='请选择操作语言' //带标题的弹出框
+                        selectedValue={this.state.language}
+                        onValueChange={lang =>{this.setState({language:lang})}}
+                        mode='dialog'
+                        style={{backgroundColor:'#fff',width:width*0.5,}}
+                    >
+                        <Picker.Item label='java' value='java'/>
+                        <Picker.Item label='javaScript' value='javaScript'/>
+                        <Picker.Item label='Php' value='Php'/>
+                        <Picker.Item label='Android' value='Android'/>
+                        <Picker.Item label='React-native' value='React-native'/>
+                    </PickerIOS>
+                    <PickerIOS
+                        prompt='请选择操作语言' //带标题的弹出框
+                        selectedValue={this.state.language}
+                        onValueChange={lang =>{this.setState({language:lang})}}
+                        mode='dialog'
+                        style={{backgroundColor:'#fff',width:150,}}
+                    >
+                        <Picker.Item label='java' value='java'/>
+                        <Picker.Item label='javaScript' value='javaScript'/>
+                        <Picker.Item label='Php' value='Php'/>
+                        <Picker.Item label='Android' value='Android'/>
+                        <Picker.Item label='React-native' value='React-native'/>
+                    </PickerIOS>
+                </View>
                 <Text>您选择的是:{this.state.language}</Text>
 
-
-
-
-                <Modal
-                    isVisible={this.state.isModalVisible}
-                    animationIn='fadeIn'
-                    animationOut='fadeOut'
-                    backdropColor="#fff"
-                    backdropOpacity={1}
-                    animationInTiming={2500}
-                    style={{backgroundColor: '#fff',flex: 1, }}
-                >
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text onPress={this._hideModal.bind(this)}>Hello!</Text>
-                    </View>
-                </Modal>
             </View>
         )
     }
@@ -192,3 +126,144 @@ const styles = StyleSheet.create({
         height: 100,
     }
 });
+/*
+var React = require('react');
+var ReactNative = require('react-native');
+var {
+    PickerIOS,
+    Text,
+    View,
+} = ReactNative;
+
+var PickerItemIOS = PickerIOS.Item;
+
+var CAR_MAKES_AND_MODELS = {
+    amc: {
+        name: 'AMC',
+        models: ['AMX', 'Concord', 'Eagle', 'Gremlin', 'Matador', 'Pacer'],
+    },
+    alfa: {
+        name: 'Alfa-Romeo',
+        models: ['159', '4C', 'Alfasud', 'Brera', 'GTV6', 'Giulia', 'MiTo', 'Spider'],
+    },
+    aston: {
+        name: 'Aston Martin',
+        models: ['DB5', 'DB9', 'DBS', 'Rapide', 'Vanquish', 'Vantage'],
+    },
+    audi: {
+        name: 'Audi',
+        models: ['90', '4000', '5000', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'Q5', 'Q7'],
+    },
+    austin: {
+        name: 'Austin',
+        models: ['America', 'Maestro', 'Maxi', 'Mini', 'Montego', 'Princess'],
+    },
+    borgward: {
+        name: 'Borgward',
+        models: ['Hansa', 'Isabella', 'P100'],
+    },
+    buick: {
+        name: 'Buick',
+        models: ['Electra', 'LaCrosse', 'LeSabre', 'Park Avenue', 'Regal',
+            'Roadmaster', 'Skylark'],
+    },
+    cadillac: {
+        name: 'Cadillac',
+        models: ['Catera', 'Cimarron', 'Eldorado', 'Fleetwood', 'Sedan de Ville'],
+    },
+    chevrolet: {
+        name: 'Chevrolet',
+        models: ['Astro', 'Aveo', 'Bel Air', 'Captiva', 'Cavalier', 'Chevelle',
+            'Corvair', 'Corvette', 'Cruze', 'Nova', 'SS', 'Vega', 'Volt'],
+    },
+};
+
+export class SwiperList extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            carMake: 'cadillac',
+            modelIndex: 3,
+        }
+    }
+
+    render(){
+        var make = CAR_MAKES_AND_MODELS[this.state.carMake];
+        var selectionString = make.name + ' ' + make.models[this.state.modelIndex];
+        return (
+            <View>
+                <Text>Please choose a make for your car:</Text>
+                <PickerIOS
+                    selectedValue={this.state.carMake}
+                    onValueChange={(carMake) => this.setState({carMake, modelIndex: 0})}>
+                    {Object.keys(CAR_MAKES_AND_MODELS).map((carMake) => (
+                        <PickerItemIOS
+                            key={carMake}
+                            value={carMake}
+                            label={CAR_MAKES_AND_MODELS[carMake].name}
+                        />
+                    ))}
+                </PickerIOS>
+                <Text>Please choose a model of {make.name}:</Text>
+                <PickerIOS
+                    selectedValue={this.state.modelIndex}
+                    key={this.state.carMake}
+                    onValueChange={(modelIndex) => this.setState({modelIndex})}>
+                    {CAR_MAKES_AND_MODELS[this.state.carMake].models.map((modelName, modelIndex) => (
+                        <PickerItemIOS
+                            key={this.state.carMake + '_' + modelIndex}
+                            value={modelIndex}
+                            label={modelName}
+                        />
+                    ))}
+                </PickerIOS>
+                <Text>You selected: {selectionString}</Text>
+            </View>
+        );
+    }
+};
+
+var PickerStyleExample = React.createClass({
+    getInitialState: function() {
+        return {
+            carMake: 'cadillac',
+            modelIndex: 0,
+        };
+    },
+
+    render: function() {
+        var make = CAR_MAKES_AND_MODELS[this.state.carMake];
+        var selectionString = make.name + ' ' + make.models[this.state.modelIndex];
+        return (
+            <PickerIOS
+                itemStyle={{fontSize: 25, color: 'red', textAlign: 'left', fontWeight: 'bold'}}
+                selectedValue={this.state.carMake}
+                onValueChange={(carMake) => this.setState({carMake, modelIndex: 0})}>
+                {Object.keys(CAR_MAKES_AND_MODELS).map((carMake) => (
+                    <PickerItemIOS
+                        key={carMake}
+                        value={carMake}
+                        label={CAR_MAKES_AND_MODELS[carMake].name}
+                    />
+                ))}
+            </PickerIOS>
+        );
+    },
+});
+
+exports.displayName = (undefined: ?string);
+exports.title = '<PickerIOS>';
+exports.description = 'Render lists of selectable options with UIPickerView.';
+exports.examples = [
+    {
+        title: '<PickerIOS>',
+        render: function(): ReactElement<any> {
+            return <PickerExample />;
+        },
+    },
+    {
+        title: '<PickerIOS> with custom styling',
+        render: function(): ReactElement<any> {
+            return <PickerStyleExample />;
+        },
+    }];*/

@@ -224,7 +224,7 @@ class Home extends PureComponent{
                             <Icon name="developer-board" size={40} color="#39a0f4" />
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={this.toFlatList.bind(this)}>
+                    <TouchableOpacity onPress={()=>this.props.navigation.navigate('ModalList')}>
                         <View style={styles.adItem}>
                             <View style={styles.adTextBox}>
                                 <Text style={styles.adInfoTitle}>搜来福金融</Text>

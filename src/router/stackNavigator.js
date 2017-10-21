@@ -11,6 +11,7 @@ import Login from '../containers/user/login';
 import Register from '../containers/user/register';
 import { ClassifyList } from '../containers/replease/classifyList';
 import { SwiperList } from '../containers/home/swiper';
+import { ModalList } from '../containers/home/modal';
 import { Search } from '../containers/search/search';
 import { Provnces } from '../containers/home/city/index';
 import CityList from '../containers/home/city/cityList';
@@ -40,6 +41,7 @@ export const AppNavigator = StackNavigator({
     Register: { screen: Register,},
     ClassifyList: { screen: ClassifyList,},
     SwiperList: { screen: SwiperList,},
+    ModalList: { screen: ModalList,},
     Search: { screen: Search, },
     HouseClassify: { screen: HouseClassify,},
     JobClassify: {screen: JobClassify,},

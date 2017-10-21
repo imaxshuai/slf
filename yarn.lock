@@ -3602,6 +3602,10 @@ react-native-parallax-view@^2.0.6:
   dependencies:
     react-native-scrollable-mixin "^1.0.1"
 
+react-native-popup-menu@^0.8.3:
+  version "0.8.3"
+  resolved "http://registry.npm.taobao.org/react-native-popup-menu/download/react-native-popup-menu-0.8.3.tgz#1dbb0b4f889c9410b69b228a89d57b56aea5cc2e"
+
 react-native-scrollable-mixin@^1.0.1:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/react-native-scrollable-mixin/download/react-native-scrollable-mixin-1.0.1.tgz#34a32167b64248594154fd0d6a8b03f22740548e"
