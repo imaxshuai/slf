@@ -27,7 +27,6 @@ class User extends Component{
         headerTitleStyle: {
            fontSize: 16,
            fontWeight: '400',
-           alignSelf: 'center',
         },
         tabBarLabel: "发布",
         tabBarIcon: ({tintColor})=>((<Icon name="description" size={25} color={tintColor}/>)),

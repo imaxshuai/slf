@@ -1241,6 +1241,14 @@ create-react-class@^15.5.2:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
+create-react-class@^15.6.0:
+  version "15.6.2"
+  resolved "http://registry.npm.taobao.org/create-react-class/download/create-react-class-15.6.2.tgz#cf1ed15f12aad7f14ef5f2dfe05e6c42f91ef02a"
+  dependencies:
+    fbjs "^0.8.9"
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
+
 cross-spawn@^3.0.1:
   version "3.0.1"
   resolved "http://registry.npm.taobao.org/cross-spawn/download/cross-spawn-3.0.1.tgz#1256037ecb9f0c5f79e3d6ef135e30770184b982"
@@ -3585,6 +3593,14 @@ react-native-google-places-autocomplete@~1.2.0:
     lodash.debounce "^4.0.8"
     qs "^5.2.0"
 
+react-native-keyboard-aware-scroll-view@^0.3.0:
+  version "0.3.0"
+  resolved "http://registry.npm.taobao.org/react-native-keyboard-aware-scroll-view/download/react-native-keyboard-aware-scroll-view-0.3.0.tgz#b9d7b0d5b47d2bb4285fe50a3d274b10a3b5e1a7"
+  dependencies:
+    create-react-class "^15.6.0"
+    prop-types "^15.5.10"
+    react-timer-mixin "^0.13.3"
+
 react-native-message-bar@^2.0.4:
   version "2.0.4"
   resolved "http://registry.npm.taobao.org/react-native-message-bar/download/react-native-message-bar-2.0.4.tgz#ac551ecc8391057a35cd4c48f9b3d412f0a3e9b2"
@@ -3601,6 +3617,10 @@ react-native-parallax-view@^2.0.6:
   resolved "http://registry.npm.taobao.org/react-native-parallax-view/download/react-native-parallax-view-2.0.6.tgz#7de78edb7a2a0aba6c01b99fce828d387cec3e93"
   dependencies:
     react-native-scrollable-mixin "^1.0.1"
+
+react-native-picker@^4.2.0:
+  version "4.2.0"
+  resolved "http://registry.npm.taobao.org/react-native-picker/download/react-native-picker-4.2.0.tgz#ae7b71b6b2271e139cb655cccd1cb7f1d6ed161f"
 
 react-native-popup-menu@^0.8.3:
   version "0.8.3"
@@ -3759,7 +3779,7 @@ react-test-renderer@16.0.0-alpha.12:
     fbjs "^0.8.9"
     object-assign "^4.1.0"
 
-react-timer-mixin@^0.13.2, react-timer-mixin@~0.13.3:
+react-timer-mixin@^0.13.2, react-timer-mixin@^0.13.3, react-timer-mixin@~0.13.3:
   version "0.13.3"
   resolved "http://registry.npm.taobao.org/react-timer-mixin/download/react-timer-mixin-0.13.3.tgz#0da8b9f807ec07dc3e854d082c737c65605b3d22"
 

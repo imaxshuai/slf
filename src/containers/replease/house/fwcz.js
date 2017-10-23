@@ -13,13 +13,12 @@ import { Text,
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Modal from 'react-native-modal';
 import Picker from 'react-native-picker';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { NavbarTitleComponent } from '../../../components/NavbarTitle';
 
 let {width} = Dimensions.get('window');
 
-export class Replease1to1 extends Component {
+export class Replease1to3 extends Component {
 
     static navigationOptions = ({navigation}) => ({
         headerTitle: navigation.state.params,
@@ -156,7 +155,7 @@ export class Replease1to1 extends Component {
     render () {
 
         return (
-            <KeyboardAwareScrollView>
+            <View style={{ flex: 1}}>
 
                 <ScrollView>
 
@@ -342,7 +341,7 @@ export class Replease1to1 extends Component {
                     </View>
                 </Modal>*/}
 
-            </KeyboardAwareScrollView>
+            </View>
 
         )
     }
