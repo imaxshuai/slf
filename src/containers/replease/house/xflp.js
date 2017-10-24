@@ -14,9 +14,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import Modal from 'react-native-modal';
 import Picker from 'react-native-picker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
-import { NavbarTitleComponent } from '../../../components/NavbarTitle';
-
 let {width} = Dimensions.get('window');
 
 export class Replease1to1 extends Component {
@@ -39,7 +36,9 @@ export class Replease1to1 extends Component {
             visibleModal: null,
             house: null,
             direction: null,
-            floors: null
+            floors: null,
+            house_configure: [],
+            a: true
         }
     }
 
@@ -50,23 +49,7 @@ export class Replease1to1 extends Component {
         Picker.hide();
     }
 
-    //渲染头部navbar
-    renderLeftItem(){
-        return (
-            <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
-                <Icon name="navigate-before" size={25} />
-            </TouchableOpacity>
-        )
-    }
-    renderTitletem(){
-        return (
-            <Text style={{fontWeight: 'bold'}}>{this.props.navigation.state.params}</Text>
-        )
-    }
-    //厅室改变调用
-    pickerChange =(a, b)=>{
-        console.log(a, b);
-    };
+
 
     //厅室选择器
     housePicker = ()=>{
@@ -152,6 +135,26 @@ export class Replease1to1 extends Component {
         Picker.show();
     };
 
+    //房屋配置选择
+    doCheck = (data)=>{
+        let checked = false;
+        let house_configure = this.state.house_configure
+        let configInfo = this.refs[data].props.children;
+        house_configure.map((item, index)=>{
+            if(item === configInfo){
+                checked = true;
+                house_configure.splice(index, 1);
+            }
+        });
+        if(!checked){
+            house_configure.push(configInfo)
+        }
+        this.setState({
+            house_configure: house_configure
+        });
+
+        console.log(this.state.house_configure);
+    };
 
     render () {
 
@@ -200,6 +203,7 @@ export class Replease1to1 extends Component {
                                 autoCapitalize='none'
                                 placeholder="请填写使用面积"
                                 placeholderTextColor="#ccc"
+                                keyboardType="numeric"
                                 style={styles.infoInput}
                                 underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
                             />
@@ -244,6 +248,7 @@ export class Replease1to1 extends Component {
                                 autoCapitalize='none'
                                 placeholder="请填写每月租金"
                                 placeholderTextColor="#ccc"
+                                keyboardType="numeric"
                                 style={styles.infoInput}
                                 underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
                             />
@@ -270,11 +275,95 @@ export class Replease1to1 extends Component {
                                 autoCapitalize='none'
                                 placeholder="请填写手机号"
                                 placeholderTextColor="#ccc"
+                                keyboardType="numeric"
                                 style={styles.infoInput}
                                 underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
                             />
                         </View>
+                    </View>
 
+                    <View style={styles.item}>
+                        <View style={styles.itemTitle}>
+                            <Text style={styles.itemTitleText}>其他</Text>
+                        </View>
+                        <View style={styles.info}>
+                            <Text style={styles.infoTitle}>房屋配置</Text>
+                            <View style={styles.checkbox}>
+                                <TouchableWithoutFeedback onPress={this.doCheck.bind(this, 'bed')}>
+                                    <View style={this.state.house_configure.indexOf('床')>=0?styles.isCheckedItem:styles.checkItem}>
+                                        <Text ref="bed" style={this.state.house_configure.indexOf('床')>=0?styles.isCheckItemText:styles.checkItemText}>床</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback  onPress={this.doCheck.bind(this, 'yg')}>
+                                    <View style={this.state.house_configure.indexOf('衣柜')>=0?styles.isCheckedItem:styles.checkItem}>
+                                        <Text ref="yg" style={this.state.house_configure.indexOf('衣柜')>=0?styles.isCheckItemText:styles.checkItemText}>衣柜</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback  onPress={this.doCheck.bind(this, 'sf')}>
+                                    <View style={this.state.house_configure.indexOf('沙发')>=0?styles.isCheckedItem:styles.checkItem}>
+                                        <Text ref="sf" style={this.state.house_configure.indexOf('沙发')>=0?styles.isCheckItemText:styles.checkItemText}>沙发</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback  onPress={this.doCheck.bind(this, 'ds')}>
+                                    <View style={this.state.house_configure.indexOf('电视')>=0?styles.isCheckedItem:styles.checkItem}>
+                                        <Text ref="ds" style={this.state.house_configure.indexOf('电视')>=0?styles.isCheckItemText:styles.checkItemText}>电视</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback  onPress={this.doCheck.bind(this, 'bx')}>
+                                    <View style={this.state.house_configure.indexOf('冰箱')>=0?styles.isCheckedItem:styles.checkItem}>
+                                        <Text ref="bx" style={this.state.house_configure.indexOf('冰箱')>=0?styles.isCheckItemText:styles.checkItemText}>冰箱</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback  onPress={this.doCheck.bind(this, 'kd')}>
+                                    <View style={this.state.house_configure.indexOf('宽带')>=0?styles.isCheckedItem:styles.checkItem}>
+                                        <Text ref="kd" style={this.state.house_configure.indexOf('宽带')>=0?styles.isCheckItemText:styles.checkItemText}>宽带</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback  onPress={this.doCheck.bind(this, 'cj')}>
+                                    <View style={this.state.house_configure.indexOf('茶几')>=0?styles.isCheckedItem:styles.checkItem}>
+                                        <Text ref="cj" style={this.state.house_configure.indexOf('茶几')>=0?styles.isCheckItemText:styles.checkItemText}>茶几</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback  onPress={this.doCheck.bind(this, 'xyj')}>
+                                    <View style={this.state.house_configure.indexOf('洗衣机')>=0?styles.isCheckedItem:styles.checkItem}>
+                                        <Text ref="xyj" style={this.state.house_configure.indexOf('洗衣机')>=0?styles.isCheckItemText:styles.checkItemText}>洗衣机</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback  onPress={this.doCheck.bind(this, 'kt')}>
+                                    <View style={this.state.house_configure.indexOf('空调')>=0?styles.isCheckedItem:styles.checkItem}>
+                                        <Text ref="kt" style={this.state.house_configure.indexOf('空调')>=0?styles.isCheckItemText:styles.checkItemText}>空调</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback  onPress={this.doCheck.bind(this, 'yt')}>
+                                    <View style={this.state.house_configure.indexOf('阳台')>=0?styles.isCheckedItem:styles.checkItem}>
+                                        <Text ref="yt" style={this.state.house_configure.indexOf('阳台')>=0?styles.isCheckItemText:styles.checkItemText}>阳台</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback onPress={this.doCheck.bind(this, 'sn')}>
+                                    <View style={this.state.house_configure.indexOf('水暖')>=0?styles.isCheckedItem:styles.checkItem}>
+                                        <Text ref="sn" style={this.state.house_configure.indexOf('水暖')>=0?styles.isCheckItemText:styles.checkItemText}>水暖</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback  onPress={this.doCheck.bind(this, 'dn')}>
+                                    <View style={this.state.house_configure.indexOf('地暖')>=0?styles.isCheckedItem:styles.checkItem}>
+                                        <Text ref="dn"  style={this.state.house_configure.indexOf('地暖')>=0?styles.isCheckItemText:styles.checkItemText}>地暖</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                            </View>
+                        </View>
+                        <View style={styles.info}>
+                            <Text style={styles.infoTitle}>内容描述</Text>
+                            <TextInput
+                                autoCapitalize='none'
+                                placeholder="(选填)内容描述介意大大提高成功率哦！"
+                                placeholderTextColor="#ccc"
+                                keyboardType="numeric"
+                                multiline= { true }
+                                style={styles.infoInput}
+                                underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                            />
+
+                        </View>
                     </View>
 
                     <Text style={styles.submitBtn} onPress={()=>{alert('请捎带...')}}>
@@ -417,6 +506,38 @@ const styles = StyleSheet.create({
         width: width*0.3,
         textAlign: 'center',
         fontSize: 16,
+    },
+
+    //复选框
+    checkbox: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        width: width*0.8,
+        justifyContent: 'space-around',
+        marginBottom: 10,
+    },
+    checkItem: {
+        padding: 1,
+        backgroundColor: '#ccc',
+        minWidth: 50,
+        margin: 5,
+        borderRadius: 8,
+    },
+    isCheckedItem: {
+        padding: 1,
+        backgroundColor: '#fa0064',
+        minWidth: 50,
+        margin: 5,
+        borderRadius: 8,
+    },
+    checkItemText: {
+        fontSize: 12,
+        textAlign: 'center',
+    },
+    isCheckItemText: {
+        fontSize: 12,
+        textAlign: 'center',
+        color: '#fff',
     },
 
 

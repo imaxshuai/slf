@@ -3544,9 +3544,19 @@ react-native-animatable@^1.2.3:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-bem-check-box@^1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/react-native-bem-check-box/download/react-native-bem-check-box-1.0.0.tgz#78928e22ddf4a3efd6b664cea51792f238992cf2"
+
 react-native-button@~1.8.2:
   version "1.8.2"
   resolved "http://registry.npm.taobao.org/react-native-button/download/react-native-button-1.8.2.tgz#49e5cadd22ee443adea52a85539d288aa2117ade"
+
+react-native-checkbox@^1.2.0:
+  version "1.2.0"
+  resolved "http://registry.npm.taobao.org/react-native-checkbox/download/react-native-checkbox-1.2.0.tgz#57f7c5beb2d7d5047140d3a4e2409ee04d7c12fb"
+  dependencies:
+    prop-types "^15.5.10"
 
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
