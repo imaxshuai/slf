@@ -14,6 +14,23 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import Modal from 'react-native-modal';
 import Picker from 'react-native-picker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import  ImagePicker from 'react-native-image-picker';
+
+
+var photoOptions = {
+    //底部弹出框选项
+    title:'请选择',
+    cancelButtonTitle:'取消',
+    takePhotoButtonTitle:'拍照',
+    chooseFromLibraryButtonTitle:'选择相册',
+    quality:0.75,
+    allowsEditing:true,
+    noData:false,
+    storageOptions: {
+        skipBackup: true,
+        path:'images'
+    }
+}
 let {width} = Dimensions.get('window');
 
 export class Replease1to1 extends Component {
@@ -38,7 +55,6 @@ export class Replease1to1 extends Component {
             direction: null,
             floors: null,
             house_configure: [],
-            a: true
         }
     }
 
@@ -48,8 +64,6 @@ export class Replease1to1 extends Component {
     componentWillUnmount(){
         Picker.hide();
     }
-
-
 
     //厅室选择器
     housePicker = ()=>{
@@ -156,17 +170,45 @@ export class Replease1to1 extends Component {
         console.log(this.state.house_configure);
     };
 
+    //上传图片
+    uploadImg = () =>{
+        ImagePicker.showImagePicker(photoOptions,(response) =>{
+            console.log(response);
+            if (response.didCancel){
+                return
+            }
+        })
+    }
+
+    //提交信息
+    doSubmit = ()=>{
+        let repleaseInfo = {
+            title: this.refs.title._lastNativeText,
+            communityName: this.refs.communityName._lastNativeText,
+            address: this.refs.address._lastNativeText,
+            roomAndHall: this.state.house==null?undefined:this.state.house.join(''),
+            orientation: this.state.direction==null?undefined:this.state.direction.join(''),
+            floors: this.state.floors==null?undefined:this.state.floors.join(''),
+            price: this.refs.price._lastNativeText,
+            contacts: this.refs.contacts._lastNativeText,
+            telphone: this.refs.telphone._lastNativeText,
+            house_configure: this.state.house_configure,
+            describe: this.refs.describe._lastNativeText,
+        };
+        console.log(repleaseInfo);
+    };
+
+
     render () {
 
         return (
             <KeyboardAwareScrollView>
-
                 <ScrollView>
 
                     {/*提示消息*/}
                     <Text style={styles.system}>您今天还可免费发布5条信息!</Text>
                     {/*图片删除*/}
-                    <TouchableOpacity onPress={()=> alert('挑战拍照或相册界面')}>
+                    <TouchableOpacity onPress={this.uploadImg}>
                         <View style={styles.imgUploadBox}>
                             <Image source={require('../../../images/imgUpload.png')} style={styles.imgUploadImg} />
                             <Text style={styles.imgUploadText}>选择要上传的照片</Text>
@@ -178,6 +220,17 @@ export class Replease1to1 extends Component {
                             <Text style={styles.itemTitleText}>基本信息</Text>
                         </View>
                         <View style={styles.info}>
+                            <Text style={styles.infoTitle}>标题</Text>
+                            <TextInput
+                                autoCapitalize='none'
+                                placeholder="请填写信息标题"
+                                placeholderTextColor="#ccc"
+                                style={styles.infoInput}
+                                underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                                ref="title"
+                            />
+                        </View>
+                        <View style={styles.info}>
                             <Text style={styles.infoTitle}>小区</Text>
                             <TextInput
                                 autoCapitalize='none'
@@ -185,6 +238,7 @@ export class Replease1to1 extends Component {
                                 placeholderTextColor="#ccc"
                                 style={styles.infoInput}
                                 underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                                ref="communityName"
                             />
                         </View>
                         <View style={styles.info}>
@@ -195,6 +249,7 @@ export class Replease1to1 extends Component {
                                 placeholderTextColor="#ccc"
                                 style={styles.infoInput}
                                 underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                                ref="address"
                             />
                         </View>
                         <View style={styles.info}>
@@ -206,13 +261,14 @@ export class Replease1to1 extends Component {
                                 keyboardType="numeric"
                                 style={styles.infoInput}
                                 underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                                ref="size"
                             />
                         </View>
                         <View style={styles.infoGroup}>
                             <TouchableWithoutFeedback onPress={this.housePicker}>
                                 <View style={styles.info}>
                                     <Text style={styles.infoTitle}>厅室</Text>
-                                    <Text style={[styles.infoGroupInput, {color: '#ccc'}]}>
+                                    <Text style={[styles.infoGroupInput, {color: '#ccc'}]} ref="roomAndHall">
                                         {this.state.house!=null?<Text style={{color: '#333'}}>{this.state.house.join('')}</Text>:'请选择'}
                                     </Text>
                                 </View>
@@ -220,7 +276,7 @@ export class Replease1to1 extends Component {
                             <TouchableWithoutFeedback onPress={this.directionPicker}>
                                 <View style={styles.info}>
                                     <Text style={styles.infoTitle}>朝向</Text>
-                                    <Text style={[styles.infoGroupInput, {color: '#ccc'}]}>
+                                    <Text style={[styles.infoGroupInput, {color: '#ccc'}]} ref="houseOrientation">
                                         {this.state.direction!=null?<Text style={{color: '#333'}}>{this.state.direction.join('')}</Text>:'请选择'}
                                     </Text>
                                 </View>
@@ -228,9 +284,8 @@ export class Replease1to1 extends Component {
                             <TouchableWithoutFeedback onPress={this.floorPicker}>
                                 <View style={styles.info}>
                                     <Text style={styles.infoTitle}>楼层</Text>
-                                    <Text style={[styles.infoGroupInput, {color: '#ccc'}]}>
+                                    <Text style={[styles.infoGroupInput, {color: '#ccc'}]} ref="floors">
                                         {this.state.floors!=null?<Text style={{color: '#333'}}>{this.state.floors.join('/')}</Text>:'请选择'}
-
                                     </Text>
                                 </View>
                             </TouchableWithoutFeedback>
@@ -251,6 +306,7 @@ export class Replease1to1 extends Component {
                                 keyboardType="numeric"
                                 style={styles.infoInput}
                                 underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                                ref="price"
                             />
                         </View>
                     </View>
@@ -267,6 +323,7 @@ export class Replease1to1 extends Component {
                                 placeholderTextColor="#ccc"
                                 style={styles.infoInput}
                                 underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                                ref="contacts"
                             />
                         </View>
                         <View style={styles.info}>
@@ -278,6 +335,7 @@ export class Replease1to1 extends Component {
                                 keyboardType="numeric"
                                 style={styles.infoInput}
                                 underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                                ref="telphone"
                             />
                         </View>
                     </View>
@@ -357,16 +415,16 @@ export class Replease1to1 extends Component {
                                 autoCapitalize='none'
                                 placeholder="(选填)内容描述介意大大提高成功率哦！"
                                 placeholderTextColor="#ccc"
-                                keyboardType="numeric"
                                 multiline= { true }
-                                style={styles.infoInput}
+                                style={styles.infoInputAeaa}
                                 underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                                ref="describe"
                             />
 
                         </View>
                     </View>
 
-                    <Text style={styles.submitBtn} onPress={()=>{alert('请捎带...')}}>
+                    <Text style={styles.submitBtn} onPress={this.doSubmit}>
                         立即发布
                     </Text>
 
@@ -500,6 +558,14 @@ const styles = StyleSheet.create({
         fontSize: 16,
         padding: 0,
         marginBottom: 10,
+    },
+    infoInputAeaa: {
+        width: width*0.8,
+        fontSize: 14,
+        padding: 10,
+        marginBottom: 10,
+        height: 60,
+        backgroundColor: '#fafafa',
     },
     infoGroupInput: {
         marginBottom: 10,

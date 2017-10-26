@@ -31,7 +31,7 @@ class CityList extends Component{
             data: city
         });
         City = city;
-        this.props.navigation.navigate('Home');
+        this.props.navigation.goBack(this.props.nav.routes[1].key);
     }
 
     render(){

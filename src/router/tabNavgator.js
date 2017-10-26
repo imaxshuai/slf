@@ -1,5 +1,5 @@
 import { TabNavigator } from 'react-navigation';
-
+import { Platform } from 'react-native';
 import Home from '../containers/home';
 import Replease from '../containers/replease';
 import User from '../containers/user';
@@ -36,11 +36,8 @@ export const TabRouter = TabNavigator({
         },
         labelStyle: {
             fontSize: 12, // 文字大小
-            marginTop: 0,
+            marginTop:  Platform.OS == 'ios'?15:0,
             paddingBottom: 5,
-        },
-        iconStyle: {
-            marginBottom: 0,
         }
     },
 });
@@ -67,13 +64,15 @@ export const RepleaseTab = TabNavigator({
         showIcon: false,
         indicatorStyle: {backgroundColor: "#fa0064",height: 1},
         style: {
-            marginTop: 2,
+            marginTop: 0,
             backgroundColor: '#fff', // TabBar 背景色
             borderBottomWidth: 1,
             borderColor: '#e3e3e3',
+            height: 40,
         },
         labelStyle: {
             fontSize: 16, // 文字大小
+            lineHeight: Platform.OS == 'ios'?40:16
         },
     },
 
