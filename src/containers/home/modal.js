@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { Text, TouchableOpacity, View, Animated, StyleSheet, Picker, PickerIOS,Dimensions } from 'react-native'
 import Modal from 'react-native-modal';
 
+import { Radio } from '../../components/radio';
+import { Checkbox } from '../../components/checkbox';
+import { HouseBaseInfo } from '../../components/houseBaseInfo';
+
 let { width } = Dimensions.get('window');
 
 export class ModalList extends Component {
@@ -9,87 +13,49 @@ export class ModalList extends Component {
         super(...props);
         this.state = {
             visibleModal: null,
+            selectValue: null,
+            radioSelectValue: null,
+            checkboxSelectValue: null,
         };
     }
 
 
-/*    _renderButton = (text, onPress) => (
-        <TouchableOpacity onPress={onPress}>
-            <View style={styles.button}>
-                <Text>{text}</Text>
-            </View>
-        </TouchableOpacity>
-    );*/
-
-/*    _renderModalContent = () => (
-        <View style={styles.modalContent}>
-            <Text>Hello!</Text>
-            {this._renderButton('Close', () => this.setState({ visibleModal: null }))}
-        </View>
-    );*/
-
     render () {
         return (
-        <View style={styles.container}>
-{/*            {this._renderButton('Default modal', () => this.setState({ visibleModal: 1 }))}
-            {this._renderButton('Sliding from the sides', () => this.setState({ visibleModal: 2 }))}
-            {this._renderButton('A slower modal', () => this.setState({ visibleModal: 3 }))}
-            {this._renderButton('Fancy modal!', () => this.setState({ visibleModal: 4 }))}*/}
-            <TouchableOpacity onPress={() => this.setState({ visibleModal: 5 })}>
-                <View style={styles.button}>
-                    <Text>底部显示</Text>
-                </View>
-            </TouchableOpacity>
-{/*            <TouchableOpacity onPress={() => this.setState({ visibleModal: 6 })}>
-                <View style={styles.button}>
-                    <Text>点击背景消失</Text>
-                </View>
-            </TouchableOpacity>*/}
-{/*            <Modal isVisible={this.state.visibleModal === 1}>{this._renderModalContent()}</Modal>
-            <Modal
-                isVisible={this.state.visibleModal === 2}
-                animationIn={'slideInLeft'}
-                animationOut={'slideOutRight'}
-            >
-                {this._renderModalContent()}
-            </Modal>
-            <Modal
-                isVisible={this.state.visibleModal === 3}
-                animationInTiming={2000}
-                animationOutTiming={2000}
-                backdropTransitionInTiming={2000}
-                backdropTransitionOutTiming={2000}
-            >
-                {this._renderModalContent()}
-            </Modal>
-            <Modal
-                isVisible={this.state.visibleModal === 4}
-                backdropColor={'red'}
-                backdropOpacity={1}
-                animationIn={'zoomInDown'}
-                animationOut={'zoomOutUp'}
-                animationInTiming={1000}
-                animationOutTiming={1000}
-                backdropTransitionInTiming={1000}
-                backdropTransitionOutTiming={1000}
-            >
-                {this._renderModalContent()}
-            </Modal>*/}
-            <Modal
-                onBackdropPress={() => this.setState({ visibleModal: null })}
-                isVisible={this.state.visibleModal === 5} style={styles.bottomModal}>
-                <View style={styles.modalContent}>
-                    <Text>Hello!</Text>
-                    {/*{this._renderButton('Close', () => this.setState({ visibleModal: null }))}*/}
-                </View>
-            </Modal>
-{/*            <Modal
-                isVisible={this.state.visibleModal === 6}
-                onBackdropPress={() => this.setState({ visibleModal: null })}
-            >
-                {this._renderModalContent()}
-            </Modal>*/}
-        </View>
+            <View style={styles.container}>
+                <TouchableOpacity onPress={() => this.setState({ visibleModal: 5 })}>
+                    <View style={styles.button}>
+                        <Text>底部显示</Text>
+                    </View>
+                </TouchableOpacity>
+
+                <Text onPress={()=>console.log(this.state.radioSelectValue)}>查看性别</Text>
+                <Text onPress={()=>console.log(this.state.checkboxSelectValue)}>查看配置</Text>
+
+                <Radio
+                    data={['男','女','保密']}
+                    value='男'
+                    select={(select)=>this.setState({radioSelectValue: select})}
+                />
+
+                <Checkbox
+                    data={['空调','冰箱','洗衣机','电视','宽带','卫生间','阳台','暖气']}
+                    value={['空调','冰箱','洗衣机','电视','宽带','卫生间']}
+                    select={(select)=>this.setState({checkboxSelectValue: select})}
+                />
+
+
+                <HouseBaseInfo />
+
+
+                <Modal
+                    onBackdropPress={() => this.setState({ visibleModal: null })}
+                    isVisible={this.state.visibleModal === 5} style={styles.bottomModal}>
+                    <View style={styles.modalContent}>
+                        <Text>Hello!</Text>
+                    </View>
+                </Modal>
+            </View>
         )
     }
 
@@ -101,7 +67,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-/*    button: {
+    button: {
         backgroundColor: 'lightblue',
         padding: 12,
         margin: 16,
@@ -109,14 +75,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 4,
         borderColor: 'rgba(0, 0, 0, 0.1)',
-    },*/
+    },
     modalContent: {
         backgroundColor: 'white',
-        // padding: 22,
+        padding: 22,
         justifyContent: 'center',
         alignItems: 'center',
-        // borderRadius: 4,
-        // borderColor: 'rgba(0, 0, 0, 0.1)',
+        borderRadius: 4,
+        borderColor: 'rgba(0, 0, 0, 0.1)',
     },
     bottomModal: {
         justifyContent: 'flex-end',

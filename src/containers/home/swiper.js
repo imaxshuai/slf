@@ -1,95 +1,96 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    Image,
-    AlertIOS
+    View, Text, StyleSheet, ScrollView, Alert,
+    Image, TouchableOpacity, NativeModules, Dimensions
 } from 'react-native';
 
-//图片选择器
-var ImagePicker = require('react-native-image-picker');
+var ImagePicker = NativeModules.ImageCropPicker;
 
-//图片选择器参数设置
-var options = {
-    title: '请选择图片来源',
-    cancelButtonTitle:'取消',
-    takePhotoButtonTitle:'拍照',
-    chooseFromLibraryButtonTitle:'相册图片',
-    customButtons: [
-        {name: 'hangge', title: 'hangge.com图片'},
-    ],
-    storageOptions: {
-        skipBackup: true,
-        path: 'images'
-    }
-};
-
-//默认应用的容器组件
 export class SwiperList extends Component {
-    //构造函数
-    constructor(props) {
-        super(props);
+
+    constructor() {
+        super();
         this.state = {
-            avatarSource: null
+            image: null,
+            images: null
         };
     }
 
-    //渲染
-    render() {
-        return (
-            <View style={styles.container}>
-                <Text style={styles.item} onPress={this.choosePic.bind(this)}>选择照片</Text>
-                <Image source={this.state.avatarSource} style={styles.image} />
-                <Image source={this.state.avatarSource} style={styles.image} />
-            </View>
-        );
+    pickSingleWithCamera() {
+        ImagePicker.openPicker({
+            multiple: true,
+        }).then(images => {
+            console.log(images);
+            this.setState({
+                image: null,
+                images: images.map(i => {
+                    return {uri: i.path, width: i.width, height: i.height, mime: i.mime};
+                })
+            });
+        }).catch(e => alert('图片选择出错！'));
     }
 
-    //选择照片按钮点击
-    choosePic() {
-        ImagePicker.showImagePicker(options, (response) => {
-            console.log('Response = ', response);
+    uploadImages =()=>{
+        console.log(this.state.images);
 
-            if (response.didCancel) {
-                console.log('用户取消了选择！');
-            }
-            else if (response.error) {
-                alert("ImagePicker发生错误：" + response.error);
-            }
-            else if (response.customButton) {
-                alert("自定义按钮点击：" + response.customButton);
-            }
-            else {
-                let source = { uri: response.uri };
-                // You can also display the image using data:
-                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-                this.setState({
-                    avatarSource: source
-                });
-            }
-        });
+        let params = {
+            path:  this.state.images[0].uri,    //本地文件地址
+        };
+        console.log(params);
+        Http.uploadImage('/api/replease/house', params)
+            .then( res=>{
+                console.log('success');
+            }).catch( err=>{
+            //请求失败
+            console.log('flied');
+        })
+
+    }
+
+
+
+    renderImage(image) {
+        return <Image style={{width: 300, height: 300, resizeMode: 'contain'}} source={image} />
+    }
+
+    renderAsset(image) {
+        if (image.mime && image.mime.toLowerCase().indexOf('video/') !== -1) {
+            return this.renderVideo(image);
+        }
+
+        return this.renderImage(image);
+    }
+
+    render() {
+        return (<View style={styles.container}>
+            <ScrollView style={{backgroundColor: '#fff'}}>
+                {this.state.images ? this.state.images.map(i => <View key={i.uri}>{this.renderAsset(i)}</View>) : null}
+            </ScrollView>
+
+            <TouchableOpacity onPress={() => this.pickSingleWithCamera(false)} style={styles.button}>
+                <Text style={styles.text}>选择照片</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.uploadImages} style={styles.button}>
+                <Text style={styles.text}>上传图片</Text>
+            </TouchableOpacity>
+        </View>);
     }
 }
 
-//样式定义
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
-        marginTop:25
+        justifyContent: 'center',
+        alignItems: 'center'
     },
-    item:{
-        margin:15,
-        height:30,
-        borderWidth:1,
-        padding:6,
-        borderColor:'#ddd',
-        textAlign:'center'
+    button: {
+        backgroundColor: '#fa0064',
+        padding: 10,
+        marginBottom: 20,
     },
-    image:{
-        height:198,
-        width:300,
-        alignSelf:'center',
-    },
+    text: {
+        color: 'white',
+        fontSize: 20,
+        textAlign: 'center'
+    }
 });

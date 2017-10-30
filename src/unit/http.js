@@ -67,6 +67,7 @@ Http.post = (url, params, headers) => {
 
         console.log('请求地址：--------------------------');
         console.log(url);
+        console.log(formData);
 
         fetch(url, {
             method:'POST',
@@ -85,5 +86,37 @@ Http.post = (url, params, headers) => {
             .done();
     })
 };
+
+//url：params对象包含图片本地路径path
+Http.uploadImage =(url, params)=> {
+    return new Promise(function (resolve, reject) {
+        var ary = params.path.split('/');
+        console.log('2222222' + ary);
+        //设置formData数据
+        let formData = new FormData();
+        let file = {uri: params.path, type: 'multipart/form-data', name: ary[ary.length-1]};
+        formData.append("file", file);
+        //fetch post请求
+        fetch('http://www.hotcc.cn:3000' + url, {
+            method: 'POST',
+            //设置请求头，请求体为json格式，identity为未压缩
+            headers: {
+                'Content-Type': 'application/json',
+                'Content-Encoding': 'identity'
+            },
+            body: JSON.stringify(formData),
+        }).then((response) => response.json())
+            .then((responseData)=> {
+                console.log('uploadImage', responseData);
+                resolve(responseData);
+            })
+            .catch((err)=> {
+                console.log('err', err);
+                reject(err);
+            });
+    });
+};
+
+
 
 global.Http = Http;
