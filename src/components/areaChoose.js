@@ -26,7 +26,7 @@ export class AreaChoose extends Component{
     //区域选择
     areaPicker = ()=>{
         Picker.init({
-            pickerData: ["玄武区","秦淮区","鼓楼区","建邺区","栖霞区","雨花台区","浦口区","江宁区","六合区","溧水区","高淳区"],
+            pickerData: City.area,
             pickerToolBarBg: [240,240,240,1],
             pickerBg: [200,200,200,1],
             pickerTitleColor: [150,150,150,1],
@@ -35,7 +35,6 @@ export class AreaChoose extends Component{
             pickerTitleText: '请选择区域',
             pickerConfirmBtnText: '确定',
             pickerCancelBtnText: '取消',
-            selectedValue: this.state.area!=null?this.state.area:['建邺区'],
             onPickerConfirm: data => {
                 this.setState({
                     area: data

@@ -2,7 +2,7 @@ import React,{ Component } from 'react';
 import {
     View,
     Text,
-    TouchableWithoutFeedback,
+    TouchableOpacity,
     ScrollView,
     Dimensions,
     StyleSheet,
@@ -10,20 +10,26 @@ import {
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { connect } from 'react-redux'
 
+import { HeaderComponent } from '../../../components/header';
+
 let { width } = Dimensions.get('window');
 
 class CityList extends Component{
 
     static navigationOptions =({navigation})=>({
-        headerTitle: navigation.state.params.provnce,
-        tintColor: '#999',
-        headerTitleStyle: {
-            fontSize: 14,
-        },
-        headerLeft: (<TouchableWithoutFeedback onPress={()=>navigation.goBack()}>
-            <Icon name="navigate-before" size={25} color="#333" style={{marginLeft: 10,}} />
-        </TouchableWithoutFeedback>)
+        header: null,
     });
+
+    constructor(props){
+        super(props);
+        this.state = {
+            city: this.props.navigation.state.params
+        }
+    }
+
+    componentDidMount(){
+        console.log(this.state);
+    }
 
     changeCity = (city)=>{
         storage.save({
@@ -32,23 +38,34 @@ class CityList extends Component{
         });
         City = city;
         this.props.navigation.goBack(this.props.nav.routes[1].key);
-    }
+    };
 
     render(){
-        let citys = this.props.navigation.state.params;
-        console.log(this.props);
         return (
-            <ScrollView style={styles.cityBox}>
-                <View style={styles.cityClassify}>
-                    <View style={styles.cityArea}>
-                        {citys.city.map((city)=><Text
-                            style={styles.cityText}
-                            onPress={this.changeCity.bind(this, city)}
-                            key={city}>{city}</Text>)}
-                    </View>
-                </View>
-            </ScrollView>
 
+            <View>
+                <HeaderComponent
+                    headerLeft={
+                        <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
+                            <Icon name='navigate-before' size={25} color='#aaa' />
+                        </TouchableOpacity>
+                    }
+                    headerTitle={<Text style={{fontSize: 18}}>{this.state.city.name}</Text>}
+                />
+
+                <ScrollView style={styles.container}>
+                    <View style={styles.cityArea}>
+                        {this.state.city.city.map((city)=>
+                            (<Text
+                                style={styles.cityText}
+                                onPress={this.changeCity.bind(this, city)}
+                                key={city.name}>
+                                {city.name}
+                            </Text>)
+                        )}
+                    </View>
+                </ScrollView>
+            </View>
         )
     }
 
@@ -66,17 +83,18 @@ export default connect(mapStateToProps)(CityList)
 
 const styles = StyleSheet.create({
 
+    container: {
+        height: '100%',
+    },
     cityArea: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'space-around',
+        backgroundColor: '#fff',
     },
     cityText: {
-        width: 70,
+        width: '25%',
         paddingTop: 10,
         paddingBottom: 10,
-        margin: 6,
-        backgroundColor: '#fff',
         textAlign: 'center',
     },
 

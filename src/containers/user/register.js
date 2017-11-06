@@ -1,9 +1,11 @@
 import React,{ Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Platform,StyleSheet,Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Toast from 'react-native-easy-toast'
+
+import {HeaderComponent} from "../../components/header";
 import * as userActions from '../../redux/actions/user'
 
 let { width, height } = Dimensions.get("window");
@@ -12,20 +14,7 @@ let timer;
 class Register extends Component{
 
     static navigationOptions =({navigation})=>({
-        headerTitle: '',
-        headerLeft: (
-            <TouchableOpacity onPress={()=>navigation.goBack()}>
-                <Icon name="navigate-before" size={25} color="#666" />
-            </TouchableOpacity>
-        ),
-        headerRight: (
-            <Text style={{color: '#333', paddingRight: 10, fontSize: 16}} onPress={()=>navigation.goBack()}>登录</Text>
-        ),
-        headerStyle: {
-            backgroundColor: '#f9f9f9',
-            borderBottomWidth: 0,
-        }
-
+        header: null,
     });
 
     constructor(...props){
@@ -37,10 +26,6 @@ class Register extends Component{
         }
     }
     componentDidMount(){
-
-        //注册消息提示
-        MessageBarManager.registerMessageBar(this.refs.alert);
-
         //获取倒计时所剩时间，继续倒计时
         if(typeof(checkTime)!='undefined'&&checkTime>1){
             this.setState({
@@ -55,9 +40,6 @@ class Register extends Component{
     }
 
     componentWillUnmount(){
-        //移除提示消息
-        MessageBarManager.unregisterMessageBar();
-
         //获取退出时倒计时剩下的时间
         global.checkTime = this.state.checkCodeTime;
         clearInterval(timer);
@@ -66,7 +48,6 @@ class Register extends Component{
     //获取短信验证码
     getCheckCode =()=>{
         let pattern = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[0,5-9])|(18[0,5-9]))\d{8}$/;
-        console.log(pattern.test(this.state.tel));
 
         if(pattern.test(this.state.tel)){
             this.setState({
@@ -74,13 +55,9 @@ class Register extends Component{
                 checkCodeTime: 15,
             });
             this.downCountTime();
+            this.refs.toast.show('您的验证码是: 758866', 3000);
         }else{
-            MessageBarManager.showAlert({
-                message: '手机号未填写或格式错误！',
-                alertType: 'warning',
-                animationType: 'SlideFromRight',
-                avatar: (<Icon name="info" size={20} color="#fff" />)
-            });
+            this.refs.toast.show('手机号输入有误！', 3000);
         }
     };
 
@@ -103,15 +80,6 @@ class Register extends Component{
 
     };
 
-    //警告提示
-    messageWarning = (info)=>{
-        MessageBarManager.showAlert({
-            message: info,
-            alertType: 'warning',
-            animationType: 'SlideFromRight',
-            avatar: (<Icon name="info" size={20} color="#fff" />)
-        });
-    }
 
     //进行用户数据注册
     doRegister(){
@@ -128,35 +96,36 @@ class Register extends Component{
         if(telPattern.test(userinfo.tel)){
             if(passwordPattern.test(userinfo.password)&&typeof(userinfo.password)!='undefined'){
                 if(checkCodePattern.test(userinfo.checkCode)){
-                    Http.post('http://localhost:3000/api/users/register', userinfo)
+                    Http.post(Ip+'api/user/register', userinfo, {'Content-Type': 'application/json'})
                         .then((res)=>{
+
+                            console.log(res);
+
                             if(res.success){
-                                this.messageWarning(res.info);
                                 storage.save({
                                     key: 'currentUser',
                                     data: {
-                                        userinfo: res.userinfo,
-                                    },
-                                    expires: null,
+                                        userinfo: res.data,
+                                    }
                                 });
-                                currentUser.userinfo = res.userinfo;
+                                currentUser.userinfo = res.data;
                                 currentUser.loginState = true;
                                 this.props.navigation.goBack(this.props.nav.routes[1].key)
                             }else{
-                                this.messageWarning(res.info);
+                                this.refs.toast.show(res.message, 3000);
                             }
                         })
                         .catch((error)=>{
                             throw error;
                         })
                 }else{
-                    this.messageWarning('动态码未填写或格式错误')
+                    this.refs.toast.show('动态码未填写或格式有误', 3000);
                 }
             }else{
-                this.messageWarning('密码未填写或格式错误')
+                this.refs.toast.show('密码未填写或格式有误', 3000);
             }
         }else{
-            this.messageWarning('手机号未填写或格式错误');
+            this.refs.toast.show('手机号未填写或格式有误', 3000);
         }
 
     }
@@ -167,7 +136,30 @@ class Register extends Component{
         return (
             <View style={styles.container}>
 
-                <MessageBar ref="alert" />
+                <Toast
+                    ref="toast"
+                    style={{backgroundColor:'red', width: '100%', alignItems: 'center'}}
+                    position='top'
+                    positionValue={60}
+                    fadeOutDuration={1000}
+                    opacity={0.8}
+                    textStyle={{color:'#fff', fontSize: 16}}
+                />
+
+                <HeaderComponent
+                    headerLeft={
+                        <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
+                            <Icon name='navigate-before' size={25} color='#aaa' />
+                        </TouchableOpacity>
+                    }
+                    headerRight={
+                        <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
+                            <Text style={{color: '#666', fontSize: 16, paddingRight: 3}}>登录</Text>
+                        </TouchableOpacity>
+                    }
+                    style={{borderBottomWidth: 0}}
+                />
+
                 {/*Logo摆放位置*/}
                 <Image source={require('../../images/logo.png')} style={styles.logo} />
 
@@ -199,8 +191,9 @@ class Register extends Component{
                             onChangeText={(text)=>this.setState({password: text})}
                         />
                     </View>
-                    <TouchableOpacity>
-                        <Text style={styles.loginBtn} onPress={this.doRegister.bind(this)}>注册</Text>
+
+                    <TouchableOpacity onPress={this.doRegister.bind(this)}>
+                        <Text style={styles.loginBtn}>注册</Text>
                     </TouchableOpacity>
                     <Text style={styles.agreement}>注册即代表同意《搜来福使用协议》</Text>
                 </View>

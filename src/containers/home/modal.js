@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
-import { Text, TouchableOpacity, View, Animated, StyleSheet, Picker, PickerIOS,Dimensions } from 'react-native'
+import { Text, TouchableOpacity, View, Animated, StyleSheet, Picker, PickerIOS,Dimensions, Platform } from 'react-native'
 import Modal from 'react-native-modal';
-
-import { Radio } from '../../components/radio';
-import { Checkbox } from '../../components/checkbox';
-import { HouseBaseInfo } from '../../components/houseBaseInfo';
+import {HeaderComponent} from "../../components/header";
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 let { width } = Dimensions.get('window');
 
 export class ModalList extends Component {
+
+    static navigationOptions = {
+        header: null,
+    }
+
     constructor(...props){
         super(...props);
         this.state = {
@@ -16,37 +19,83 @@ export class ModalList extends Component {
             selectValue: null,
             radioSelectValue: null,
             checkboxSelectValue: null,
+            slideHeight: new Animated.Value(0),
         };
     }
 
+    register = ()=>{
+        Http.post('http://localhost/index/register',{username: 'xsssss', password: 'xs123123.', tel: '15366123031'})
+            .then((res)=>{
+                console.log(res);
+                alert(res);
+            })
+            .catch((err)=>{
+                throw err;
+            })
+    }
+
+    show = ()=>{
+        Animated.spring(
+            this.state.slideHeight,
+            {
+                toValue: 60,
+                friction: 10,// 摩擦力，默认为7.
+                tension: 40,// 张力，默认40。
+            }
+        ).start();
+
+        setTimeout(()=>{
+            Animated.timing(
+                this.state.slideHeight,
+                {
+                    toValue: 0,
+                    friction: 30,// 摩擦力，默认为7.
+                }
+            ).start();
+        }, 5000)
+
+    };
+
+
 
     render () {
+
+        console.log(this.props);
+
+        if(this.props.show==true){
+            this.show();
+        }
+
         return (
             <View style={styles.container}>
+
+
+                <Animated.View style={[styles.toast, {height: this.state.slideHeight}]}>
+                    <Text style={styles.toastImg}><Icon name='info' color='#3176cd' size={20} /></Text>
+                    <Text style={styles.toastMessage}>我是提示信息</Text>
+                </Animated.View>
+
+                <HeaderComponent
+                    headerLeft={
+                        <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
+                            <Icon name='navigate-before' size={25} color='#aaa' />
+                        </TouchableOpacity>
+                    }
+                    headerTitle={<Text style={{fontSize: 18}}>信息发布</Text>}
+                    headerRight={<Text onPress={this.show}>发布</Text>}
+                />
+
                 <TouchableOpacity onPress={() => this.setState({ visibleModal: 5 })}>
                     <View style={styles.button}>
                         <Text>底部显示</Text>
                     </View>
                 </TouchableOpacity>
 
-                <Text onPress={()=>console.log(this.state.radioSelectValue)}>查看性别</Text>
-                <Text onPress={()=>console.log(this.state.checkboxSelectValue)}>查看配置</Text>
-
-                <Radio
-                    data={['男','女','保密']}
-                    value='男'
-                    select={(select)=>this.setState({radioSelectValue: select})}
-                />
-
-                <Checkbox
-                    data={['空调','冰箱','洗衣机','电视','宽带','卫生间','阳台','暖气']}
-                    value={['空调','冰箱','洗衣机','电视','宽带','卫生间']}
-                    select={(select)=>this.setState({checkboxSelectValue: select})}
-                />
-
-
-                <HouseBaseInfo />
-
+                <TouchableOpacity onPress={this.register}>
+                    <View style={styles.button}>
+                        <Text>发送post请求</Text>
+                    </View>
+                </TouchableOpacity>
 
                 <Modal
                     onBackdropPress={() => this.setState({ visibleModal: null })}
@@ -63,9 +112,6 @@ export class ModalList extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     button: {
         backgroundColor: 'lightblue',
@@ -88,4 +134,25 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         margin: 0,
     },
+    toast:{
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        backgroundColor: '#5d8',
+        width: '100%',
+        overflow: 'hidden',
+        position: 'absolute',
+        top: 0,
+        zIndex: 999,
+    },
+    toastImg:{
+        paddingTop: Platform.OS=='ios'?20: 0,
+        paddingRight: 10,
+        paddingLeft: 10,
+    },
+    toastMessage:{
+        paddingTop: Platform.OS=='ios'?20: 0,
+    },
+
+
 });

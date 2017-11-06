@@ -2,6 +2,34 @@ import * as actionTypes from '../constants/actionTypes';
 
 import Mock from 'mockjs';
 
+export const getCitys = ()=>{
+    return (dispatch)=>{
+        Http.get(Ip+'api/city')
+            .then((res)=>{
+
+                let hotCitys = [
+                    res[0].city[0],
+                    res[1].city[0],
+                    res[8].city[0],
+                    res[9].city[0],
+                    res[10].city[0],
+                    res[16].city[0],
+                    res[18].city[0],
+                    res[18].city[1],
+                    res[21].city[0],
+                ]
+                dispatch({
+                    type: actionTypes.CITY,
+                    data: {
+                        citys: res,
+                        hotCitys: hotCitys,
+                    },
+                })
+            })
+    }
+};
+
+
 export const login = ()=>{
     return (dispatch) => {
         Http.get('http://rapapi.org/mockjsdata/26250/api/user/login')
@@ -30,16 +58,6 @@ export const login = ()=>{
                 }
 
             });
-    }
-};
-
-export const getUserInfo = ()=>{
-    return {
-        type: actionTypes.GET_USER_INFO,
-        data: {
-            username: 'xushuai',
-            password: '123123'
-        }
     }
 };
 

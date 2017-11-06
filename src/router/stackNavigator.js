@@ -13,7 +13,7 @@ import { ClassifyList } from '../containers/replease/classifyList';
 import { SwiperList } from '../containers/home/swiper';
 import { ModalList } from '../containers/home/modal';
 import { Search } from '../containers/search/search';
-import { Provnces } from '../containers/home/city/index';
+import Provnces from '../containers/home/city/index';
 import CityList from '../containers/home/city/cityList';
 
 import { HouseClassify } from '../containers/home/classify/house/index';

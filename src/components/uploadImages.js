@@ -23,23 +23,25 @@ export class UploadImages extends Component{
     constructor(props){
         super(props);
         this.state = {
-            house_configure: [],
+            images: null,
         }
     };
 
-    //上传图片
-    pickSingleWithCamera = ()=>{
+    //选择图片
+    pickSingleWithCamera = async()=>{
         ImagePicker.openPicker({
             multiple: true,
+            includeBase64: true
         }).then(images => {
+            this.props.images(images);
+
             this.setState({
                 images: images.map(i => {
-                    return {uri: i.path, mime: i.mime};
+                    return {uri: i.path, mime: i.mime, imgBase64: i.data};
                 })
             });
-            console.log(this.state.images);
-            this.props.images(this.state.images);
-        }).catch(e => console.log(e));
+        }).catch(e => alert('图片选择出错！'));
+
     };
 
 

@@ -7,6 +7,12 @@ let Http = {};
 * @return { Promise }
 * */
 
+/*
+* http://localhost/public/index/test 本地连接
+* http://www.hotcc.cn/public/index.php/index/test  服务器连接
+* */
+
+
 Http.get = (url, params, headers) => {
 
     if(params){
@@ -58,20 +64,22 @@ Http.get = (url, params, headers) => {
  *
  * */
 Http.post = (url, params, headers) => {
+
     if (params) {
         // 初始化FormData
         var formData = JSON.stringify(params);
     }
 
+
     return new Promise(function (resolve, reject) {
 
         console.log('请求地址：--------------------------');
         console.log(url);
-        console.log(formData);
+        console.log(headers);
 
         fetch(url, {
             method:'POST',
-            headers:headers,
+            headers:headers?headers:{'Content-Type': 'application/json'},
             body:formData,
         })
             .then((response) => response.json())
@@ -80,43 +88,11 @@ Http.post = (url, params, headers) => {
             })
             .catch((error) => {
                 console.log(error);
-                alert('数据连接失败');
+                // alert('数据连接失败');
                 reject({status:-1})
             })
             .done();
     })
 };
-
-//url：params对象包含图片本地路径path
-Http.uploadImage =(url, params)=> {
-    return new Promise(function (resolve, reject) {
-        var ary = params.path.split('/');
-        console.log('2222222' + ary);
-        //设置formData数据
-        let formData = new FormData();
-        let file = {uri: params.path, type: 'multipart/form-data', name: ary[ary.length-1]};
-        formData.append("file", file);
-        //fetch post请求
-        fetch('http://www.hotcc.cn:3000' + url, {
-            method: 'POST',
-            //设置请求头，请求体为json格式，identity为未压缩
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Encoding': 'identity'
-            },
-            body: JSON.stringify(formData),
-        }).then((response) => response.json())
-            .then((responseData)=> {
-                console.log('uploadImage', responseData);
-                resolve(responseData);
-            })
-            .catch((err)=> {
-                console.log('err', err);
-                reject(err);
-            });
-    });
-};
-
-
 
 global.Http = Http;

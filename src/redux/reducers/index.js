@@ -1,12 +1,13 @@
 import { combineReducers } from 'redux';
 
-import { user, myReplease, myRepleaseAuditing, myCollection } from './user';
+import { citys, user, myReplease, myRepleaseAuditing, myCollection } from './user';
 import { navReducer } from './nav';
 import { classify } from './classify';
 import { classifyMore } from './classify';
 
 
 export const appReducer = combineReducers({
+    citys: citys,
     user: user,
     myReplease: myReplease,
     myRepleaseAuditing: myRepleaseAuditing,

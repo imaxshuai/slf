@@ -3,12 +3,21 @@ import * as actionTypes from '../constants/actionTypes';
 const initialState = {};
 const initialState2 = [];
 
+export const citys = (state=initialState2, action) => {
+
+    switch (action.type){
+        case actionTypes.CITY:
+            return action.data;
+        default:
+            return state
+    }
+
+};
+
 export const user = (state=initialState, action) => {
 
     switch (action.type){
         case actionTypes.USER_LOGIN:
-            return action.data;
-        case actionTypes.GET_USER_INFO:
             return action.data;
         case actionTypes.USER_REGISTER:
             return action.data;

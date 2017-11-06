@@ -3,28 +3,16 @@ import { View, Text, TextInput, TouchableOpacity, Image, Button, Platform,StyleS
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
-import { MessageBar, MessageBarManager } from 'react-native-message-bar';
+import Toast from 'react-native-easy-toast'
 
 import * as userActions from '../../redux/actions/user';
+import {HeaderComponent} from "../../components/header";
 
 class Login extends Component{
 
-    static navigationOptions =({navigation})=>({
-        headerTitle: '',
-        headerLeft: (
-            <TouchableOpacity onPress={()=>navigation.goBack()}>
-                <Icon name="navigate-before" size={25} color="#666" />
-            </TouchableOpacity>
-        ),
-        headerRight: (
-            <Text style={{color: '#333', paddingRight: 10, fontSize: 16,}} onPress={()=>navigation.navigate('Register')}>注册</Text>
-        ),
-        headerStyle: {
-            backgroundColor: '#f9f9f9',
-            borderBottomWidth: 0,
-        }
-
-    });
+    static navigationOptions ={
+        header: null
+    };
 
     constructor(...props){
         super(...props);
@@ -34,27 +22,20 @@ class Login extends Component{
         }
     }
 
-
     componentDidMount(){
-        MessageBarManager.registerMessageBar(this.refs.alert)
+        //其他页面跳转登录页面的信息提示
+        if(this.props.navigation.state.params){
+            setTimeout(()=>{
+                this.refs.toast.show(this.props.navigation.state.params, 3000);
+            },500)
+        }
     }
-    componentWillUnmount(){
-        MessageBarManager.unregisterMessageBar();
-    }
+
 
     goBack(){
         this.props.navigation.goBack();
     }
 
-    //警告提示
-    messageWarning = (info)=>{
-        MessageBarManager.showAlert({
-            message: info,
-            alertType: 'warning',
-            animationType: 'SlideFromRight',
-            avatar: (<Icon name="info" size={20} color="#fff" />)
-        });
-    }
     //进行用户数据注册
     doLogin(){
         let userinfo = {
@@ -67,45 +48,63 @@ class Login extends Component{
 
         if(telPattern.test(userinfo.tel)){
             if(passwordPattern.test(userinfo.password)&&typeof(userinfo.password)!='undefined'){
-                Http.post('http://localhost:3000/api/users/login', userinfo)
+                Http.post(Ip+'api/user/login', userinfo)
                     .then((res)=>{
                     console.log(res);
                         if(res.success){
-                            this.messageWarning(res.info);
                             storage.save({
                                 key: 'currentUser',
                                 data: {
-                                    userinfo: res.userinfo,
+                                    userinfo: res.data,
                                 },
                                 expires: null,
                             });
-                            currentUser.userinfo = res.userinfo;
+                            currentUser.userinfo = res.data;
                             currentUser.loginState = true;
                             this.props.navigation.goBack()
                         }else{
-                            this.messageWarning(res.info);
+                            this.refs.toast.show(res.message, 3000);
                         }
                     })
                     .catch((error)=>{
                         throw error;
                     })
             }else{
-                this.messageWarning('密码未填写或格式错误')
+                this.refs.toast.show('密码未填写或格式错误', 3000);
             }
         }else{
-            this.messageWarning('手机号未填写或格式错误');
+            this.refs.toast.show('手机号输入有误', 3000);
         }
 
-    }
-    toRegister(){
-        this.props.navigation.navigate('Register');
     }
 
     render(){
         return (
             <View style={styles.container}>
 
-                <MessageBar ref="alert" />
+                <Toast
+                    ref="toast"
+                    style={{backgroundColor:'red', width: '100%', alignItems: 'center'}}
+                    position='top'
+                    positionValue={60}
+                    fadeOutDuration={1000}
+                    opacity={0.8}
+                    textStyle={{color:'#fff', fontSize: 16}}
+                />
+
+                <HeaderComponent
+                    headerLeft={
+                        <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
+                            <Icon name='navigate-before' size={25} color='#aaa' />
+                        </TouchableOpacity>
+                    }
+                   headerRight={
+                        <TouchableOpacity onPress={()=>this.props.navigation.navigate('Register')}>
+                            <Text style={{color: '#666', fontSize: 16, paddingRight: 3}}>注册</Text>
+                        </TouchableOpacity>
+                    }
+                    style={{borderBottomWidth: 0}}
+                />
 
                 {/*Logo摆放位置*/}
                 <Image source={require('../../images/logo.png')} style={styles.logo} />
