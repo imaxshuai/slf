@@ -17,7 +17,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Swiper from 'react-native-swiper';
 
 import * as userActions from '../../../../redux/actions/user';
-import * as classifyActions from '../../../../redux/actions/classify';
+import * as classifyActions from '../../../../redux/actions/sort';
 import { JobItemComponent } from '../../../../components/JobItem'
 
 let { width, height } = Dimensions.get("window");

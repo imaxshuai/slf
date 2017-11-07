@@ -17,7 +17,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Swiper from 'react-native-swiper';
 
 import * as userActions from '../../../../redux/actions/user';
-import * as classifyActions from '../../../../redux/actions/classify';
+import * as sortActions from '../../../../redux/actions/sort';
 import ListItemHouseComponent from '../../../../components/LisItemHouse'
 
 let { width, height } = Dimensions.get("window");
@@ -31,7 +31,12 @@ class HouseList extends Component{
         super(props);
         this.state = {
             refreshing: false,
+            page: 1,
         }
+    }
+
+    componentDidMount(){
+
     }
 
     alertFilterCity = ()=>{
@@ -53,7 +58,12 @@ class HouseList extends Component{
 
     //获取下拉加载更多数据
     _getMoreHouse(){
-        this.props.classifyActions.getHouse(this.props.classify);
+        let params = {page: this.state.page, sort_name: this.props.navigation.state.params.key, city: City.name};
+        this.props.sortActions.getHouseList(params);
+        this.setState({
+            page: Math.ceil(this.props.houseList.length/10),
+        })
+        console.log(this.state);
     }
     //上拉页面刷新
     _onRefresh() {
@@ -68,17 +78,40 @@ class HouseList extends Component{
         },1000)
     }
 
-    createEmptyView() {
-        return (
-            <Text style={{fontSize: 40, alignSelf: 'center'}}>服务器连接失败！</Text>
-        );
-    }
-
     //头部广告轮播
     _header = ()=>{
         return (
 
             <View>
+
+                {/*轮播图*/}
+                <View style={styles.ss}>
+                    <Swiper
+                        showsButtons={false}
+                        autoplay={true}
+                        autoplayTimeout={3}
+                        paginationStyle={{ bottom: 5 }}
+                        dotStyle={{backgroundColor:'#fff', width: 10, height: 10}}
+                        activeDotStyle={{backgroundColor:'#fa0064', width: 10, height: 10}}
+                    >
+                        <Image source={require('../../../../images/carousel-01.jpg')} style={styles.carouselImg} />
+                        <Image source={require('../../../../images/carousel-02.jpg')} style={styles.carouselImg} />
+                        <Image source={require('../../../../images/carousel-03.jpg')} style={styles.carouselImg} />
+                        <Image source={require('../../../../images/carousel-04.jpg')} style={styles.carouselImg} />
+                        <Image source={require('../../../../images/carousel-05.jpg')} style={styles.carouselImg} />
+                    </Swiper>
+                </View>
+            </View>
+
+        )
+    }
+
+
+    render() {
+        return (
+
+            <View style={styles.container}>
+
                 {/*分类产品头部搜索部分*/}
                 <View style={styles.homeHeader}>
                     <TouchableOpacity onPress={this._goBack.bind(this)} style={styles.city} >
@@ -96,6 +129,7 @@ class HouseList extends Component{
                         </TouchableOpacity>
                     </View>
                 </View>
+
                 <View style={styles.filterArea}>
                     <TouchableWithoutFeedback onPress={this.alertFilterCity}>
                         <View style={styles.filterTextBox}>
@@ -124,45 +158,18 @@ class HouseList extends Component{
 
                 </View>
 
-                {/*轮播图*/}
-                <View style={styles.ss}>
-                    <Swiper
-                        showsButtons={false}
-                        autoplay={true}
-                        autoplayTimeout={3}
-                        paginationStyle={{ bottom: 5 }}
-                        dotStyle={{backgroundColor:'#fff', width: 10, height: 10}}
-                        activeDotStyle={{backgroundColor:'#fa0064', width: 10, height: 10}}
-                    >
-                        <Image source={require('../../../../images/carousel-01.jpg')} style={styles.carouselImg} />
-                        <Image source={require('../../../../images/carousel-02.jpg')} style={styles.carouselImg} />
-                        <Image source={require('../../../../images/carousel-03.jpg')} style={styles.carouselImg} />
-                        <Image source={require('../../../../images/carousel-04.jpg')} style={styles.carouselImg} />
-                        <Image source={require('../../../../images/carousel-05.jpg')} style={styles.carouselImg} />
-                    </Swiper>
-                </View>
-            </View>
-
-        )
-    }
-
-
-    render() {
-        return (
-
-            <View style={{backgroundColor: "#fff"}}>
                 {/*无限下拉*/}
                 <FlatList
                     ListHeaderComponent={this._header.bind(this)}
                     renderItem={({item})=><ListItemHouseComponent info={item} navigation={this.props.navigation} />}
-                    ListEmptyComponent={this.createEmptyView()}
-                    data={this.props.classify}
+                    // ListEmptyComponent={this.createEmptyView()}
+                    data={this.props.houseList}
                     keyExtractor={(item)=>item.id}
 
                     initialNumToRender={5}
 
-                    refreshing={this.state.refreshing}
-                    onEndReachedThreshold={0.5}
+                    refreshing={this.props.houseList.length<=0}
+                    onEndReachedThreshold={0.2}
                     onRefresh={this._onRefresh.bind(this)}
                     onEndReached={this._getMoreHouse.bind(this)}
                     getItemLayout={(data, index) => ( {length: 130, offset: 130 * index, index} )}
@@ -178,14 +185,15 @@ const mapStateToProps = (state)=>{
         user: state.user,
         nav: state.nav,
         classify: state.classify,
-        classifyMore: state.classifyMore
+        classifyMore: state.classifyMore,
+        houseList: state.houseList,
     }
 };
 
 const mapDispatchToProps = (dispatch)=>{
     return {
         userActions: bindActionCreators(userActions, dispatch),
-        classifyActions: bindActionCreators(classifyActions, dispatch)
+        sortActions: bindActionCreators(sortActions, dispatch)
     }
 };
 
@@ -197,6 +205,7 @@ export default connect(
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#fff',
     },
     /*首页头部搜索区域样式*/
     homeHeader: {

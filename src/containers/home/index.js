@@ -18,7 +18,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Swiper from 'react-native-swiper';
 
 import * as userActions from '../../redux/actions/user';
-import * as classifyActions from '../../redux/actions/classify';
+import * as sortActions from '../../redux/actions/sort';
 import ListItemHouseComponent from '../../components/LisItemHouse'
 
 
@@ -68,6 +68,8 @@ class Home extends PureComponent{
 
         console.log(City);
 
+        this._getMoreHouse();
+
     }
     componentWillUnmount() {
         if (Platform.OS === 'android') {
@@ -86,8 +88,7 @@ class Home extends PureComponent{
     }
     //跳转HouseClassify页
     toClassifyList = (list)=>{
-        console.log(list);
-        this.props.navigation.navigate('HouseClassify');
+        this.props.navigation.navigate('HouseClassify', list);
     }
     //跳转搜索页面
     toSearch(){
@@ -100,14 +101,14 @@ class Home extends PureComponent{
 
     //获取下拉加载更多数据
     _getMoreHouse(){
-        this.props.classifyActions.getHouse(this.props.classify);
+        this.props.sortActions.getHouse(this.props.classify);
     }
     //上拉页面刷新
     _onRefresh() {
         this.setState({
             refreshing: true
         });
-        this.props.classifyActions.getHouse([]);
+        this.props.sortActions.getHouse([]);
         setTimeout(()=> {
             this.setState({
                 refreshing: false
@@ -126,10 +127,10 @@ class Home extends PureComponent{
             <View>
                 {/*一级标题分类*/}
                 <View style={styles.navClass}>
-                    <TouchableOpacity onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                    <TouchableOpacity onPress={this.toClassifyList.bind(this,this.props.sort.fczs)}>
                         <View style={styles.navItem}>
                             <Icon name="location-city" size={35} color="#39a0f4" />
-                            <Text style={styles.navItemText}>房屋出租</Text>
+                            <Text style={styles.navItemText}>房产租售</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={()=>this.props.navigation.navigate('JobClassify')}>
@@ -324,7 +325,7 @@ class Home extends PureComponent{
                     refreshing={this.state.refreshing}
                     onEndReachedThreshold={0.5}
                     onRefresh={this._onRefresh.bind(this)}
-                    onEndReached={this._getMoreHouse.bind(this)}
+                    // onEndReached={this._getMoreHouse.bind(this)}
                     getItemLayout={(data, index) => ( {length: 130, offset: 130 * index, index} )}
                 />
 
@@ -338,6 +339,7 @@ const mapStateToProps = (state)=>{
     return {
         user: state.user,
         nav: state.nav,
+        sort: state.sort,
         classify: state.classify,
         classifyMore: state.classifyMore
     }
@@ -346,7 +348,7 @@ const mapStateToProps = (state)=>{
 const mapDispatchToProps = (dispatch)=>{
     return {
         userActions: bindActionCreators(userActions, dispatch),
-        classifyActions: bindActionCreators(classifyActions, dispatch)
+        sortActions: bindActionCreators(sortActions, dispatch)
     }
 };
 

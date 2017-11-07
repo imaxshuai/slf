@@ -12,7 +12,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import * as classifyActions from '../../../redux/actions/classify';
+import * as classifyActions from '../../../redux/actions/sort';
 
 const {width, height} = Dimensions.get('window');
 

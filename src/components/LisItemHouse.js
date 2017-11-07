@@ -23,10 +23,14 @@ export default class ListItemHouseComponent extends Component{
         return (
             <TouchableOpacity key={this.props.info.id} onPress={this.toDetail}>
                 <View style={styles.itemBox}>
-                    <Image
-                        source={{uri: this.props.info.images[0]}}
-                        style={styles.itemImg}
-                    />
+                    {this.props.info.images.length>0
+                        ?
+                        (<Image
+                            source={{uri: Ip+'upload/images/'+this.props.info.images[0]}}
+                            style={styles.itemImg}
+                        />)
+                        :null
+                    }
                     <View style={styles.textInfo}>
                         <Text
                             style={styles.itemTitle}
@@ -34,23 +38,23 @@ export default class ListItemHouseComponent extends Component{
                         >{this.props.info.title}</Text>
 
                         <View style={styles.describeText}>
-                            <View style={styles.textLeft}>
-                                <Text style={styles.textLeftInfo}>{this.props.info.rental_form}</Text>
-                                <View style={styles.textCutLine}></View>
-                                <Text style={styles.textLeftInfo}>{this.props.info.house_size}㎡</Text>
-                                <View style={styles.textCutLine}></View>
-                                <Text style={styles.textLeftInfo}>中等装修</Text>
-                            </View>
-                            <View style={styles.textRight}>
-                                <Text  style={styles.textRightInfo}>{this.props.info.price}元</Text>
-                            </View>
+                            <Text style={styles.textLeftInfo}>{this.props.info.room_and_hall}</Text>
+                            <View style={styles.textCutLine} />
+                            <Text style={styles.textLeftInfo}>{this.props.info.house_size}㎡</Text>
+                            <View style={styles.textCutLine} />
+                            <Text style={styles.textLeftInfo}>中等装修</Text>
                         </View>
 
-                        <View style={styles.extensionBox}>
-                            <Text style={{padding: 5, color: '#fff',backgroundColor: '#fa0064', borderRadius: 3, marginRight: 10, overflow: 'hidden'}}>顶</Text>
-                            <Text style={{padding: 5, color: '#fff',backgroundColor: '#fa0064', borderRadius: 3, marginRight: 10, overflow: 'hidden'}}>火</Text>
-                            <Text style={{padding: 5, color: '#fff',backgroundColor: '#fa0064', borderRadius: 3, marginRight: 10, overflow: 'hidden'}}>折</Text>
-                            <Text style={{padding: 5, color: '#fff',backgroundColor: '#fa0064', borderRadius: 3, marginRight: 10, overflow: 'hidden'}}>新</Text>
+                        <View style={styles.bottom}>
+                            <View style={styles.textRight}>
+                                <Text  style={styles.price}>{this.props.info.price}元</Text>
+                            </View>
+                            <View style={styles.extensionBox}>
+                                <Text style={{padding: 3, color: '#fa0064', fontSize: 10, borderWidth: 0.5, borderColor: '#fa0064',borderRadius: 2, marginRight: 5, }}>顶</Text>
+                                <Text style={{padding: 3, color: '#fa0064', fontSize: 10, borderWidth: 0.5, borderColor: '#fa0064',borderRadius: 2, marginRight: 5, }}>火</Text>
+                                <Text style={{padding: 3, color: '#fa0064', fontSize: 10, borderWidth: 0.5, borderColor: '#fa0064',borderRadius: 2, marginRight: 5, }}>折</Text>
+                                <Text style={{padding: 3, color: '#fa0064', fontSize: 10, borderWidth: 0.5, borderColor: '#fa0064',borderRadius: 2, marginRight: 5, }}>新</Text>
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -91,11 +95,7 @@ const styles = StyleSheet.create({
     },
     describeText: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    textLeft: {
-        flexDirection: 'row',
-        marginTop: 2,
+        justifyContent: 'flex-start',
     },
     textLeftInfo: {
         color: '#999',
@@ -108,12 +108,16 @@ const styles = StyleSheet.create({
         marginRight: 8,
         height: 12,
     },
-    textRight: {
 
+    bottom: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
-    textRightInfo: {
+    price: {
         color: '#fa0064',
         fontWeight: '500',
+        fontSize: 16,
     },
     extensionBox: {
         flexDirection: 'row',

@@ -77,7 +77,7 @@ export class HouseDetail extends Component{
                             dotStyle={{backgroundColor:'#fff', width: 10, height: 10}}
                             activeDotStyle={{backgroundColor:'#fa0064', width: 10, height: 10}}
                         >
-                            {info.images.map((image)=><Image source={{uri: image}} key={image} style={styles.carouselImg}/>)}
+                            {info.images.map((image)=><Image source={{uri: Ip+'upload/images/'+image}} key={image} style={styles.carouselImg}/>)}
                         </Swiper>
                     </View>
 

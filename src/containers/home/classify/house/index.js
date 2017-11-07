@@ -21,10 +21,10 @@ export class HouseClassify extends Component{
         header: null,
     };
 
-    //跳转登录页
-    toLogin(){
-        this.props.navigation.navigate('Replease');
+    componentDidMount(){
+        console.log(this.props.navigation)
     }
+
     //跳转搜索页面
     toSearch(){
         this.props.navigation.navigate('Search');
@@ -35,13 +35,17 @@ export class HouseClassify extends Component{
     }
 
     //跳转列表页
-    toClassifyList(){
-        this.props.navigation.navigate('HouseList');
+    toSortList(item){
+        this.props.navigation.navigate('HouseList', item);
     }
 
     render() {
+
+        console.log(this.props)
+        console.log(this.props.navigation.state.params.label)
+
         return (
-            <View>
+            <View style={styles.container}>
 
                 {/*分类产品头部搜索部分*/}
                 <View style={styles.homeHeader}>
@@ -55,7 +59,7 @@ export class HouseClassify extends Component{
                         </View>
                     </TouchableWithoutFeedback>
                     <View style={styles.userIcon}>
-                        <TouchableOpacity onPress={this.toLogin.bind(this)}>
+                        <TouchableOpacity>
                             <Text style={{color: '#aaa'}}>发布信息</Text>
                         </TouchableOpacity>
                     </View>
@@ -84,25 +88,25 @@ export class HouseClassify extends Component{
 
                     {/*分类产品子项目*/}
                     <View style={styles.navClass}>
-                        <TouchableOpacity onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <TouchableOpacity onPress={this.toSortList.bind(this,{list: 'xixi'})}>
                             <View style={styles.navItem}>
                                 <Icon name="location-city" size={35} color="#39a0f4" />
                                 <Text style={styles.navItemText}>房屋出租</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <TouchableOpacity onPress={this.toSortList.bind(this,{list: 'xixi'})}>
                             <View style={styles.navItem}>
                                 <Icon name="card-travel" size={35} color="#fe4a6c" />
                                 <Text style={styles.navItemText} >人才招聘</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <TouchableOpacity  onPress={this.toSortList.bind(this,{list: 'xixi'})}>
                             <View style={styles.navItem}>
                                 <Icon name="business-center" size={35} color="#42ba7b" />
                                 <Text style={styles.navItemText} >商业服务</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <TouchableOpacity  onPress={this.toSortList.bind(this,{list: 'xixi'})}>
                             <View style={styles.navItem}>
                                 <Icon name="shop" size={35} color="#f6552c" />
                                 <Text style={styles.navItemText}>同城二手</Text>
@@ -114,52 +118,16 @@ export class HouseClassify extends Component{
 
                     <View  style={styles.listArea}>
                         <View style={styles.listTitle}>
-                            <Text  style={styles.titleText}>新房   二手房</Text>
+                            <Text  style={styles.titleText}>房产租售</Text>
                         </View>
                         <View style={styles.listBody}>
-                            <TouchableOpacity><Text  style={styles.bodyText}>新房出售</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>二手房出售</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>求购</Text></TouchableOpacity>
-                        </View>
-                    </View>
-                    <View  style={styles.listArea}>
-                        <View style={styles.listTitle}>
-                            <Text  style={styles.titleText}>租房   出租</Text>
-                        </View>
-                        <View style={styles.listBody}>
-                            <TouchableOpacity><Text  style={styles.bodyText}>整套出租</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>单间出租</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>床位出租</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>短租/日租</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>找室友</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>求租</Text></TouchableOpacity>
-                        </View>
-                    </View>
-                    <View  style={styles.listArea}>
-                        <View style={styles.listTitle}>
-                            <TouchableOpacity><Text  style={styles.titleText}>商铺   写字楼</Text></TouchableOpacity>
-                        </View>
-                        <View style={styles.listBody}>
-                            <TouchableOpacity><Text  style={styles.bodyText}>商铺出租</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>商铺出售</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>商铺转让</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>写字楼出租</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>写字楼出售</Text></TouchableOpacity>
-                        </View>
-                    </View>
-                    <View  style={styles.listArea}>
-                        <View style={styles.listTitle}>
-                            <Text  style={styles.titleText}>厂房   仓库</Text>
-                        </View>
-                        <View style={styles.listBody}>
-                            <TouchableOpacity><Text  style={styles.bodyText}>厂房出租</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>厂房出售</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>仓库出租</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>仓库出售</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>土地出租</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>土地出售</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>车库出租</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>车库出售</Text></TouchableOpacity>
+                            {
+                                this.props.navigation.state.params['label'].map((item)=>(
+                                    <TouchableOpacity key={item.key} onPress={this.toSortList.bind(this,item)}>
+                                        <Text  style={styles.bodyText}>{item.key}</Text>
+                                    </TouchableOpacity>)
+                                )
+                            }
                         </View>
                     </View>
                     <View style={{height: 100,}}></View>

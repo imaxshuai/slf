@@ -1,6 +1,34 @@
 import * as actionTypes from '../constants/actionTypes';
 import Mock from 'mockjs';
 
+export const getSort = ()=>{
+
+    return (dispatch)=>{
+        Http.get(Ip+'api/sort')
+            .then((res)=>{
+
+                dispatch({
+                    type: actionTypes.SORT,
+                    data: res
+                })
+            })
+    }
+
+};
+
+export const getHouseList = (params) =>{
+
+    return (dispatch)=>{
+
+        Http.get(Ip+'api/house', params)
+            .then((res)=>{
+                dispatch({
+                    type: actionTypes.GET_HOUSE_LIST,
+                    data: res,
+                })
+            })
+    }
+}
 
 export const getHouse = (houseData) =>{
 
@@ -8,6 +36,8 @@ export const getHouse = (houseData) =>{
         Http.post('http://rapapi.org/mockjs/26250/api/house')
             .then((res)=>{
                 if(res.success){
+
+                    console.log(res);
                     let c = Mock.mock(res).data;
 
                     if(houseData != null){

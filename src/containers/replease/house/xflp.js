@@ -81,13 +81,14 @@ export class Replease1to1 extends Component {
             user_id: currentUser.userinfo.id,
             //单选和复选选取的值
             house_type: this.state.houseType,
+            sort_name: this.props.navigation.state.params,
 
             //图片
             images: this.state.images,
 
         };
 
-        let telPattern = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[0,5-9])|(18[0,5-9]))\d{8}$/;
+        let telPattern = /^1[3|4|5|7|8][0-9]{9}$/;
         let qqPattern = /^[1-9][0-9]{5,10}$/;
 
         (repleaseInfo.title==null)||(repleaseInfo.title=='')?message.push('请填写信息标题!'):null;
@@ -111,13 +112,22 @@ export class Replease1to1 extends Component {
             this.setState({
                 showToast: true
             });
+            setTimeout(()=>{
+                this.setState({
+                    showToast: false
+                }, 300);
+            })
         }else{
 
             console.log(repleaseInfo);
 
-            Http.post(Ip+'api/replease/house', repleaseInfo ,{'Content-Type': 'application/json'},)
+            Http.post(Ip+'api/house/create', repleaseInfo ,{'Content-Type': 'application/json'},)
                 .then( res=>{
-                    console.log(res);
+                    if(res.success){
+                        alert(res.message);
+                    }else{
+                        alert(res.message)
+                    }
                 })
         }
 
@@ -322,9 +332,11 @@ export class Replease1to1 extends Component {
                             </View>
                         </View>
 
-                        <Text style={styles.submitBtn} onPress={this.doSubmit}>
-                            立即发布
-                        </Text>
+                        <TouchableOpacity onPress={this.doSubmit}>
+                            <Text style={styles.submitBtn}>
+                                立即发布
+                            </Text>
+                        </TouchableOpacity>
 
                         <View style={{height: 60}} />
 
