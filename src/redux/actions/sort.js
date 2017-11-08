@@ -16,19 +16,30 @@ export const getSort = ()=>{
 
 };
 
-export const getHouseList = (params) =>{
+export const getHouseList = (params, data) =>{
 
     return (dispatch)=>{
 
         Http.get(Ip+'api/house', params)
             .then((res)=>{
+
+                if(data.length>5){
+                    data = data.concat(res);
+                }else{
+                    data = res;
+                }
+
                 dispatch({
                     type: actionTypes.GET_HOUSE_LIST,
-                    data: res,
+                    data: data,
                 })
             })
     }
-}
+};
+
+
+
+
 
 export const getHouse = (houseData) =>{
 

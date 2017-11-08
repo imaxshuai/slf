@@ -16,22 +16,13 @@ export class ModalList extends Component {
         super(...props);
         this.state = {
             visibleModal: null,
-            selectValue: null,
-            radioSelectValue: null,
-            checkboxSelectValue: null,
             slideHeight: new Animated.Value(0),
         };
     }
 
-    register = ()=>{
-        Http.post('http://localhost/index/register',{username: 'xsssss', password: 'xs123123.', tel: '15366123031'})
-            .then((res)=>{
-                console.log(res);
-                alert(res);
-            })
-            .catch((err)=>{
-                throw err;
-            })
+
+    componentDidMount(){
+
     }
 
     show = ()=>{
@@ -88,12 +79,6 @@ export class ModalList extends Component {
                 <TouchableOpacity onPress={() => this.setState({ visibleModal: 5 })}>
                     <View style={styles.button}>
                         <Text>底部显示</Text>
-                    </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={this.register}>
-                    <View style={styles.button}>
-                        <Text>发送post请求</Text>
                     </View>
                 </TouchableOpacity>
 

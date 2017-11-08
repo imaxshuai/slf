@@ -115,8 +115,8 @@ export class Replease1to1 extends Component {
             setTimeout(()=>{
                 this.setState({
                     showToast: false
-                }, 300);
-            })
+                });
+            },200)
         }else{
 
             console.log(repleaseInfo);
@@ -130,6 +130,8 @@ export class Replease1to1 extends Component {
                     }
                 })
         }
+
+
 
     };
 

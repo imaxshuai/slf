@@ -38,6 +38,6 @@ storage.load({
 
 global.City = City;
 
-let Ip = 'http://localhost/public/';
+let Ip = 'http://www.hotcc.cn/public/index.php/';
 
 global.Ip = Ip;
