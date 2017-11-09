@@ -17,9 +17,9 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import * as userActions from '../../../../redux/actions/user';
 import * as sortActions from '../../../../redux/actions/sort';
 import ListItemHouseComponent from '../../../../components/LisItemHouse'
+import Filter from '../../../../components/filter'
 
 let { width, height } = Dimensions.get("window");
 let price = ['6000元/㎡ 以内','6000-10000元/㎡','10000-15000元/㎡','15000-30000元/㎡','30000元/㎡ 以上'];
@@ -49,11 +49,13 @@ class HouseList extends Component{
     }
 
     componentDidMount(){
-
+        let params = {sort_name: this.props.navigation.state.params.key, city: City.name};
+        this.props.sortActions.getHouseList(params, {data: []});
     }
 
     alertFilterCity = ()=>{
         alert('南京');
+        console.log(this.props.houseList['data']);
     };
 
     //区域筛选条件
@@ -64,7 +66,7 @@ class HouseList extends Component{
                 {
                     toValue: 0,
                     friction: 30,// 摩擦力，默认为7.
-                    tension: 300,// 张力，默认40。
+                    tension: 400,// 张力，默认40。
                 }
             ).start();
             this.setState({modelIsShow01: false});
@@ -73,8 +75,8 @@ class HouseList extends Component{
                 this.state.cityModelHeight,
                 {
                     toValue: height-111,
-                    friction: 10,// 摩擦力，默认为7.
-                    tension: 400,// 张力，默认40。
+                    friction: 20,// 摩擦力，默认为7.
+                    tension: 100,// 张力，默认40。
                 }
             ).start();
             this.setState({modelIsShow01: true});
@@ -103,8 +105,8 @@ class HouseList extends Component{
                 this.state.priceModelHeight,
                 {
                     toValue: height-111,
-                    friction: 10,// 摩擦力，默认为7.
-                    tension: 400,// 张力，默认40。
+                    friction: 20,// 摩擦力，默认为7.
+                    tension: 100,// 张力，默认40。
                 }
             ).start();
             this.setState({modelIsShow02: true});
@@ -119,29 +121,20 @@ class HouseList extends Component{
 
     //获取下拉加载更多数据
     _getMoreHouse = ()=>{
-        let houseList = this.props.houseList;
-        let page = parseInt(houseList.length/10)+1;
-        if(houseList.length%10==0){
-            let params = {page: page, sort_name: this.props.navigation.state.params.key, city: City.name};
-            this.props.sortActions.getHouseList(params, houseList);
-        }else{
-            this.setState({
-                isEnd: true,
-            })
+        if(this.props.houseList.data.length>=10&&!this.props.houseList.isEnd){
+            let params = {sort_name: this.props.navigation.state.params.key, city: City.name};
+            this.props.sortActions.getHouseList(params, this.props.houseList);
         }
     };
     //上拉页面刷新
     _onRefresh = ()=>{
-        let params = {page: 1, sort_name: this.props.navigation.state.params.key, city: City.name};
-        this.setState({
-            isEnd: false
-        });
-        this.props.sortActions.getHouseList(params, []);
+        let params = {sort_name: this.props.navigation.state.params.key, city: City.name};
+        this.props.sortActions.getHouseList(params, {data: []});
     };
 
     _footer =()=>{
         return (
-            <View><Text style={{fontSize: 16, color: '#aaa', textAlign: 'center', padding:12,}}>{this.state.isEnd?'已经没有更多信息了':'正在加载更多数据...'}</Text></View>
+            <View><Text style={{fontSize: 16, color: '#aaa', textAlign: 'center', padding:12,}}>{this.props.houseList.isEnd?'已经没有更多信息了':'正在加载更多数据...'}</Text></View>
         )
     };
 
@@ -170,23 +163,15 @@ class HouseList extends Component{
                 </View>
 
                 <View style={styles.filterArea}>
-                    <TouchableWithoutFeedback onPress={this.showAreaModel}>
-                        {this.state.modelIsShow01
-                            ?
-                            (<View style={styles.filterTextBox}>
-                                <Text style={[styles.filterText, {color: '#fa0064'}]} numberOfLines={1}>
-                                    {this.state.area==null?('全'+City.name):this.state.area}
-                                </Text>
-                                <Icon name="arrow-drop-up" size={18} color="#fa0064" />
-                            </View>)
-                            :
-                            (<View style={styles.filterTextBox}>
-                                <Text style={styles.filterText} numberOfLines={1}>
-                                    {this.state.area==null?('全'+City.name):this.state.area}
-                                </Text>
-                                <Icon name="arrow-drop-down" size={18} color="#999" />
-                            </View>)
-                        }
+                    <TouchableWithoutFeedback
+                        onPress={()=>this.props.sortActions.changeFilter('showAreaModel')}
+                    >
+                        <View style={styles.filterTextBox}>
+                            <Text style={styles.filterText} numberOfLines={1}>
+                                {'全'+City.name}
+                            </Text>
+                            <Icon name="arrow-drop-down" size={18} color="#999" />
+                        </View>
                     </TouchableWithoutFeedback>
                     
                     <TouchableWithoutFeedback onPress={this.showPriceModel}>
@@ -225,7 +210,7 @@ class HouseList extends Component{
                 </View>
 
                 {/*城市筛选model*/}
-                <Animated.View
+                {/*<Animated.View
                     style={[styles.model, {height: this.state.cityModelHeight}]}
                 >
                     <View style={styles.modelContent}>
@@ -255,7 +240,7 @@ class HouseList extends Component{
                     <TouchableWithoutFeedback onPress={this.showAreaModel}>
                         <View style={{height: '35%'}} />
                     </TouchableWithoutFeedback>
-                </Animated.View>
+                </Animated.View>*/}
 
                 {/*价格筛选model*/}
                 <Animated.View
@@ -290,17 +275,20 @@ class HouseList extends Component{
                     </TouchableWithoutFeedback>
                 </Animated.View>
 
+                <Filter />
+
+
                 {/*无限下拉*/}
                 <FlatList
                     ListFooterComponent={this._footer}
                     renderItem={({item})=><ListItemHouseComponent info={item} navigation={this.props.navigation} />}
                     // ListEmptyComponent={this.createEmptyView()}
-                    data={this.props.houseList}
+                    data={this.props.houseList['data']}
                     keyExtractor={(item)=>item.id}
 
                     initialNumToRender={5}
 
-                    refreshing={this.props.houseList.length<=0}
+                    refreshing={this.props.houseList['data'].length<=0}
                     onEndReachedThreshold={0}
                     onRefresh={this._onRefresh.bind(this)}
                     onEndReached={this._getMoreHouse.bind(this)}
@@ -314,17 +302,14 @@ class HouseList extends Component{
 
 const mapStateToProps = (state)=>{
     return {
-        user: state.user,
         nav: state.nav,
-        classify: state.classify,
-        classifyMore: state.classifyMore,
         houseList: state.houseList,
+        filter: state.filter
     }
 };
 
 const mapDispatchToProps = (dispatch)=>{
     return {
-        userActions: bindActionCreators(userActions, dispatch),
         sortActions: bindActionCreators(sortActions, dispatch)
     }
 };

@@ -11,14 +11,29 @@ export const sort = (state={}, action) =>{
     }
 }
 
-export const houseList = (state=[], action) =>{
+export const filter = (state={
+    params: {},
+    showAreaModel: false,
+    showPriceModel: false,
+    ShowSortModel: false,
+    showOtherModel: false,
+}, action) =>{
+    switch (action.type){
+        case actionTypes.FILTER:
+            return action.data;
+        default:
+            return state;
+    }
+};
+
+export const houseList = (state={params: {page: 0}, data: [], isEnd: false}, action) =>{
     switch (action.type){
         case actionTypes.GET_HOUSE_LIST:
             return action.data;
         default:
             return state;
     }
-}
+};
 
 export const classify = (state=initialState, action) => {
 
@@ -39,4 +54,4 @@ export const classifyMore = (state=initialState, action)=>{
         default:
             return state
     }
-}
+};

@@ -23,7 +23,7 @@ export default class ListItemHouseComponent extends Component{
         return (
             <TouchableOpacity key={this.props.info.id} onPress={this.toDetail}>
                 <View style={styles.itemBox}>
-                    {this.props.info.images.length>0
+                    {this.props.info.images&&this.props.info.images.length>0
                         ?
                         (<Image
                             source={{uri: Ip+'upload/images/'+this.props.info.images[0]}}
