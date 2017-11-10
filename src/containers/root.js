@@ -5,7 +5,7 @@ import { configureStore } from '../redux/store/configureStore';
 import AppWithNavigationState from '../router/stackNavigator';
 import Http from '../unit/http';
 import storage from '../unit/storage';
-import User from '../unit/loginState';
+import User from '../unit/global';
 
 
 

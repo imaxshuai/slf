@@ -95,7 +95,7 @@ class User extends Component{
                     {/*用户头像*/}
                     <TouchableWithoutFeedback onPress={this.toLogin.bind(this)} style={styles.headerImgBox}>
                         <Image
-                            source={currentUser.loginState?{uri: Ip+'upload/avatar/'+currentUser.userinfo.avatar}:require("../../images/header-img-login.png")}
+                            source={currentUser.loginState?{uri: 'http://www.hotcc.cn/public/upload/avatar/'+currentUser.userinfo.avatar}:require("../../images/header-img-login.png")}
                             style={styles.headerImg}
                         />
                     </TouchableWithoutFeedback>

@@ -26,7 +26,7 @@ export default class ListItemHouseComponent extends Component{
                     {this.props.info.images&&this.props.info.images.length>0
                         ?
                         (<Image
-                            source={{uri: Ip+'upload/images/'+this.props.info.images[0]}}
+                            source={{uri: 'http://www.hotcc.cn/public/upload/images/'+this.props.info.images[0]}}
                             style={styles.itemImg}
                         />)
                         :null

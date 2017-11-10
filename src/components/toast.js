@@ -28,11 +28,6 @@ export class Toast extends Component {
         }
     };
 
-    componentDidMount(){
-        console.log(this.props);
-        console.log(this.state);
-    }
-
     show = ()=>{
         Animated.spring(
             this.state.slideHeight,
@@ -54,13 +49,13 @@ export class Toast extends Component {
         }, 5000)
     };
 
-    render(){
-
-        console.log(this.props);
-
+    componentWillUpdate(){
         if(this.props.show){
             this.show();
         }
+    }
+
+    render(){
 
         return(
             <Animated.View

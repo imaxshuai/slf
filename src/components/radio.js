@@ -39,7 +39,7 @@ export class Radio extends Component{
     render(){
         return (
             <View style={styles.radioBox}>
-                <View style={this.props.style?this.props.style:styles.radio}>
+                <View style={this.props.style?[styles.radio,this.props.style]:styles.radio}>
 
                     {
                         this.state.data.map((item)=> {
@@ -47,9 +47,9 @@ export class Radio extends Component{
                                 <Text
                                     key= {item}
                                     style={(this.state.data)==item||(this.state.value)==item?
-                                        (this.props.activeOptionStyle?this.props.activeOptionStyle:styles.activeOption)
+                                        (this.props.activeOptionStyle?[styles.activeOption,this.props.activeOptionStyle]:styles.activeOption)
                                         :
-                                        (this.props.optionStyle?this.props.optionStyle:styles.option)
+                                        (this.props.optionStyle?[styles.option,this.props.optionStyle]:styles.option)
                                     }
                                     onPress={this.chooseRadioOption.bind(this, item)}
                                 >

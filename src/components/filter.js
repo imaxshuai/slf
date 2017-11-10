@@ -10,45 +10,49 @@ import {
     Animated,
     Dimensions,
 } from 'react-native';
-import { bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import * as sortActions from '../redux/actions/sort';
+import {Radio} from "./radio";
 
 let { width, height } = Dimensions.get("window");
 
-class Filter extends Component{
+class OtherModel extends Component{
 
     constructor(...props){
         super(...props);
         this.state = {
-            cityModelHeight: new Animated.Value(0),
+            otherModelWidth: new Animated.Value(0),
+            house_size: null,
+            shops_type: null,
+            pay_type: null,
+            house_type: null,
+            agent: null,
+            price: null,
+            sort_name: null,
+            area: null,
+            house_orientation: null,
+            room_and_hall: null,
+            floors: null,
+            city: null,
         };
     }
 
-    componentDidMount(){
-        console.log(this.props)
-        this.showAreaModel();
-    }
-
-    componentWillReceiveProps(){
-        console.log(this.props);
-    }
-
-    componentWillUpdate(){
-        if(this.props.filter.showAreaModel){
-            this.hideAreaModel();
+    componentDidUpdate(){
+        if(this.props.showOtherModel){
+            this.showOtherModel();
         }else{
-            this.showAreaModel();
+            this.hideOtherModel();
         }
     }
 
-    //区域筛选条件
-    showAreaModel = ()=>{
+    //其他筛选条件
+    showOtherModel = ()=>{
         Animated.spring(
-            this.state.cityModelHeight,
+            this.state.otherModelWidth,
             {
-                toValue: height-111,
+                toValue: width,
                 friction: 20,// 摩擦力，默认为7.
                 tension: 100,// 张力，默认40。
             }
@@ -56,9 +60,9 @@ class Filter extends Component{
 
     };
 
-    hideAreaModel = ()=>{
+    hideOtherModel = ()=>{
         Animated.spring(
-            this.state.cityModelHeight,
+            this.state.otherModelWidth,
             {
                 toValue: 0,
                 friction: 30,// 摩擦力，默认为7.
@@ -67,43 +71,64 @@ class Filter extends Component{
         ).start();
     };
 
-    chooseArea = (data)=>{
-        this.setState({area: data});
-        this.showAreaModel();
+    submitFilter = ()=>{
+        let filters = this.props.filter;
+        for(item in this.state){
+            if(typeof(this.state[item])=='string'){
+                filters[item] = this.state[item];
+            }
+        }
+        this.props.sortActions.changeFilter(filters);
+        this.props.bgClickHideModel();
     };
 
     render(){
+
         return (
             <Animated.View
-                style={[styles.model, {height: this.state.cityModelHeight}]}
+                style={[styles.otherModel, {width: this.state.otherModelWidth}]}
             >
-                <View style={styles.modelContent}>
-                    <ScrollView>
-
-                        <TouchableOpacity onPress={this.chooseArea.bind(this, null)}>
-                            <View style={styles.area}>
-                                <Text
-                                    style={this.state.area?styles.areaText:styles.areaTextActive}>
-                                    {'全'+City.name}
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-
-                        {City.area.map((area)=>(
-                            <TouchableOpacity key={area} onPress={this.chooseArea.bind(this, area)}>
-                                <View style={styles.area}>
-                                    <Text
-                                        style={area==this.state.area?styles.areaTextActive:styles.areaText}>
-                                        {area}
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
-                </View>
-                <TouchableWithoutFeedback onPress={this.hideAreaModel}>
-                    <View style={{height: '35%'}} />
+                <TouchableWithoutFeedback onPress={this.props.bgClickHideModel}>
+                    <View style={{width: width*.15}} />
                 </TouchableWithoutFeedback>
+                <View style={styles.otherModelContent}>
+                    <ScrollView>
+                        {this.props.data.map((item)=>{
+                            return (
+                                <View style={styles.itemBox} key={item.name}>
+                                    <Text style={styles.title}>{item.name}</Text>
+                                    <View>
+                                        <Radio
+                                            data={item.data}
+                                            select={(data)=>this.setState({
+                                                [item.keyName]: data,
+                                            })}
+                                            style={{
+                                                flexWrap: 'wrap',
+                                                flexDirection: 'row',
+                                                borderRadius: 0,
+                                            }}
+                                            optionStyle={{
+                                                width: (0.85*width-40)/3,
+                                                margin: 5,
+                                                fontSize: 13,
+                                            }}
+                                            activeOptionStyle={{
+                                                width: (0.85*width-40)/3,
+                                                margin: 5,
+                                                fontSize: 13,
+                                            }}
+                                        />
+                                    </View>
+                                </View>
+                            )
+                        })}
+                    </ScrollView>
+                    <TouchableOpacity style={styles.submitBtn} onPress={this.submitFilter} >
+                        <Text style={styles.submitBtnText}>确定</Text>
+                    </TouchableOpacity>
+                </View>
+
             </Animated.View>
         )
     }
@@ -112,10 +137,9 @@ class Filter extends Component{
 
 const mapStateToProps = (state)=>{
     return {
-        filter: state.filter
+        filter: state.filter,
     }
 };
-
 const mapDispatchToProps = (dispatch)=>{
     return {
         sortActions: bindActionCreators(sortActions, dispatch)
@@ -125,50 +149,58 @@ const mapDispatchToProps = (dispatch)=>{
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Filter);
+)(OtherModel)
+
 
 const styles = StyleSheet.create({
-    /*筛选区model样式*/
-    model: {
-        width: '100%',
-        position: 'absolute',
-        top: 111,
+    otherModel: {
+        width: width,
+        flexDirection: 'row',
         backgroundColor: 'rgba(1,1,1,0.5)',
         overflow: 'hidden',
+        position: 'absolute',
+        top: 0,
+        right: 0,
         zIndex: 99,
     },
-    modelContent: {
-        width: '100%',
-        height: '65%',
-        backgroundColor: '#fff'
+    otherModelContent: {
+        width: width*.85,
+        height: height,
+        backgroundColor: '#fff',
+        paddingTop: 40,
     },
-    area: {
-        height: 30,
-        paddingLeft: 15,
-        justifyContent: 'center',
-        borderBottomWidth: 0.3,
-        borderColor: '#ccc',
-    },
-    areaTextActive: {
-        color: '#fa0064',
-    },
-    areaText: {
-        color: '#666',
-    },
-    price: {
+
+    other: {
         height: 50,
         paddingLeft: 15,
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: '#ccc',
     },
-    priceTextActive: {
+    otherTextActive: {
         fontSize: 15,
         color: '#fa0064',
     },
-    priceText: {
+    otherText: {
         fontSize: 15,
         color: '#000',
     },
+    itemBox: {
+        width: '100%',
+        padding: 5,
+    },
+    title: {
+        margin: 5,
+    },
+    submitBtn: {
+        height: 40,
+        backgroundColor: '#fa0064',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    submitBtnText: {
+        color: '#fff',
+        fontSize: 18,
+    }
 
 });

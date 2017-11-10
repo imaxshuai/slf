@@ -2,6 +2,21 @@ import * as actionTypes from '../constants/actionTypes';
 
 const initialState = [];
 
+const initialSortState = {
+    house_size: null,
+    shops_type: null,
+    pay_type: null,
+    house_type: null,
+    agent: null,
+    price: null,
+    sort_name: null,
+    area: null,
+    house_orientation: null,
+    room_and_hall: null,
+    floors: null,
+    city: null,
+};
+
 export const sort = (state={}, action) =>{
     switch (action.type){
         case actionTypes.SORT:
@@ -11,13 +26,7 @@ export const sort = (state={}, action) =>{
     }
 }
 
-export const filter = (state={
-    params: {},
-    showAreaModel: false,
-    showPriceModel: false,
-    ShowSortModel: false,
-    showOtherModel: false,
-}, action) =>{
+export const filter = (state=initialSortState, action) =>{
     switch (action.type){
         case actionTypes.FILTER:
             return action.data;

@@ -8,10 +8,8 @@ import {
     TouchableWithoutFeedback,
     Dimensions,
     Platform,
-    Image,
     FlatList,
     Animated,
-    ScrollView,
 } from 'react-native';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
@@ -19,11 +17,10 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import * as sortActions from '../../../../redux/actions/sort';
 import ListItemHouseComponent from '../../../../components/LisItemHouse'
-import Filter from '../../../../components/filter'
+import { AreaModel, PriceModel, TypeModel } from '../../../../components/model'
+import OtherModel from '../../../../components/filter'
 
 let { width, height } = Dimensions.get("window");
-let price = ['6000元/㎡ 以内','6000-10000元/㎡','10000-15000元/㎡','15000-30000元/㎡','30000元/㎡ 以上'];
-
 
 class HouseList extends Component{
 
@@ -39,97 +36,64 @@ class HouseList extends Component{
             isEnd: false,
             cityModelHeight: new Animated.Value(0),
             priceModelHeight: new Animated.Value(0),
-            modelIsShow01: false,
-            modelIsShow02: false,
-            modelIsShow03: false,
-            modelIsShow04: false,
+            showAreaModel: false,
+            showPriceModel: false,
+            showTypeModel: false,
+            showOtherModel: false,
             area: null,
             price: null,
+            type: null,
+            other: null,
         }
     }
 
     componentDidMount(){
-        let params = {sort_name: this.props.navigation.state.params.key, city: City.name};
-        this.props.sortActions.getHouseList(params, {data: []});
+        let filters = this.props.filter;
+        for(let filter in filters){
+            filters[filter] = null;
+        }
+
+        filters.sort_name = this.props.navigation.state.params.key;
+        filters.city = City.name;
+
+        for(let filter in filters){
+            if(filters[filter] == null){
+                delete filters[filter]
+            }
+        }
+
+        this.props.sortActions.getHouseList(filters, {data: []});
     }
 
-    alertFilterCity = ()=>{
-        alert('南京');
-        console.log(this.props.houseList['data']);
-    };
-
-    //区域筛选条件
-    showAreaModel = ()=>{
-        if(this.state.modelIsShow01){
-            Animated.spring(
-                this.state.cityModelHeight,
-                {
-                    toValue: 0,
-                    friction: 30,// 摩擦力，默认为7.
-                    tension: 400,// 张力，默认40。
-                }
-            ).start();
-            this.setState({modelIsShow01: false});
-        }else{
-            Animated.spring(
-                this.state.cityModelHeight,
-                {
-                    toValue: height-111,
-                    friction: 20,// 摩擦力，默认为7.
-                    tension: 100,// 张力，默认40。
-                }
-            ).start();
-            this.setState({modelIsShow01: true});
+    getHouseListByFilter = (key, value)=>{
+        this.setState({
+            [key]: value,
+            showAreaModel: false,
+            showPriceModel: false,
+            showTypeModel: false,
+            showOtherModel: false,
+        })
+        let filters = this.props.filter;
+        filters[key] = value;
+        for(let filter in filters){
+            if(filters[filter] == null){
+                delete filters[filter]
+            }
         }
+        this.props.sortActions.getHouseList(filters, {data: []});
     };
-
-    chooseArea = (data)=>{
-        this.setState({area: data});
-        this.showAreaModel();
-    };
-
-    //租金筛选条件
-    showPriceModel = ()=>{
-        if(this.state.modelIsShow02){
-            Animated.spring(
-                this.state.priceModelHeight,
-                {
-                    toValue: 0,
-                    friction: 30,// 摩擦力，默认为7.
-                    tension: 400,// 张力，默认40。
-                }
-            ).start();
-            this.setState({modelIsShow02: false});
-        }else{
-            Animated.spring(
-                this.state.priceModelHeight,
-                {
-                    toValue: height-111,
-                    friction: 20,// 摩擦力，默认为7.
-                    tension: 100,// 张力，默认40。
-                }
-            ).start();
-            this.setState({modelIsShow02: true});
-        }
-    };
-
-    choosePrice = (data)=>{
-        this.setState({price: data});
-        this.showPriceModel();
-    };
-
 
     //获取下拉加载更多数据
     _getMoreHouse = ()=>{
+        console.log('无线加载');
         if(this.props.houseList.data.length>=10&&!this.props.houseList.isEnd){
-            let params = {sort_name: this.props.navigation.state.params.key, city: City.name};
-            this.props.sortActions.getHouseList(params, this.props.houseList);
+            this.props.sortActions.getHouseList(this.props.filter, this.props.houseList);
         }
     };
     //上拉页面刷新
     _onRefresh = ()=>{
-        let params = {sort_name: this.props.navigation.state.params.key, city: City.name};
-        this.props.sortActions.getHouseList(params, {data: []});
+        console.log('下拉刷新页面');
+        this.props.sortActions.getHouseList(this.props.filter, {data: []});
     };
 
     _footer =()=>{
@@ -140,6 +104,7 @@ class HouseList extends Component{
 
 
     render() {
+
         return (
 
             <View style={styles.container}>
@@ -164,118 +129,127 @@ class HouseList extends Component{
 
                 <View style={styles.filterArea}>
                     <TouchableWithoutFeedback
-                        onPress={()=>this.props.sortActions.changeFilter('showAreaModel')}
+                        onPress={()=>this.setState({
+                            showAreaModel: !this.state.showAreaModel,
+                            showPriceModel: false,
+                            showTypeModel: false,
+                            showOtherModel: false,
+                        })}
                     >
                         <View style={styles.filterTextBox}>
-                            <Text style={styles.filterText} numberOfLines={1}>
-                                {'全'+City.name}
+                            <Text style={[styles.filterText,this.state.showAreaModel?{color: '#fa0064'}:null]} numberOfLines={1}>
+                                {this.state.area?this.state.area:'全'+City.name}
                             </Text>
-                            <Icon name="arrow-drop-down" size={18} color="#999" />
+                            <Icon name="arrow-drop-down" size={18} color={this.state.showAreaModel?"#fa0064":"#999"} />
                         </View>
                     </TouchableWithoutFeedback>
-                    
-                    <TouchableWithoutFeedback onPress={this.showPriceModel}>
+
+
+                    <TouchableWithoutFeedback
+                        onPress={()=>this.setState({
+                            showAreaModel: false,
+                            showPriceModel: !this.state.showPriceModel,
+                            showTypeModel: false,
+                            showOtherModel: false,
+                        })}
+                    >
                         <View style={styles.filterTextBox}>
-                            {this.state.modelIsShow02
-                                ?
-                                (<View style={styles.filterTextBox}>
-                                    <Text style={[styles.filterText, {color: '#fa0064'}]} numberOfLines={1}>
-                                        {this.state.price==null?'租金':this.state.price}
-                                    </Text>
-                                    <Icon name="arrow-drop-up" size={18} color="#fa0064" />
-                                </View>)
-                                :
-                                (<View style={styles.filterTextBox}>
-                                    <Text style={styles.filterText} numberOfLines={1}>
-                                        {this.state.price==null?'租金':this.state.price}
-                                    </Text>
-                                    <Icon name="arrow-drop-down" size={18} color="#999" />
-                                </View>)
-                            }
+                            <View style={styles.filterTextBox}>
+                                <Text style={[styles.filterText, this.state.showPriceModel?{color: '#fa0064'}:null]} numberOfLines={1}>
+                                    {this.state.price?this.state.price:'租金'}
+                                </Text>
+                                <Icon name="arrow-drop-down" size={18} color={this.state.showPriceModel?"#fa0064":"#999"} />
+                            </View>
                         </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={this.alertFilterCity}>
+
+                    <TouchableWithoutFeedback
+                        onPress={()=>this.setState({
+                            showAreaModel: false,
+                            showPriceModel: false,
+                            showTypeModel: !this.state.showTypeModel,
+                            showOtherModel: false,
+                        })}
+                    >
                         <View style={styles.filterTextBox}>
-                            <Text style={styles.filterText}>户型</Text>
-                            <Icon name="arrow-drop-down" size={18} color="#999" />
+                            <View style={styles.filterTextBox}>
+                                <Text style={[styles.filterText, this.state.showTypeModel?{color: '#fa0064'}:null]} numberOfLines={1}>
+                                    {this.state.type?this.state.type:'类型'}
+                                </Text>
+                                <Icon name="arrow-drop-down" size={18} color={this.state.showTypeModel?"#fa0064":"#999"} />
+                            </View>
                         </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={this.alertFilterCity}>
+
+                    <TouchableWithoutFeedback
+                        onPress={()=>this.setState({
+                            showAreaModel: false,
+                            showPriceModel: false,
+                            showTypeModel: false,
+                            showOtherModel: !this.state.showOtherModel,
+                        })}
+                    >
                         <View style={styles.filterTextBox}>
-                            <Text style={styles.filterText}>筛选</Text>
-                            <Icon name="arrow-drop-down" size={18} color="#999" />
+                            <View style={styles.filterTextBox}>
+                                <Text style={[styles.filterText, this.state.showOtherModel?{color: '#fa0064'}:null]} numberOfLines={1}>
+                                    {this.state.other?this.state.other:'筛选'}
+                                </Text>
+                                <Icon name="arrow-drop-down" size={18} color={this.state.showOtherModel?"#fa0064":"#999"} />
+                            </View>
                         </View>
                     </TouchableWithoutFeedback>
 
                 </View>
 
-                {/*城市筛选model*/}
-                {/*<Animated.View
-                    style={[styles.model, {height: this.state.cityModelHeight}]}
-                >
-                    <View style={styles.modelContent}>
-                        <ScrollView>
-
-                            <TouchableOpacity onPress={this.chooseArea.bind(this, null)}>
-                                <View style={styles.area}>
-                                    <Text
-                                        style={this.state.area?styles.areaText:styles.areaTextActive}>
-                                        {'全'+City.name}
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
-
-                            {City.area.map((area)=>(
-                                <TouchableOpacity key={area} onPress={this.chooseArea.bind(this, area)}>
-                                    <View style={styles.area}>
-                                        <Text
-                                            style={area==this.state.area?styles.areaTextActive:styles.areaText}>
-                                            {area}
-                                        </Text>
-                                    </View>
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
-                    </View>
-                    <TouchableWithoutFeedback onPress={this.showAreaModel}>
-                        <View style={{height: '35%'}} />
-                    </TouchableWithoutFeedback>
-                </Animated.View>*/}
+                {/*区域筛选model*/}
+                <AreaModel
+                    showAreaModel={this.state.showAreaModel}
+                    area={this.state.area}
+                    chooseArea={(value)=>this.getHouseListByFilter('area', value)}
+                    bgClickHideModel={()=>this.setState({showAreaModel: false})}
+                />
 
                 {/*价格筛选model*/}
-                <Animated.View
-                    style={[styles.model, {height: this.state.priceModelHeight}]}
-                >
-                    <View style={styles.modelContent}>
-                        <ScrollView>
+                <PriceModel
+                    showPriceModel={this.state.showPriceModel}
+                    price={this.state.price}
+                    data={['6000元/㎡ 以内','6000-10000元/㎡','10000-15000元/㎡','15000-30000元/㎡','30000元/㎡ 以上']}
+                    choosePrice={(value)=>this.getHouseListByFilter('price', value)}
+                    bgClickHideModel={()=>this.setState({showPriceModel: false})}
+                />
 
-                            <TouchableOpacity onPress={this.choosePrice.bind(this, null)}>
-                                <View style={styles.price}>
-                                    <Text
-                                        style={this.state.area?styles.priceText:styles.priceTextActive}>
-                                        不限
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
+                {/*类型筛选model*/}
+                <TypeModel
+                    showTypeModel={this.state.showTypeModel}
+                    type={this.state.type}
+                    data={['住宅','商铺','写字楼']}
+                    chooseType={(value)=>this.getHouseListByFilter('type', value)}
+                    bgClickHideModel={()=>this.setState({showTypeModel: false})}
+                />
 
-                            {price.map((price)=>(
-                                <TouchableOpacity key={price} onPress={this.choosePrice.bind(this, price)}>
-                                    <View style={styles.price}>
-                                        <Text
-                                            style={price==this.state.price?styles.priceTextActive:styles.priceText}>
-                                            {price}
-                                        </Text>
-                                    </View>
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
-                    </View>
-                    <TouchableWithoutFeedback onPress={this.showPriceModel}>
-                        <View style={{height: '35%'}} />
-                    </TouchableWithoutFeedback>
-                </Animated.View>
-
-                <Filter />
+                {/*其他筛选条件model*/}
+                <OtherModel
+                    showOtherModel={this.state.showOtherModel}
+                    other={this.state.other}
+                    data={[
+                        {
+                            name: '身份',
+                            keyName: 'agent',
+                            data: ['不限', '个人',  '经纪人'],
+                        },
+                        {
+                            name: '面积',
+                            keyName: 'house_size',
+                            data: ['不限', '< 50㎡',  '50-100㎡', '100-150㎡', '> 150㎡'],
+                        },
+                        {
+                            name: '房型',
+                            keyName: 'room_and_hall',
+                            data: ['不限', '1室0厅0卫', '2室1厅1卫', '3室1厅1卫', '3室2厅1卫', '3室2厅2卫', '4室2厅2卫'],
+                        },
+                    ]}
+                    bgClickHideModel={()=>this.setState({showOtherModel: false})}
+                />
 
 
                 {/*无限下拉*/}
@@ -289,7 +263,7 @@ class HouseList extends Component{
                     initialNumToRender={5}
 
                     refreshing={this.props.houseList['data'].length<=0}
-                    onEndReachedThreshold={0}
+                    onEndReachedThreshold={0.3}
                     onRefresh={this._onRefresh.bind(this)}
                     onEndReached={this._getMoreHouse.bind(this)}
                     getItemLayout={(data, index) => ( {length: 130, offset: 130 * index, index} )}

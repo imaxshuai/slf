@@ -6,7 +6,6 @@ export const getSort = ()=>{
     return (dispatch)=>{
         Http.get(Ip+'api/sort')
             .then((res)=>{
-
                 dispatch({
                     type: actionTypes.SORT,
                     data: res
@@ -16,10 +15,20 @@ export const getSort = ()=>{
 
 };
 
+export const changeFilter = (data)=>{
+    return (dispatch)=>{
+        dispatch({
+            type: actionTypes.FILTER,
+            data: data
+        })
+    }
+}
+
 export const getHouseList = (params, list) =>{
 
     params.page = parseInt(list.data.length/10)+1;
     list.isEnd = false;
+    console.log(params);
 
     return (dispatch)=>{
         Http.get(Ip+'api/house', params)
@@ -47,29 +56,6 @@ export const getHouseList = (params, list) =>{
     }
 
 };
-
-let filter = {
-    params: {},
-    showAreaModel: false,
-    showPriceModel: false,
-    ShowSortModel: false,
-    showOtherModel: false,
-};
-
-export const changeFilter = (data)=>{
-
-    if(typeof(data) == 'string'){
-        filter[data] = !filter[data];
-    }else{
-        filter['params'] = data;
-    }
-
-    return {
-        type: actionTypes.FILTER,
-        data: filter,
-    }
-};
-
 
 export const getHouse = (houseData) =>{
 
