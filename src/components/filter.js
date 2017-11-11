@@ -36,6 +36,10 @@ class OtherModel extends Component{
             room_and_hall: null,
             floors: null,
             city: null,
+            min_price: null,
+            max_price: null,
+            min_house_size: null,
+            max_house_size: null,
         };
     }
 
@@ -71,14 +75,44 @@ class OtherModel extends Component{
         ).start();
     };
 
+    changeFiterStateByWhere = (data, item)=>{
+
+        let value = data;
+
+        console.log(data, item);
+
+        console.log(value=='不限');
+
+        if(item.where!=null){
+            for(let x in item.data){
+                if(item.data[x]==data){
+                    value=item.where[x]
+                }
+            }
+            console.log(value);
+            for(let x in value){
+                console.log(value[x]);
+                this.setState({
+                    [x]: value[x]
+                })
+            }
+        }else{
+            this.setState({
+                [item.keyName]: value
+            })
+        }
+
+    };
+
     submitFilter = ()=>{
+
         let filters = this.props.filter;
         for(item in this.state){
-            if(typeof(this.state[item])=='string'){
+            if(typeof(this.state[item])=='string'||typeof(this.state[item])=='number'){
                 filters[item] = this.state[item];
             }
         }
-        this.props.sortActions.changeFilter(filters);
+        this.props.chooseFilter(filters);
         this.props.bgClickHideModel();
     };
 
@@ -100,9 +134,7 @@ class OtherModel extends Component{
                                     <View>
                                         <Radio
                                             data={item.data}
-                                            select={(data)=>this.setState({
-                                                [item.keyName]: data,
-                                            })}
+                                            select={(data)=>this.changeFiterStateByWhere(data, item)}
                                             style={{
                                                 flexWrap: 'wrap',
                                                 flexDirection: 'row',

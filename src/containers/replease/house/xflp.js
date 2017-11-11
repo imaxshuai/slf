@@ -10,6 +10,7 @@ import { Text,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Picker from 'react-native-picker';
+import Spinner from 'react-native-spinkit';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {HouseBaseInfoHouse} from "../../../components/houseBaseInfo";
@@ -19,7 +20,7 @@ import {Radio} from "../../../components/radio";
 import {HeaderComponent} from "../../../components/header";
 import {Toast} from "../../../components/toast";
 
-let {width} = Dimensions.get('window');
+let {width, height} = Dimensions.get('window');
 let message = [];
 
 export class Replease1to1 extends Component {
@@ -32,6 +33,7 @@ export class Replease1to1 extends Component {
         super(...props);
         this.state = {
             showToast: false,
+            showLoad: false,
             house: null,                    //房型(厅室)
             direction: null,                //朝向
             floors: null,                   //楼层
@@ -119,11 +121,16 @@ export class Replease1to1 extends Component {
             },200)
         }else{
 
-            console.log(repleaseInfo);
+            this.setState({
+                showLoad: true
+            });
 
             Http.post(Ip+'api/house/create', repleaseInfo ,{'Content-Type': 'application/json'},)
                 .then( res=>{
                     if(res.success){
+                        this.setState({
+                            showLoad: false
+                        });
                         alert(res.message);
                     }else{
                         alert(res.message)
@@ -154,6 +161,20 @@ export class Replease1to1 extends Component {
                     }
                     headerTitle={<Text style={{fontSize: 18}}>{this.props.navigation.state.params}</Text>}
                 />
+
+                {this.state.showLoad?(
+                    <View style={styles.coverLoad}>
+                        <View style={styles.spinner}>
+                            <Spinner
+                                size={80}
+                                type='Pulse'
+                                color='#fa0064'
+                                style={styles.spinner}
+                            />
+                            <Text style={styles.loadText}>传输中...</Text>
+                        </View>
+                    </View>
+                ):null}
 
                 <KeyboardAwareScrollView>
 
@@ -354,6 +375,28 @@ export class Replease1to1 extends Component {
 }
 
 const styles = StyleSheet.create({
+
+    //提交加载动画效果
+    coverLoad: {
+        width: width,
+        height: height,
+        backgroundColor: 'rgba(255,255,255,0.7)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        zIndex: 999,
+    },
+    spinner: {
+        alignItems: 'center',
+    },
+    loadText: {
+        textAlign: 'center',
+        marginTop: 20,
+        color: '#fa0064',
+        fontSize: 18,
+    },
 
     //提示消息
     system: {

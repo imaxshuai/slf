@@ -3,9 +3,7 @@ import {
     View, Text, StyleSheet, ScrollView, Alert,
     Image, TouchableOpacity, NativeModules, Dimensions
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import {HeaderComponent} from "../../components/header";
 import {Toast} from "../../components/toast";
 
 var ImagePicker = NativeModules.ImageCropPicker;
@@ -72,23 +70,6 @@ export class SwiperList extends Component {
     render() {
         return (
             <View style={styles.container}>
-
-
-                <HeaderComponent
-                    headerLeft={
-                        <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
-                            <Icon name='navigate-before' size={25} color='#aaa' />
-                        </TouchableOpacity>
-                    }
-                    headerTitle={<Text style={{fontSize: 18}}>信息发布</Text>}
-                    headerRight={<Text onPress={()=>this.setState({show: true})}>发布</Text>}
-                />
-                <TouchableOpacity onPress={this.uploadImages} style={styles.button}>
-                    <Text style={styles.text}>上传图片</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={this.uploadImages} style={styles.button}>
-                    <Text style={styles.text}>上传图片</Text>
-                </TouchableOpacity>
 
                 <Toast
                     show={this.state.show}

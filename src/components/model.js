@@ -73,7 +73,7 @@ export class AreaModel extends Component{
                 <View style={styles.modelContent}>
                     <ScrollView>
 
-                        <TouchableOpacity onPress={this.chooseArea.bind(this, null)}>
+                        <TouchableOpacity onPress={this.chooseArea.bind(this, ['area', null])}>
                             <View style={styles.area}>
                                 <Text
                                     style={this.props.area?styles.areaText:styles.areaTextActive}>
@@ -83,7 +83,7 @@ export class AreaModel extends Component{
                         </TouchableOpacity>
 
                         {City.area.map((area)=>(
-                            <TouchableOpacity key={area} onPress={this.chooseArea.bind(this, area)}>
+                            <TouchableOpacity key={area} onPress={this.chooseArea.bind(this, ['area',area])}>
                                 <View style={styles.area}>
                                     <Text
                                         style={area==this.props.area?styles.areaTextActive:styles.areaText}>
@@ -145,6 +145,7 @@ export class PriceModel extends Component{
     };
 
     choosePrice = (data)=>{
+        console.log(data);
         this.props.choosePrice(data);
         this.hidePriceModel();
     };
@@ -157,7 +158,7 @@ export class PriceModel extends Component{
                 <View style={styles.modelContent}>
                     <ScrollView>
 
-                        <TouchableOpacity onPress={this.choosePrice.bind(this, null)}>
+                        <TouchableOpacity onPress={this.choosePrice.bind(this, ['price', null])}>
                             <View style={styles.price}>
                                 <Text
                                     style={this.props.price?styles.priceText:styles.priceTextActive}>
@@ -166,8 +167,10 @@ export class PriceModel extends Component{
                             </View>
                         </TouchableOpacity>
 
-                        {this.props.data.map((price)=>(
-                            <TouchableOpacity key={price} onPress={this.choosePrice.bind(this, price)}>
+                        {this.props.data['data'].map((price, key)=>(
+                            <TouchableOpacity
+                                key={price}
+                                onPress={this.choosePrice.bind(this, ['price', this.props.data['where'][key], price])}>
                                 <View style={styles.price}>
                                     <Text
                                         style={price==this.props.price?styles.priceTextActive:styles.priceText}>
@@ -241,7 +244,7 @@ export class TypeModel extends Component{
                 <View style={styles.modelContent}>
                     <ScrollView>
 
-                        <TouchableOpacity onPress={this.chooseType.bind(this, null)}>
+                        <TouchableOpacity onPress={this.chooseType.bind(this, [this.props.data['keyName'], null])}>
                             <View style={styles.type}>
                                 <Text
                                     style={this.props.type?styles.typeText:styles.typeTextActive}>
@@ -250,8 +253,8 @@ export class TypeModel extends Component{
                             </View>
                         </TouchableOpacity>
 
-                        {this.props.data.map((type)=>(
-                            <TouchableOpacity key={type} onPress={this.chooseType.bind(this, type)}>
+                        {this.props.data['data'].map((type)=>(
+                            <TouchableOpacity key={type} onPress={this.chooseType.bind(this, [this.props.data['keyName'],type])}>
                                 <View style={styles.type}>
                                     <Text
                                         style={type==this.props.type?styles.typeTextActive:styles.typeText}>

@@ -14,6 +14,7 @@ import {
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Spinner from 'react-native-spinkit';
 
 import * as sortActions from '../../../../redux/actions/sort';
 import ListItemHouseComponent from '../../../../components/LisItemHouse'
@@ -27,13 +28,14 @@ class HouseList extends Component{
 
     static navigationOptions = {
         header: null
-    }
+    };
 
     constructor(props){
         super(props);
 
         this.state = {
             isEnd: false,
+            showLoad: false,
             cityModelHeight: new Animated.Value(0),
             priceModelHeight: new Animated.Value(0),
             showAreaModel: false,
@@ -42,7 +44,7 @@ class HouseList extends Component{
             showOtherModel: false,
             area: null,
             price: null,
-            type: null,
+            house_type: null,
             other: null,
         }
     }
@@ -65,22 +67,54 @@ class HouseList extends Component{
         this.props.sortActions.getHouseList(filters, {data: []});
     }
 
-    getHouseListByFilter = (key, value)=>{
+    getHouseListByFilter = (data)=>{
+
+        let info = data[1];
+        if(data[0]=='price'){
+            info = data[2];
+        }
+
         this.setState({
-            [key]: value,
+            [data[0]]: info,
             showAreaModel: false,
             showPriceModel: false,
             showTypeModel: false,
             showOtherModel: false,
-        })
+        });
+
         let filters = this.props.filter;
-        filters[key] = value;
+
+        if(typeof(data[1])=='string'){
+            console.log('不是对象');
+            filters[data[0]] = info;
+        }else{
+            if(data[1]==null){
+                filters[data[0]]=null;
+                if(data[0]=='price'){
+                    filters.max_price = null;
+                    filters.min_price = null;
+                }else if(data[0]=='house_size'){
+                    filters.max_house_size = null;
+                    filters.min_house_size = null;
+                }
+            }else{
+                for(let key in data[1]){
+                    filters[key]=data[1][key]
+                }
+            }
+        }
+
+
         for(let filter in filters){
-            if(filters[filter] == null){
+            if(filters[filter] == null || filters[filter]=='不限'){
                 delete filters[filter]
             }
         }
+        console.log(filters);
+        this.setState({showLoad: true});
+        setTimeout(()=>this.setState({showLoad: false}),1500);
         this.props.sortActions.getHouseList(filters, {data: []});
+
     };
 
     //获取下拉加载更多数据
@@ -90,15 +124,24 @@ class HouseList extends Component{
             this.props.sortActions.getHouseList(this.props.filter, this.props.houseList);
         }
     };
-    //上拉页面刷新
-    _onRefresh = ()=>{
-        console.log('下拉刷新页面');
-        this.props.sortActions.getHouseList(this.props.filter, {data: []});
-    };
 
     _footer =()=>{
         return (
-            <View><Text style={{fontSize: 16, color: '#aaa', textAlign: 'center', padding:12,}}>{this.props.houseList.isEnd?'已经没有更多信息了':'正在加载更多数据...'}</Text></View>
+            <View>
+                {this.props.houseList.isEnd
+                    ?
+                    (<Text style={{fontSize: 16, color: '#aaa', textAlign: 'center', padding:12,}}>已经没有更多信息了</Text>)
+                    :
+                    (<Spinner
+                            size={50}
+                            type='ThreeBounce'
+                            color='#fa0064'
+                            style={{marginLeft:width/2-25, marginTop: 20, marginBottom:20,}}
+                        />
+                    )
+                }
+
+            </View>
         )
     };
 
@@ -156,7 +199,7 @@ class HouseList extends Component{
                         <View style={styles.filterTextBox}>
                             <View style={styles.filterTextBox}>
                                 <Text style={[styles.filterText, this.state.showPriceModel?{color: '#fa0064'}:null]} numberOfLines={1}>
-                                    {this.state.price?this.state.price:'租金'}
+                                    {this.state.price?this.state.price:'价格'}
                                 </Text>
                                 <Icon name="arrow-drop-down" size={18} color={this.state.showPriceModel?"#fa0064":"#999"} />
                             </View>
@@ -174,7 +217,7 @@ class HouseList extends Component{
                         <View style={styles.filterTextBox}>
                             <View style={styles.filterTextBox}>
                                 <Text style={[styles.filterText, this.state.showTypeModel?{color: '#fa0064'}:null]} numberOfLines={1}>
-                                    {this.state.type?this.state.type:'类型'}
+                                    {this.state.house_type?this.state.house_type:'类型'}
                                 </Text>
                                 <Icon name="arrow-drop-down" size={18} color={this.state.showTypeModel?"#fa0064":"#999"} />
                             </View>
@@ -201,11 +244,24 @@ class HouseList extends Component{
 
                 </View>
 
+                {this.state.showLoad?(
+                    <View style={styles.coverLoad}>
+                        <View style={styles.spinner}>
+                            <Spinner
+                                size={80}
+                                type='ThreeBounce'
+                                color='#ccc'
+                                style={styles.spinner}
+                            />
+                        </View>
+                    </View>
+                ):null}
+
                 {/*区域筛选model*/}
                 <AreaModel
                     showAreaModel={this.state.showAreaModel}
                     area={this.state.area}
-                    chooseArea={(value)=>this.getHouseListByFilter('area', value)}
+                    chooseArea={(area)=>this.getHouseListByFilter(area)}
                     bgClickHideModel={()=>this.setState({showAreaModel: false})}
                 />
 
@@ -213,17 +269,28 @@ class HouseList extends Component{
                 <PriceModel
                     showPriceModel={this.state.showPriceModel}
                     price={this.state.price}
-                    data={['6000元/㎡ 以内','6000-10000元/㎡','10000-15000元/㎡','15000-30000元/㎡','30000元/㎡ 以上']}
-                    choosePrice={(value)=>this.getHouseListByFilter('price', value)}
+                    data={
+                        {
+                            where: [
+                                {min_price: 0, max_price: 6000},
+                                {min_price: 6000, max_price: 10000},
+                                {min_price: 10000, max_price: 15000},
+                                {min_price: 15000, max_price: 30000},
+                                {min_price: 30000, max_price: 9999999999},
+                            ],
+                            data: ['6000元/㎡ 以内','6000-10000元/㎡','10000-15000元/㎡','15000-30000元/㎡','30000元/㎡ 以上']
+                        }
+                    }
+                    choosePrice={(data)=>this.getHouseListByFilter(data)}
                     bgClickHideModel={()=>this.setState({showPriceModel: false})}
                 />
 
                 {/*类型筛选model*/}
                 <TypeModel
                     showTypeModel={this.state.showTypeModel}
-                    type={this.state.type}
-                    data={['住宅','商铺','写字楼']}
-                    chooseType={(value)=>this.getHouseListByFilter('type', value)}
+                    type={this.state.house_type}
+                    data={{keyName: 'house_type', data: ['住宅','商铺','写字楼']}}
+                    chooseType={(house_type)=>this.getHouseListByFilter(house_type)}
                     bgClickHideModel={()=>this.setState({showTypeModel: false})}
                 />
 
@@ -233,13 +300,15 @@ class HouseList extends Component{
                     other={this.state.other}
                     data={[
                         {
-                            name: '身份',
-                            keyName: 'agent',
-                            data: ['不限', '个人',  '经纪人'],
-                        },
-                        {
                             name: '面积',
                             keyName: 'house_size',
+                            where: [
+                                {min_house_size: 0, max_house_size: 9999999999},
+                                {min_house_size: 0, max_house_size: 50},
+                                {min_house_size: 50, max_house_size: 100},
+                                {min_house_size: 100, max_house_size: 150},
+                                {min_house_size: 150, max_house_size: 9999999999},
+                            ],
                             data: ['不限', '< 50㎡',  '50-100㎡', '100-150㎡', '> 150㎡'],
                         },
                         {
@@ -248,7 +317,16 @@ class HouseList extends Component{
                             data: ['不限', '1室0厅0卫', '2室1厅1卫', '3室1厅1卫', '3室2厅1卫', '3室2厅2卫', '4室2厅2卫'],
                         },
                     ]}
+                    chooseFilter={(data)=>this.getHouseListByFilter(data)}
                     bgClickHideModel={()=>this.setState({showOtherModel: false})}
+                />
+
+                <Spinner
+                    style={{position:'absolute', top: (height-50)/2,left: (width-50)/2}}
+                    isVisible={(this.props.houseList.data.length<=0)&&(this.props.houseList.isEnd==false)}
+                    size={50}
+                    type='9CubeGrid'
+                    color='red'
                 />
 
 
@@ -259,12 +337,8 @@ class HouseList extends Component{
                     // ListEmptyComponent={this.createEmptyView()}
                     data={this.props.houseList['data']}
                     keyExtractor={(item)=>item.id}
-
                     initialNumToRender={5}
-
-                    refreshing={this.props.houseList['data'].length<=0}
                     onEndReachedThreshold={0.3}
-                    onRefresh={this._onRefresh.bind(this)}
                     onEndReached={this._getMoreHouse.bind(this)}
                     getItemLayout={(data, index) => ( {length: 130, offset: 130 * index, index} )}
                 />
@@ -348,6 +422,28 @@ const styles = StyleSheet.create({
     },
     filterText: {
         color: '#333'
+    },
+    //提交加载动画效果
+    coverLoad: {
+        width: width,
+        height: height-111,
+        backgroundColor: 'rgba(255,255,255,0.8)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        zIndex: 999,
+    },
+    spinner: {
+        alignItems: 'center',
+        paddingBottom: '50%',
+    },
+    loadText: {
+        textAlign: 'center',
+        marginTop: 20,
+        color: '#fa0064',
+        fontSize: 18,
     },
 
     /*筛选区model样式*/
