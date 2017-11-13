@@ -19,11 +19,12 @@ import {AreaChoose} from "../../../components/areaChoose";
 import {Radio} from "../../../components/radio";
 import {HeaderComponent} from "../../../components/header";
 import {Toast} from "../../../components/toast";
+import {Checkbox} from "../../../components/checkbox";
 
 let {width, height} = Dimensions.get('window');
 let message = [];
 
-export class Replease1to2 extends Component {
+export class Replease1to4 extends Component {
 
     static navigationOptions = ({navigation}) => ({
         header: null,
@@ -45,7 +46,8 @@ export class Replease1to2 extends Component {
             decoration: null,               //装修
             area: null,                     //区域
             build_year: null,               //建筑年代
-            house_use_size: null            //可使用面积
+            house_use_size: null,           //可使用面积
+            lease_way: null,                 //出租形式
         }
     }
 
@@ -66,7 +68,6 @@ export class Replease1to2 extends Component {
 
             //input输入框取出的值
             title: this.refs.title._lastNativeText,
-            community_name: this.refs.community_name._lastNativeText,
             address: this.refs.address._lastNativeText,
             house_size: this.refs.house_size._lastNativeText,
             price: this.refs.price._lastNativeText,
@@ -75,7 +76,6 @@ export class Replease1to2 extends Component {
             qq: this.refs.qq._lastNativeText,
             wechat: this.refs.wechat._lastNativeText,
             house_describe: this.refs.house_describe._lastNativeText,
-            house_use_size: this.refs.house_use_size._lastNativeText,
 
 
             //picker选取的值
@@ -88,10 +88,11 @@ export class Replease1to2 extends Component {
             city: City.name,                     //城市
             user_id: currentUser.userinfo.id,
             //单选和复选选取的值
-            house_type: this.state.house_type,
             agent: this.state.agent,
-            property_right: this.state.property_right,
             decoration: this.state.decoration,
+            pay_type: this.state.pay_type,
+            lease_type: this.state.lease_way,
+            house_configure: this.state.house_configure,
 
             sort_name: this.props.navigation.state.params,
 
@@ -104,11 +105,9 @@ export class Replease1to2 extends Component {
         let qqPattern = /^[1-9][0-9]{5,10}$/;
 
         (repleaseInfo.title==null)||(repleaseInfo.title=='')?message.push('请填写信息标题!'):null;
-        (repleaseInfo.community_name==null)||(repleaseInfo.community_name=='')?message.push('请填写小区名!'):null;
-        (repleaseInfo.address==null)||(repleaseInfo.address=='')?message.push('请填写小区地址!'):null;
-        (repleaseInfo.house_size==null)||(repleaseInfo.house_size=='')?message.push('请填写建筑面积!'):null;
+        (repleaseInfo.address==null)||(repleaseInfo.address=='')?message.push('请填写地址!'):null;
+        (repleaseInfo.house_size==null)||(repleaseInfo.house_size=='')?message.push('请填写房屋尺寸!'):null;
         (repleaseInfo.price==null)||(repleaseInfo.price=='')?message.push('请填写价格!'):null;
-        (repleaseInfo.house_use_size==null)||(repleaseInfo.house_use_size=='')?message.push('请填写使用面积!'):null;
         (repleaseInfo.contacts==null)||(repleaseInfo.contacts=='')?message.push('请填写联系人!'):null;
 
 
@@ -224,22 +223,10 @@ export class Replease1to2 extends Component {
                                 />
                             </View>
                             <View style={styles.info}>
-                                <Text style={styles.infoTitle}>小区名</Text>
+                                <Text style={styles.infoTitle}>地址</Text>
                                 <TextInput
                                     autoCapitalize='none'
-                                    placeholder="请填写小区名"
-                                    placeholderTextColor="#ccc"
-                                    maxLength={25}
-                                    style={styles.infoInput}
-                                    underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
-                                    ref="community_name"
-                                />
-                            </View>
-                            <View style={styles.info}>
-                                <Text style={styles.infoTitle}>小区地址</Text>
-                                <TextInput
-                                    autoCapitalize='none'
-                                    placeholder="请填写小区地址"
+                                    placeholder="请填写地址"
                                     placeholderTextColor="#ccc"
                                     maxLength={50}
                                     style={styles.infoInput}
@@ -248,29 +235,16 @@ export class Replease1to2 extends Component {
                                 />
                             </View>
                             <View style={styles.info}>
-                                <Text style={styles.infoTitle}>建筑面积(㎡)</Text>
+                                <Text style={styles.infoTitle}>面积(㎡)</Text>
                                 <TextInput
                                     autoCapitalize='none'
-                                    placeholder="请填写建筑面积"
+                                    placeholder="请填写面积"
                                     placeholderTextColor="#ccc"
                                     keyboardType="numeric"
                                     maxLength={10}
                                     style={styles.infoInput}
                                     underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
                                     ref="house_size"
-                                />
-                            </View>
-                            <View style={styles.info}>
-                                <Text style={styles.infoTitle}>使用面积(㎡)</Text>
-                                <TextInput
-                                    autoCapitalize='none'
-                                    placeholder="请填写使用面积"
-                                    placeholderTextColor="#ccc"
-                                    keyboardType="numeric"
-                                    maxLength={10}
-                                    style={styles.infoInput}
-                                    underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
-                                    ref="house_use_size"
                                 />
                             </View>
 
@@ -288,10 +262,10 @@ export class Replease1to2 extends Component {
                                 <Text style={styles.itemTitleText}>价格详情</Text>
                             </View>
                             <View style={styles.info}>
-                                <Text style={styles.infoTitle}>总价(万元)</Text>
+                                <Text style={styles.infoTitle}>租金(元)</Text>
                                 <TextInput
                                     autoCapitalize='none'
-                                    placeholder="请填写单价"
+                                    placeholder="请填写租金"
                                     placeholderTextColor="#ccc"
                                     keyboardType="numeric"
                                     maxLength={15}
@@ -365,8 +339,11 @@ export class Replease1to2 extends Component {
 
                             <View style={styles.info}>
                                 <View style={styles.info}>
-                                    <Text style={styles.infoTitle}>类型</Text>
-                                    <Radio data={['住宅','写字楼','商铺']} select={(data)=>this.setState({house_type: data})}/>
+                                    <Text style={styles.infoTitle}>出租形式</Text>
+                                    <Radio
+                                        data={['单间','整套','床位']}
+                                        select={(data)=>this.setState({lease_way: data})}
+                                    />
                                 </View>
                             </View>
 
@@ -379,16 +356,18 @@ export class Replease1to2 extends Component {
 
                             <View style={styles.info}>
                                 <View style={styles.info}>
-                                    <Text style={styles.infoTitle}>产权</Text>
-                                    <Radio data={['40年','50年','70年']} select={(data)=>this.setState({property_right: data})}/>
+                                    <Text style={styles.infoTitle}>装修</Text>
+                                    <Radio data={['毛坯','简装', '精装', '豪华装修']} select={(data)=>this.setState({decoration: data})}/>
                                 </View>
                             </View>
 
                             <View style={styles.info}>
-                                <View style={styles.info}>
-                                    <Text style={styles.infoTitle}>装修</Text>
-                                    <Radio data={['毛坯','简装', '精装', '豪华装修']} select={(data)=>this.setState({decoration: data})}/>
-                                </View>
+                                <Text style={styles.infoTitle}>房屋配置</Text>
+                                <Checkbox
+                                    data={['床','衣柜','沙发','电视','茶几','4人餐桌','冰箱','洗衣机','空调','宽带','热水器','热水器','水暖','地暖']}
+                                    value={[]}
+                                    select={(data)=>this.setState({house_configure: data})}
+                                />
                             </View>
 
                             <View style={styles.info}>

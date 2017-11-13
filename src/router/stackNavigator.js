@@ -29,6 +29,16 @@ import UserSetting from '../containers/user/setting';
 import { RrepleaseHouse } from '../containers/replease/house/house';
 import { Replease1to1 } from '../containers/replease/house/xflp';
 import { Replease1to2 } from '../containers/replease/house/esf';
+import { Replease1to3 } from '../containers/replease/house/fwcz';
+import { Replease1to4 } from '../containers/replease/house/dzrz';
+import { Replease1to5 } from '../containers/replease/house/spcz';
+import { Replease1to6 } from '../containers/replease/house/spcs';
+import { Replease1to7 } from '../containers/replease/house/spzr';
+import { Replease1to8 } from '../containers/replease/house/xzlcz';
+import { Replease1to9 } from '../containers/replease/house/xzlcs';
+import { Replease1to10 } from '../containers/replease/house/cfck';
+import { Replease1to11 } from '../containers/replease/house/tdnz';
+import { Replease1to12 } from '../containers/replease/house/cw';
 
 
 
@@ -67,6 +77,16 @@ export const AppNavigator = StackNavigator({
     RrepleaseHouse: {screen: RrepleaseHouse},
     Replease1to1: {screen: Replease1to1},
     Replease1to2: {screen: Replease1to2},
+    Replease1to3: {screen: Replease1to3},
+    Replease1to4: {screen: Replease1to4},
+    Replease1to5: {screen: Replease1to5},
+    Replease1to6: {screen: Replease1to6},
+    Replease1to7: {screen: Replease1to7},
+    Replease1to8: {screen: Replease1to8},
+    Replease1to9: {screen: Replease1to9},
+    Replease1to10: {screen: Replease1to10},
+    Replease1to11: {screen: Replease1to11},
+    Replease1to12: {screen: Replease1to12},
 },{
     headerMode: 'screen',
     transitionConfig:()=>({

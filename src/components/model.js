@@ -242,28 +242,57 @@ export class TypeModel extends Component{
                 style={[styles.model, {height: this.state.typeModelHeight}]}
             >
                 <View style={styles.modelContent}>
-                    <ScrollView>
 
-                        <TouchableOpacity onPress={this.chooseType.bind(this, [this.props.data['keyName'], null])}>
-                            <View style={styles.type}>
-                                <Text
-                                    style={this.props.type?styles.typeText:styles.typeTextActive}>
-                                    不限
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
+                    {this.props.data['where']!=null?
+                        (<ScrollView>
 
-                        {this.props.data['data'].map((type)=>(
-                            <TouchableOpacity key={type} onPress={this.chooseType.bind(this, [this.props.data['keyName'],type])}>
+                            <TouchableOpacity onPress={this.chooseType.bind(this, [this.props.data['keyName'], null])}>
                                 <View style={styles.type}>
                                     <Text
-                                        style={type==this.props.type?styles.typeTextActive:styles.typeText}>
-                                        {type}
+                                        style={this.props.type?styles.priceText:styles.priceTextActive}>
+                                        不限
                                     </Text>
                                 </View>
                             </TouchableOpacity>
-                        ))}
-                    </ScrollView>
+
+                            {this.props.data['data'].map((type, key)=>(
+                                <TouchableOpacity
+                                    key={type}
+                                    onPress={this.chooseType.bind(this, [this.props.data['keyName'], this.props.data['where'][key], type])}>
+                                    <View style={styles.type}>
+                                        <Text
+                                            style={type==this.props.type?styles.typeTextActive:styles.typeText}>
+                                            {type}
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            ))}
+                        </ScrollView>):(
+                            <ScrollView>
+
+                                <TouchableOpacity onPress={this.chooseType.bind(this, [this.props.data['keyName'], null])}>
+                                    <View style={styles.type}>
+                                        <Text
+                                            style={this.props.type?styles.typeText:styles.typeTextActive}>
+                                            不限
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+
+                                {this.props.data['data'].map((type)=>(
+                                    <TouchableOpacity key={type} onPress={this.chooseType.bind(this, [this.props.data['keyName'],type])}>
+                                        <View style={styles.type}>
+                                            <Text
+                                                style={type==this.props.type?styles.typeTextActive:styles.typeText}>
+                                                {type}
+                                            </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                ))}
+                            </ScrollView>
+                        )
+                    }
+
                 </View>
                 <TouchableWithoutFeedback onPress={this.props.bgClickHideModel}>
                     <View style={{height: '35%'}} />

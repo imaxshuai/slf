@@ -46,10 +46,12 @@ class HouseList extends Component{
             price: null,
             house_type: null,
             other: null,
+            lease_type: null,
         }
     }
 
     componentDidMount(){
+
         let filters = this.props.filter;
         for(let filter in filters){
             filters[filter] = null;
@@ -69,8 +71,12 @@ class HouseList extends Component{
 
     getHouseListByFilter = (data)=>{
 
+        console.log(data);
+
+        //传值类型 ['keyName', [?where], 'value']
+
         let info = data[1];
-        if(data[0]=='price'){
+        if(typeof (info)=='object'){
             info = data[2];
         }
 
@@ -110,10 +116,11 @@ class HouseList extends Component{
                 delete filters[filter]
             }
         }
-        console.log(filters);
+
         this.setState({showLoad: true});
         setTimeout(()=>this.setState({showLoad: false}),1500);
         this.props.sortActions.getHouseList(filters, {data: []});
+
 
     };
 
@@ -148,6 +155,9 @@ class HouseList extends Component{
 
     render() {
 
+        let { params } = this.props.navigation.state;
+        console.log(params);
+        console.log(this.state);
         return (
 
             <View style={styles.container}>
@@ -199,48 +209,56 @@ class HouseList extends Component{
                         <View style={styles.filterTextBox}>
                             <View style={styles.filterTextBox}>
                                 <Text style={[styles.filterText, this.state.showPriceModel?{color: '#fa0064'}:null]} numberOfLines={1}>
-                                    {this.state.price?this.state.price:'价格'}
+                                    {this.state[params.filter[0].keyName]?this.state[params.filter[0].keyName]:params.filter[0].name}
                                 </Text>
                                 <Icon name="arrow-drop-down" size={18} color={this.state.showPriceModel?"#fa0064":"#999"} />
                             </View>
                         </View>
                     </TouchableWithoutFeedback>
 
-                    <TouchableWithoutFeedback
-                        onPress={()=>this.setState({
-                            showAreaModel: false,
-                            showPriceModel: false,
-                            showTypeModel: !this.state.showTypeModel,
-                            showOtherModel: false,
-                        })}
-                    >
-                        <View style={styles.filterTextBox}>
-                            <View style={styles.filterTextBox}>
-                                <Text style={[styles.filterText, this.state.showTypeModel?{color: '#fa0064'}:null]} numberOfLines={1}>
-                                    {this.state.house_type?this.state.house_type:'类型'}
-                                </Text>
-                                <Icon name="arrow-drop-down" size={18} color={this.state.showTypeModel?"#fa0064":"#999"} />
-                            </View>
-                        </View>
-                    </TouchableWithoutFeedback>
+                    {
+                        params.filter[1]!=null?
+                            (<TouchableWithoutFeedback
+                                onPress={()=>this.setState({
+                                    showAreaModel: false,
+                                    showPriceModel: false,
+                                    showTypeModel: !this.state.showTypeModel,
+                                    showOtherModel: false,
+                                })}
+                            >
+                                <View style={styles.filterTextBox}>
+                                    <View style={styles.filterTextBox}>
+                                        <Text style={[styles.filterText, this.state.showTypeModel?{color: '#fa0064'}:null]} numberOfLines={1}>
+                                            {this.state[params.filter[1].keyName]?this.state[params.filter[1].keyName]:params.filter[1].name}
+                                        </Text>
+                                        <Icon name="arrow-drop-down" size={18} color={this.state.showTypeModel?"#fa0064":"#999"} />
+                                    </View>
+                                </View>
+                            </TouchableWithoutFeedback>): null
+                    }
 
-                    <TouchableWithoutFeedback
-                        onPress={()=>this.setState({
-                            showAreaModel: false,
-                            showPriceModel: false,
-                            showTypeModel: false,
-                            showOtherModel: !this.state.showOtherModel,
-                        })}
-                    >
-                        <View style={styles.filterTextBox}>
-                            <View style={styles.filterTextBox}>
-                                <Text style={[styles.filterText, this.state.showOtherModel?{color: '#fa0064'}:null]} numberOfLines={1}>
-                                    {this.state.other?this.state.other:'筛选'}
-                                </Text>
-                                <Icon name="arrow-drop-down" size={18} color={this.state.showOtherModel?"#fa0064":"#999"} />
-                            </View>
-                        </View>
-                    </TouchableWithoutFeedback>
+                    {
+                        params.filter[2]!=null?
+                            (<TouchableWithoutFeedback
+                                onPress={()=>this.setState({
+                                    showAreaModel: false,
+                                    showPriceModel: false,
+                                    showTypeModel: false,
+                                    showOtherModel: !this.state.showOtherModel,
+                                })}
+                            >
+                                <View style={styles.filterTextBox}>
+                                    <View style={styles.filterTextBox}>
+                                        <Text style={[styles.filterText, this.state.showOtherModel?{color: '#fa0064'}:null]} numberOfLines={1}>
+                                            {this.state.other?this.state.other:'筛选'}
+                                        </Text>
+                                        <Icon name="arrow-drop-down" size={18} color={this.state.showOtherModel?"#fa0064":"#999"} />
+                                    </View>
+                                </View>
+                            </TouchableWithoutFeedback>): null
+                    }
+
+
 
                 </View>
 
@@ -269,58 +287,35 @@ class HouseList extends Component{
                 <PriceModel
                     showPriceModel={this.state.showPriceModel}
                     price={this.state.price}
-                    data={
-                        {
-                            where: [
-                                {min_price: 0, max_price: 6000},
-                                {min_price: 6000, max_price: 10000},
-                                {min_price: 10000, max_price: 15000},
-                                {min_price: 15000, max_price: 30000},
-                                {min_price: 30000, max_price: 9999999999},
-                            ],
-                            data: ['6000元/㎡ 以内','6000-10000元/㎡','10000-15000元/㎡','15000-30000元/㎡','30000元/㎡ 以上']
-                        }
-                    }
+                    type={this.state[params.filter[0].keyName]}
+                    data={params.filter[0]}
                     choosePrice={(data)=>this.getHouseListByFilter(data)}
                     bgClickHideModel={()=>this.setState({showPriceModel: false})}
                 />
 
                 {/*类型筛选model*/}
-                <TypeModel
-                    showTypeModel={this.state.showTypeModel}
-                    type={this.state.house_type}
-                    data={{keyName: 'house_type', data: ['住宅','商铺','写字楼']}}
-                    chooseType={(house_type)=>this.getHouseListByFilter(house_type)}
-                    bgClickHideModel={()=>this.setState({showTypeModel: false})}
-                />
+                {params.filter[1]!=null?
+                    (
+                        <TypeModel
+                            showTypeModel={this.state.showTypeModel}
+                            type={this.state[params.filter[1].keyName]}
+                            data={params.filter[1]}
+                            chooseType={(house_type)=>this.getHouseListByFilter(house_type)}
+                            bgClickHideModel={()=>this.setState({showTypeModel: false})}
+                        />
+                    ): null}
 
                 {/*其他筛选条件model*/}
-                <OtherModel
-                    showOtherModel={this.state.showOtherModel}
-                    other={this.state.other}
-                    data={[
-                        {
-                            name: '面积',
-                            keyName: 'house_size',
-                            where: [
-                                {min_house_size: 0, max_house_size: 9999999999},
-                                {min_house_size: 0, max_house_size: 50},
-                                {min_house_size: 50, max_house_size: 100},
-                                {min_house_size: 100, max_house_size: 150},
-                                {min_house_size: 150, max_house_size: 9999999999},
-                            ],
-                            data: ['不限', '< 50㎡',  '50-100㎡', '100-150㎡', '> 150㎡'],
-                        },
-                        {
-                            name: '房型',
-                            keyName: 'room_and_hall',
-                            data: ['不限', '1室0厅0卫', '2室1厅1卫', '3室1厅1卫', '3室2厅1卫', '3室2厅2卫', '4室2厅2卫'],
-                        },
-                    ]}
-                    chooseFilter={(data)=>this.getHouseListByFilter(data)}
-                    bgClickHideModel={()=>this.setState({showOtherModel: false})}
-                />
-
+                {params.filter[2]!=null?
+                    (
+                        <OtherModel
+                            showOtherModel={this.state.showOtherModel}
+                            other={this.state.other}
+                            data={params.filter[2]}
+                            chooseFilter={(data)=>this.getHouseListByFilter(data)}
+                            bgClickHideModel={()=>this.setState({showOtherModel: false})}
+                        />
+                    ): null}
                 <Spinner
                     style={{position:'absolute', top: (height-50)/2,left: (width-50)/2}}
                     isVisible={(this.props.houseList.data.length<=0)&&(this.props.houseList.isEnd==false)}
@@ -333,7 +328,7 @@ class HouseList extends Component{
                 {/*无限下拉*/}
                 <FlatList
                     ListFooterComponent={this._footer}
-                    renderItem={({item})=><ListItemHouseComponent info={item} navigation={this.props.navigation} />}
+                    renderItem={({item})=><ListItemHouseComponent info={item} navigation={this.props.navigation} tags={params.tags} unit={params.unit} />}
                     // ListEmptyComponent={this.createEmptyView()}
                     data={this.props.houseList['data']}
                     keyExtractor={(item)=>item.id}
@@ -426,7 +421,7 @@ const styles = StyleSheet.create({
     //提交加载动画效果
     coverLoad: {
         width: width,
-        height: height-111,
+        height: Platform.OS=='ios'?height-111:height-131,
         backgroundColor: 'rgba(255,255,255,0.8)',
         justifyContent: 'center',
         alignItems: 'center',

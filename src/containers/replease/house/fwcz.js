@@ -3,343 +3,425 @@ import { Text,
     TouchableOpacity,
     View,
     ScrollView,
-    Image,
     StyleSheet,
     TextInput,
     Dimensions,
     Platform,
-    TouchableWithoutFeedback,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import Modal from 'react-native-modal';
 import Picker from 'react-native-picker';
+import Spinner from 'react-native-spinkit';
 
-import { NavbarTitleComponent } from '../../../components/NavbarTitle';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {HouseBaseInfo} from "../../../components/houseBaseInfo";
+import {UploadImages} from "../../../components/uploadImages";
+import {AreaChoose} from "../../../components/areaChoose";
+import {Radio} from "../../../components/radio";
+import {HeaderComponent} from "../../../components/header";
+import {Toast} from "../../../components/toast";
+import {Checkbox} from "../../../components/checkbox";
 
-let {width} = Dimensions.get('window');
+let {width, height} = Dimensions.get('window');
+let message = [];
 
 export class Replease1to3 extends Component {
 
     static navigationOptions = ({navigation}) => ({
-        headerTitle: navigation.state.params,
-        headerLeft: (
-            <TouchableOpacity onPress={()=>navigation.goBack()}>
-                <Icon name="navigate-before" size={25} color="#666" />
-            </TouchableOpacity>
-        ),
-        headerTitleStyle: {
-            fontSize: 16,
-        }
+        header: null,
     });
 
     constructor(...props){
         super(...props);
         this.state = {
-            visibleModal: null,
-            house: null,
-            direction: null,
-            floors: null
+            showToast: false,
+            showLoad: false,
+            house: null,                    //房型(厅室)
+            direction: null,                //朝向
+            floors: null,                   //楼层
+            house_configure: [],            //房屋配置
+            images: null,                   //图片
+            agent: null,                    //身份(个人/经纪人)
+            house_type: null,               //房屋类型(住宅/写字楼/商铺)
+            property_right: null,           //产权
+            decoration: null,               //装修
+            area: null,                     //区域
+            build_year: null,               //建筑年代
+            house_use_size: null,           //可使用面积
+            lease_type: null,                //出租形式
+            pay_type: null,                 //付款形式
         }
     }
 
-    componentDidMount(){
-
+    componentWillMount(){
+        if(!currentUser.userinfo){
+            this.props.navigation.navigate('Login', '确认登陆之后，才可以免费发布消息哦！');
+        }
     };
     componentWillUnmount(){
         Picker.hide();
     }
 
-    //渲染头部navbar
-    renderLeftItem(){
-        return (
-            <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
-                <Icon name="navigate-before" size={25} />
-            </TouchableOpacity>
-        )
-    }
-    renderTitletem(){
-        return (
-            <Text style={{fontWeight: 'bold'}}>{this.props.navigation.state.params}</Text>
-        )
-    }
-    //厅室改变调用
-    pickerChange =(a, b)=>{
-        console.log(a, b);
-    };
 
-    //厅室选择器
-    housePicker = ()=>{
-        Picker.init({
-            pickerData: [
-                ['1室','2室','3室','4室','5室','6室','7室','8室','9室'],
-                ['0厅','1厅','2厅','3厅','4厅','5厅','6厅','7厅','8厅','9厅'],
-                ['0卫','1卫','2卫','3卫','4卫','5卫','6卫','7卫','8卫','9卫']
-            ],
-            pickerToolBarBg: [240,240,240,1],
-            pickerBg: [200,200,200,1],
-            pickerTitleColor: [150,150,150,1],
-            pickerConfirmBtnColor: [255,0,100,1],
-            pickerCancelBtnColor: [255,0,100,1],
-            pickerTitleText: '请选择厅室',
-            pickerConfirmBtnText: '确定',
-            pickerCancelBtnText: '取消',
-            selectedValue: this.state.house!=null?this.state.house:['3室','1厅','1卫'],
-            onPickerConfirm: data => {
-                console.log(data);
-                this.setState({
-                    house: data
-                })
-                console.log(this.state);
-            },
-        });
-        Picker.show();
-    };
-    directionPicker = ()=>{
-        Picker.init({
-            pickerData: ['东','南','西','北','南北','东西','东南','西南','东北','西北'],
-            pickerToolBarBg: [240,240,240,1],
-            pickerBg: [200,200,200,1],
-            pickerTitleColor: [150,150,150,1],
-            pickerConfirmBtnColor: [255,0,100,1],
-            pickerCancelBtnColor: [255,0,100,1],
-            pickerTitleText: '请选择厅室',
-            pickerConfirmBtnText: '确定',
-            pickerCancelBtnText: '取消',
-            selectedValue: this.state.direction!=null?this.state.direction:['西'],
-            onPickerConfirm: data => {
-                console.log(data);
-                this.setState({
-                    direction: data
-                })
-                console.log()
-            },
-        });
-        Picker.show();
-    };
-    floorPicker = ()=>{
-        let floors = [];
-        for(let i=1;i<=99;i++){
-            let data = [];
-            let floor = {};
-            for (let j=1;j<=99;j++){
-                if(j>i){
-                    data.push('共'+j+'层');
-                }
-            }
-            floor[i+'层'] = data;
-            floors.push(floor);
+    //提交信息
+    doSubmit = ()=>{
+        message = [];
+        let repleaseInfo = {
+
+            //input输入框取出的值
+            title: this.refs.title._lastNativeText,
+            community_name: this.refs.community_name._lastNativeText,
+            address: this.refs.address._lastNativeText,
+            house_size: this.refs.house_size._lastNativeText,
+            price: this.refs.price._lastNativeText,
+            contacts: this.refs.contacts._lastNativeText,
+            tel: this.refs.tel._lastNativeText,
+            qq: this.refs.qq._lastNativeText,
+            wechat: this.refs.wechat._lastNativeText,
+            house_describe: this.refs.house_describe._lastNativeText,
+
+
+            //picker选取的值
+            area: this.state.area==null?undefined:this.state.area.join(''),
+            room_and_hall: this.state.house==null?undefined:this.state.house.join(''),
+            direction: this.state.direction==null?undefined:this.state.direction.join(''),
+            floors: this.state.floors==null?undefined:this.state.floors.join(''),
+
+
+            city: City.name,                     //城市
+            user_id: currentUser.userinfo.id,
+            //单选和复选选取的值
+            agent: this.state.agent,
+            decoration: this.state.decoration,
+            pay_type: this.state.pay_type,
+            lease_type: this.state.lease_type,
+            house_configure: this.state.house_configure,
+
+            sort_name: this.props.navigation.state.params,
+
+            //图片
+            images: this.state.images,
+
+        };
+
+        let telPattern = /^1[3|4|5|7|8][0-9]{9}$/;
+        let qqPattern = /^[1-9][0-9]{5,10}$/;
+
+        (repleaseInfo.title==null)||(repleaseInfo.title=='')?message.push('请填写信息标题!'):null;
+        (repleaseInfo.community_name==null)||(repleaseInfo.community_name=='')?message.push('请填写小区名!'):null;
+        (repleaseInfo.address==null)||(repleaseInfo.address=='')?message.push('请填写小区地址!'):null;
+        (repleaseInfo.house_size==null)||(repleaseInfo.house_size=='')?message.push('请填写房屋尺寸!'):null;
+        (repleaseInfo.price==null)||(repleaseInfo.price=='')?message.push('请填写价格!'):null;
+        (repleaseInfo.contacts==null)||(repleaseInfo.contacts=='')?message.push('请填写联系人!'):null;
+
+
+        !telPattern.test(repleaseInfo.tel)||(repleaseInfo.tel==null)||(repleaseInfo.tel=='')?message.push('请填写正确的手机号!'):null;
+
+        repleaseInfo.area==null?message.push('请选择所属区域!'):null;
+        repleaseInfo.room_and_hall==null?message.push('请选择厅室!'):null;
+        repleaseInfo.decoration==null?message.push('请选择房屋朝向!'):null;
+        repleaseInfo.floors==null?message.push('请选择房屋楼层!'):null;
+
+        if(repleaseInfo.qq){
+            !qqPattern.test(repleaseInfo.qq)?message.push('QQ号输入有误!'):null;
         }
 
-        Picker.init({
-            pickerData: floors,
-            pickerToolBarBg: [240,240,240,1],
-            pickerBg: [200,200,200,1],
-            pickerTitleColor: [150,150,150,1],
-            pickerConfirmBtnColor: [255,0,100,1],
-            pickerCancelBtnColor: [255,0,100,1],
-            pickerTitleText: '请选择楼层',
-            pickerConfirmBtnText: '确定',
-            pickerCancelBtnText: '取消',
-            selectedValue: this.state.floors!=null?this.state.floors:['3层', '共6层'],
-            onPickerConfirm: data => {
+
+        if(message.length>0){
+            this.setState({
+                showToast: true
+            });
+            setTimeout(()=>{
                 this.setState({
-                    floors: data
+                    showToast: false
+                });
+            },200)
+        }else{
+
+            this.setState({
+                showLoad: true
+            });
+
+            console.log(repleaseInfo);
+
+            Http.post(Ip+'api/house/create', repleaseInfo ,{'Content-Type': 'application/json'},)
+                .then( res=>{
+                    if(res.success){
+                        this.setState({
+                            showLoad: false
+                        });
+                        alert(res.message);
+                    }else{
+                        alert(res.message)
+                    }
                 })
-                console.log(this.state)
-            },
-        });
-        Picker.show();
+        }
+
+
+
     };
 
 
     render () {
 
         return (
-            <View style={{ flex: 1}}>
 
-                <ScrollView>
+            <View>
+                <Toast
+                    message={message[0]}
+                    show={this.state.showToast}
+                />
 
-                    {/*提示消息*/}
-                    <Text style={styles.system}>您今天还可免费发布5条信息!</Text>
-                    {/*图片删除*/}
-                    <TouchableOpacity onPress={()=> alert('挑战拍照或相册界面')}>
-                        <View style={styles.imgUploadBox}>
-                            <Image source={require('../../../images/imgUpload.png')} style={styles.imgUploadImg} />
-                            <Text style={styles.imgUploadText}>选择要上传的照片</Text>
-                        </View>
-                    </TouchableOpacity>
+                <HeaderComponent
+                    headerLeft={
+                        <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
+                            <Icon name='navigate-before' size={25} color='#aaa' />
+                        </TouchableOpacity>
+                    }
+                    headerTitle={<Text style={{fontSize: 18}}>{this.props.navigation.state.params}</Text>}
+                />
 
-                    <View style={styles.item}>
-                        <View style={styles.itemTitle}>
-                            <Text style={styles.itemTitleText}>基本信息</Text>
-                        </View>
-                        <View style={styles.info}>
-                            <Text style={styles.infoTitle}>小区</Text>
-                            <TextInput
-                                autoCapitalize='none'
-                                placeholder="请填写小区名"
-                                placeholderTextColor="#ccc"
-                                style={styles.infoInput}
-                                underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                {this.state.showLoad?(
+                    <View style={styles.coverLoad}>
+                        <View style={styles.spinner}>
+                            <Spinner
+                                size={80}
+                                type='Pulse'
+                                color='#fa0064'
+                                style={styles.spinner}
                             />
+                            <Text style={styles.loadText}>传输中...</Text>
                         </View>
-                        <View style={styles.info}>
-                            <Text style={styles.infoTitle}>具体地址</Text>
-                            <TextInput
-                                autoCapitalize='none'
-                                placeholder="例：10栋3单元506室"
-                                placeholderTextColor="#ccc"
-                                style={styles.infoInput}
-                                underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                    </View>
+                ):null}
+
+                <KeyboardAwareScrollView>
+
+                    <ScrollView>
+
+                        {/*提示消息*/}
+                        <Text style={styles.system}>您今天还可免费发布5条信息!</Text>
+
+                        {/*图片上传*/}
+                        <UploadImages
+                            images={(data)=>this.setState({images: data})}
+                        />
+
+                        <View style={styles.item}>
+                            <View style={styles.itemTitle}>
+                                <Text style={styles.itemTitleText}>基本信息</Text>
+                            </View>
+                            <AreaChoose
+                                area={(data)=>this.setState({area: data})}
                             />
-                        </View>
-                        <View style={styles.info}>
-                            <Text style={styles.infoTitle}>面积(㎡)</Text>
-                            <TextInput
-                                autoCapitalize='none'
-                                placeholder="请填写使用面积"
-                                placeholderTextColor="#ccc"
-                                style={styles.infoInput}
-                                underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                            <View style={styles.info}>
+                                <Text style={styles.infoTitle}>标题</Text>
+                                <TextInput
+                                    autoCapitalize='none'
+                                    placeholder="请填写信息标题"
+                                    placeholderTextColor="#ccc"
+                                    maxLength={25}
+                                    style={styles.infoInput}
+                                    underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                                    ref="title"
+                                />
+                            </View>
+                            <View style={styles.info}>
+                                <Text style={styles.infoTitle}>小区名</Text>
+                                <TextInput
+                                    autoCapitalize='none'
+                                    placeholder="请填写小区名"
+                                    placeholderTextColor="#ccc"
+                                    maxLength={25}
+                                    style={styles.infoInput}
+                                    underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                                    ref="community_name"
+                                />
+                            </View>
+                            <View style={styles.info}>
+                                <Text style={styles.infoTitle}>小区地址</Text>
+                                <TextInput
+                                    autoCapitalize='none'
+                                    placeholder="请填写小区地址"
+                                    placeholderTextColor="#ccc"
+                                    maxLength={50}
+                                    style={styles.infoInput}
+                                    underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                                    ref="address"
+                                />
+                            </View>
+                            <View style={styles.info}>
+                                <Text style={styles.infoTitle}>面积(㎡)</Text>
+                                <TextInput
+                                    autoCapitalize='none'
+                                    placeholder="请填写面积"
+                                    placeholderTextColor="#ccc"
+                                    keyboardType="numeric"
+                                    maxLength={10}
+                                    style={styles.infoInput}
+                                    underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                                    ref="house_size"
+                                />
+                            </View>
+
+                            {/*厅室、楼层、朝向选择器*/}
+                            <HouseBaseInfo
+                                house={(data)=>this.setState({house: data})}
+                                direction={(data)=>this.setState({direction: data})}
+                                floors={(data)=>this.setState({floors: data})}
                             />
+
                         </View>
-                        <View style={styles.infoGroup}>
-                            <TouchableWithoutFeedback onPress={this.housePicker}>
+
+                        <View style={styles.item}>
+                            <View style={styles.itemTitle}>
+                                <Text style={styles.itemTitleText}>价格详情</Text>
+                            </View>
+                            <View style={styles.info}>
+                                <Text style={styles.infoTitle}>租金(元/月)</Text>
+                                <TextInput
+                                    autoCapitalize='none'
+                                    placeholder="请填写单价"
+                                    placeholderTextColor="#ccc"
+                                    keyboardType="numeric"
+                                    maxLength={15}
+                                    style={styles.infoInput}
+                                    underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                                    ref="price"
+                                />
+                            </View>
+                        </View>
+
+                        <View style={styles.item}>
+                            <View style={styles.itemTitle}>
+                                <Text style={styles.itemTitleText}>与我联系</Text>
+                            </View>
+                            <View style={styles.info}>
+                                <Text style={styles.infoTitle}>联系人</Text>
+                                <TextInput
+                                    autoCapitalize='none'
+                                    placeholder="请填写联系人"
+                                    placeholderTextColor="#ccc"
+                                    maxLength={10}
+                                    style={styles.infoInput}
+                                    underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                                    ref="contacts"
+                                />
+                            </View>
+                            <View style={styles.info}>
+                                <Text style={styles.infoTitle}>手机号</Text>
+                                <TextInput
+                                    autoCapitalize='none'
+                                    placeholder="请填写手机号"
+                                    placeholderTextColor="#ccc"
+                                    keyboardType="numeric"
+                                    style={styles.infoInput}
+                                    underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                                    ref="tel"
+                                />
+                            </View>
+                            <View style={styles.info}>
+                                <Text style={styles.infoTitle}>QQ</Text>
+                                <TextInput
+                                    autoCapitalize='none'
+                                    placeholder="请填写QQ号"
+                                    placeholderTextColor="#ccc"
+                                    keyboardType="numeric"
+                                    maxLength={11}
+                                    style={styles.infoInput}
+                                    underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                                    ref="qq"
+                                />
+                            </View>
+                            <View style={styles.info}>
+                                <Text style={styles.infoTitle}>微信</Text>
+                                <TextInput
+                                    autoCapitalize='none'
+                                    placeholder="请填写微信号"
+                                    placeholderTextColor="#ccc"
+                                    maxLength={25}
+                                    style={styles.infoInput}
+                                    underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                                    ref="wechat"
+                                />
+                            </View>
+
+                        </View>
+
+                        <View style={styles.item}>
+                            <View style={styles.itemTitle}>
+                                <Text style={styles.itemTitleText}>其他</Text>
+                            </View>
+
+                            <View style={styles.info}>
                                 <View style={styles.info}>
-                                    <Text style={styles.infoTitle}>厅室</Text>
-                                    <Text style={[styles.infoGroupInput, {color: '#ccc'}]}>
-                                        {this.state.house!=null?<Text style={{color: '#333'}}>{this.state.house.join('')}</Text>:'请选择'}
-                                    </Text>
+                                    <Text style={styles.infoTitle}>出租形式</Text>
+                                    <Radio
+                                        data={['单间','整套','床位']}
+                                        select={(data)=>this.setState({lease_type: data})}
+                                    />
                                 </View>
-                            </TouchableWithoutFeedback>
-                            <TouchableWithoutFeedback onPress={this.directionPicker}>
+                            </View>
+
+                            <View style={styles.info}>
                                 <View style={styles.info}>
-                                    <Text style={styles.infoTitle}>朝向</Text>
-                                    <Text style={[styles.infoGroupInput, {color: '#ccc'}]}>
-                                        {this.state.direction!=null?<Text style={{color: '#333'}}>{this.state.direction.join('')}</Text>:'请选择'}
-                                    </Text>
+                                    <Text style={styles.infoTitle}>付款方式</Text>
+                                    <Radio
+                                        data={['付一压一','付三压一','半年','一年']}
+                                        select={(data)=>this.setState({pay_type: data})}
+                                    />
                                 </View>
-                            </TouchableWithoutFeedback>
-                            <TouchableWithoutFeedback onPress={this.floorPicker}>
+                            </View>
+
+                            <View style={styles.info}>
                                 <View style={styles.info}>
-                                    <Text style={styles.infoTitle}>楼层</Text>
-                                    <Text style={[styles.infoGroupInput, {color: '#ccc'}]}>
-                                        {this.state.floors!=null?<Text style={{color: '#333'}}>{this.state.floors.join('/')}</Text>:'请选择'}
-
-                                    </Text>
+                                    <Text style={styles.infoTitle}>身份</Text>
+                                    <Radio data={['个人','经纪人']} select={(data)=>this.setState({agent: data})}/>
                                 </View>
-                            </TouchableWithoutFeedback>
-
-                        </View>
-                    </View>
-
-                    <View style={styles.item}>
-                        <View style={styles.itemTitle}>
-                            <Text style={styles.itemTitleText}>价格详情</Text>
-                        </View>
-                        <View style={styles.info}>
-                            <Text style={styles.infoTitle}>单价(元/㎡)</Text>
-                            <TextInput
-                                autoCapitalize='none'
-                                placeholder="请填写每月租金"
-                                placeholderTextColor="#ccc"
-                                style={styles.infoInput}
-                                underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
-                            />
-                        </View>
-                    </View>
-
-                    <View style={styles.item}>
-                        <View style={styles.itemTitle}>
-                            <Text style={styles.itemTitleText}>与我联系</Text>
-                        </View>
-                        <View style={styles.info}>
-                            <Text style={styles.infoTitle}>联系人</Text>
-                            <TextInput
-                                autoCapitalize='none'
-                                placeholder="请填写联系人"
-                                placeholderTextColor="#ccc"
-                                style={styles.infoInput}
-                                underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
-                            />
-                        </View>
-                        <View style={styles.info}>
-                            <Text style={styles.infoTitle}>手机号</Text>
-                            <TextInput
-                                autoCapitalize='none'
-                                placeholder="请填写手机号"
-                                placeholderTextColor="#ccc"
-                                style={styles.infoInput}
-                                underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
-                            />
-                        </View>
-
-                    </View>
-
-                    <Text style={styles.submitBtn} onPress={()=>{alert('请捎带...')}}>
-                        立即发布
-                    </Text>
-
-                </ScrollView>
-
-
-                {/*<Modal
-                    onBackdropPress={() => this.setState({ visibleModal: null })}
-                    isVisible={this.state.visibleModal === 5} style={styles.bottomModal}>
-                    <View style={[styles.modalContent, {paddingRight:30,paddingLeft:30}]}>
-
-                        <View style={styles.modalHeader}>
-                            <View style={[styles.modalHeaderItem, styles.modalHeaderItemBorder]}>
-                                <Text  style={styles.modalHeaderItemTitle}>厅室</Text>
-                                <Text  style={styles.modalHeaderItemText}>{this.state.rooms+this.state.halls+this.state.guards}</Text>
                             </View>
-                            <View style={styles.modalHeaderItemCenter}>
-                                <Text  style={styles.modalHeaderItemTitle}>朝向</Text>
-                                <Text  style={styles.modalHeaderItemText}>东南</Text>
+
+                            <View style={styles.info}>
+                                <View style={styles.info}>
+                                    <Text style={styles.infoTitle}>装修</Text>
+                                    <Radio data={['毛坯','简装', '精装', '豪华装修']} select={(data)=>this.setState({decoration: data})}/>
+                                </View>
                             </View>
-                            <View style={styles.modalHeaderItem}>
-                                <Text  style={styles.modalHeaderItemTitle}>楼层</Text>
-                                <Text  style={styles.modalHeaderItemText}>4/13</Text>
+
+                            <View style={styles.info}>
+                                <Text style={styles.infoTitle}>房屋配置</Text>
+                                <Checkbox
+                                    data={['床','衣柜','沙发','电视','茶几','4人餐桌','冰箱','洗衣机','空调','宽带','热水器','热水器','水暖','地暖']}
+                                    value={[]}
+                                    select={(data)=>this.setState({house_configure: data})}
+                                />
+                            </View>
+
+                            <View style={styles.info}>
+                                <Text style={styles.infoTitle}>内容描述</Text>
+                                <TextInput
+                                    autoCapitalize='none'
+                                    placeholder="(选填)内容描述介意大大提高成功率哦！"
+                                    placeholderTextColor="#ccc"
+                                    multiline= { true }
+                                    maxLength={5000}
+                                    style={styles.infoInputAeaa}
+                                    underlineColorAndroid='transparent' //设置下划线背景色透明 达到去掉下划线的效果
+                                    ref="house_describe"
+                                />
+
                             </View>
                         </View>
 
-                        选择厅室的
-                        <View>
-                            <View style={styles.centerBox}>
-                                <Text style={styles.centerBoxInfo}>请选择厅室</Text>
-                                <Text style={styles.centerBoxTrue} onPress={() => this.setState({ visibleModal: null })}>确定</Text>
-                            </View>
+                        <TouchableOpacity onPress={this.doSubmit}>
+                            <Text style={styles.submitBtn}>
+                                立即发布
+                            </Text>
+                        </TouchableOpacity>
 
-                            <View style={{flexDirection: 'row', paddingLeft: 30, paddingRight: 30}}>
-                                <Picker
-                                    mode="dropdown"
-                                    selectedValue={this.state.rooms}
-                                    onValueChange={lang =>{
-                                        this.setState({rooms:lang});
-                                    }}
-                                    style={{backgroundColor:'#fff',flex:1,}}
-                                >
-                                    {rooms.map((i)=>(<Picker.Item label={i+'室'} value={i+'室'} key={i} />))}
-                                </Picker>
-                                <Picker
-                                    selectedValue={this.state.halls}
-                                    onValueChange={lang =>{this.setState({halls:lang})}}
-                                    style={{backgroundColor:'#fff',flex:1,}}
-                                >
-                                    {halls.map((i)=>(<Picker.Item label={i+'厅'} value={i+'厅'} key={i} />))}
-                                </Picker>
-                                <Picker
-                                    selectedValue={this.state.guards}
-                                    onValueChange={lang =>{this.setState({guards: lang})}}
-                                    style={{backgroundColor:'#fff',flex:1,}}
-                                >
-                                    {guards.map((i)=>(<Picker.Item label={i+'卫'} value={i+'卫'} key={i} />))}
-                                </Picker>
-                            </View>
-                        </View>
+                        <View style={{height: 60}} />
 
-                    </View>
-                </Modal>*/}
+                    </ScrollView>
+
+                </KeyboardAwareScrollView>
 
             </View>
 
@@ -349,6 +431,28 @@ export class Replease1to3 extends Component {
 }
 
 const styles = StyleSheet.create({
+
+    //提交加载动画效果
+    coverLoad: {
+        width: width,
+        height: height,
+        backgroundColor: 'rgba(255,255,255,0.7)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        zIndex: 999,
+    },
+    spinner: {
+        alignItems: 'center',
+    },
+    loadText: {
+        textAlign: 'center',
+        marginTop: 20,
+        color: '#fa0064',
+        fontSize: 18,
+    },
 
     //提示消息
     system: {
@@ -373,6 +477,15 @@ const styles = StyleSheet.create({
         marginTop: 15,
         color: '#999',
     },
+    imagesBox: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    imagesItem: {
+        width: width/3-20,
+        height: width/3-20,
+        margin: 10,
+    },
 
     //数据注入区域
     item:{
@@ -393,12 +506,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: '#eee',
     },
-    infoGroup:{
-        justifyContent: 'space-around',
-        borderBottomWidth: 1,
-        borderColor: '#eee',
-        flexDirection: 'row',
-    },
     infoTitle: {
         padding: 10,
         color: '#444',
@@ -411,12 +518,16 @@ const styles = StyleSheet.create({
         padding: 0,
         marginBottom: 10,
     },
-    infoGroupInput: {
+    infoInputAeaa: {
+        width: width*0.9,
+        fontSize: 14,
+        padding: 10,
         marginBottom: 10,
-        width: width*0.3,
-        textAlign: 'center',
-        fontSize: 16,
+        height: 100,
+        backgroundColor: '#f0f0f0',
+        textAlignVertical: 'top',
     },
+
 
 
     //发布按钮
@@ -433,64 +544,5 @@ const styles = StyleSheet.create({
         fontWeight: '500',
     },
 
-
-    //模态框
-    modalContent: {
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
-        // borderColor: 'rgba(0, 0, 0, 0.1)',
-    },
-    bottomModal: {
-        justifyContent: 'flex-end',
-        margin: 0,
-    },
-    modalHeader: {
-        width: width,
-        flexDirection: 'row',
-    },
-    modalHeaderItem: {
-        paddingTop: 15,
-        paddingBottom: 15,
-        width: width/3,
-        alignItems: 'center',
-    },
-    modalHeaderItemBorder: {
-        borderTopWidth: 3,
-        borderColor: '#fa0064',
-    },
-    modalHeaderItemCenter: {
-        paddingTop: 15,
-        width: width/3-2,
-        alignItems: 'center',
-        borderRightWidth: 1,
-        borderLeftWidth: 1,
-        borderColor: '#eee',
-    },
-    modalHeaderItemTitle: {
-        color: '#666',
-    },
-    modalHeaderItemText: {
-        fontSize: 18,
-        paddingTop: 10,
-        color: '#fa0064',
-    },
-    centerBox: {
-        width: width,
-        height: 38,
-        backgroundColor: '#eee',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    centerBoxInfo: {
-        marginLeft: 20,
-        color: '#666',
-    },
-    centerBoxTrue: {
-        marginRight: 20,
-        color: '#fa0064',
-        fontSize: 16,
-    }
 
 });

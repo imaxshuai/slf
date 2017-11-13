@@ -47,7 +47,7 @@ export class Radio extends Component{
                                 <Text
                                     key= {item}
                                     style={(this.state.data)==item||(this.state.value)==item?
-                                        (this.props.activeOptionStyle?[styles.activeOption,this.props.activeOptionStyle]:styles.activeOption)
+                                        (this.props.activeOptionStyle?[styles.option, styles.activeOption,this.props.activeOptionStyle]:[styles.option,styles.activeOption])
                                         :
                                         (this.props.optionStyle?[styles.option,this.props.optionStyle]:styles.option)
                                     }
@@ -89,12 +89,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     activeOption: {
-        width: 80,
-        paddingTop: 7,
-        paddingBottom: 7,
         color: '#fff',
-        fontWeight: '900',
         backgroundColor: '#fa0064',
-        textAlign: 'center',
     },
 })

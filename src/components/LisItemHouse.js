@@ -15,18 +15,16 @@ export default class ListItemHouseComponent extends Component{
     componentDidMount(){
     }
 
-    toDetail = ()=>{
-        this.props.navigation.navigate('HouseDetail',this.props.info)
-    }
-
     render(){
+
+        const {info, tags, unit, navigation} = this.props;
         return (
-            <TouchableOpacity key={this.props.info.id} onPress={this.toDetail}>
+            <TouchableOpacity key={info.id} onPress={()=>navigation.navigate('HouseDetail',this.props.info)}>
                 <View style={styles.itemBox}>
-                    {this.props.info.images&&this.props.info.images.length>0
+                    {info.images&&info.images.length>0
                         ?
                         (<Image
-                            source={{uri: 'http://www.hotcc.cn/public/upload/images/'+this.props.info.images[0]}}
+                            source={{uri: 'http://www.hotcc.cn/public/upload/images/'+info.images[0]}}
                             style={styles.itemImg}
                         />)
                         :null
@@ -35,19 +33,35 @@ export default class ListItemHouseComponent extends Component{
                         <Text
                             style={styles.itemTitle}
                             numberOfLines={1}
-                        >{this.props.info.title}</Text>
+                        >{info.title}</Text>
 
                         <View style={styles.describeText}>
-                            <Text style={styles.textLeftInfo}>{this.props.info.room_and_hall}</Text>
-                            <View style={styles.textCutLine} />
-                            <Text style={styles.textLeftInfo}>{this.props.info.house_size}㎡</Text>
-                            <View style={styles.textCutLine} />
-                            <Text style={styles.textLeftInfo}>中等装修</Text>
+                            {tags?tags.map((tag, i)=>{
+                                if(i==0){
+                                    return (
+                                        <View key={tag} style={styles.describeTextBox}>
+                                            <Text style={styles.textLeftInfo}>{info[tag]+unit[i+1]}</Text>
+                                        </View>
+                                    )
+                                }else{
+                                    if(info[tag]!=null){
+                                        return (
+                                            <View key={tag} style={styles.describeTextBox}>
+                                                <View style={styles.textCutLine} />
+                                                <Text style={styles.textLeftInfo}>{info[tag]+unit[i+1]}</Text>
+                                            </View>
+                                        )
+                                    }else{
+                                        return null;
+                                    }
+                                }
+
+                            }):null}
                         </View>
 
                         <View style={styles.bottom}>
                             <View style={styles.textRight}>
-                                <Text  style={styles.price}>{this.props.info.price}元</Text>
+                                <Text  style={styles.price}>{info.price+(unit?unit[0]:null)}</Text>
                             </View>
                             <View style={styles.extensionBox}>
                                 <Text style={{padding: 3, color: '#fa0064', fontSize: 10, borderWidth: 0.5, borderColor: '#fa0064',borderRadius: 2, marginRight: 5, }}>顶</Text>
@@ -97,15 +111,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
     },
+    describeTextBox: {
+        flexDirection: 'row',
+    },
     textLeftInfo: {
         color: '#999',
-        fontSize: 12,
+        fontSize: 11,
     },
     textCutLine: {
         width: 1,
         backgroundColor: '#aaa',
-        marginLeft: 8,
-        marginRight: 8,
+        marginLeft: 4,
+        marginRight: 4,
         height: 12,
     },
 

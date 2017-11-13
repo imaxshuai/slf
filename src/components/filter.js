@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     },
     otherModelContent: {
         width: width*.85,
-        height: height,
+        height: Platform.OS=='ios'?height:height-25,
         backgroundColor: '#fff',
         paddingTop: 40,
     },
