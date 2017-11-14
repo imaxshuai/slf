@@ -19,12 +19,12 @@ export default class ListItemHouseComponent extends Component{
 
         const {info, tags, unit, navigation} = this.props;
         return (
-            <TouchableOpacity key={info.id} onPress={()=>navigation.navigate('HouseDetail',this.props.info)}>
+            <TouchableOpacity key={info.id} onPress={()=>navigation.navigate('HouseDetail',info.id)}>
                 <View style={styles.itemBox}>
                     {info.images&&info.images.length>0
                         ?
                         (<Image
-                            source={{uri: 'http://www.hotcc.cn/public/upload/images/'+info.images[0]}}
+                            source={{uri: ImageIp+info.images[0]}}
                             style={styles.itemImg}
                         />)
                         :null

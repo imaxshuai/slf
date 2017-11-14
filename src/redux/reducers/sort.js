@@ -44,23 +44,13 @@ export const houseList = (state={params: {page: 0}, data: [], isEnd: false}, act
     }
 };
 
-export const classify = (state=initialState, action) => {
+export const house = (state={}, action) => {
 
     switch (action.type){
-        case actionTypes.HOUSE_CLASSIFY:
+        case actionTypes.GET_HOUSE:
             return action.data;
         default:
             return state
     }
 
-};
-
-
-export const classifyMore = (state=initialState, action)=>{
-    switch (action.type){
-        case actionTypes.GET_HOUSE_MORE:
-            return action.data;
-        default:
-            return state
-    }
 };

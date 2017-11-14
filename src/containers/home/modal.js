@@ -89,6 +89,7 @@ export class ModalList extends Component {
                         <Text>Hello!</Text>
                     </View>
                 </Modal>
+
             </View>
         )
     }

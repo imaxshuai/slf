@@ -20,7 +20,7 @@ import { HouseClassify } from '../containers/home/classify/house/index';
 import { JobClassify } from '../containers/home/classify/job';
 import HouseList from '../containers/home/classify/house/list';
 import JobList from '../containers/home/classify/job/list';
-import { HouseDetail } from '../containers/home/classify/house/detail';
+import HouseDetail from '../containers/home/classify/house/detail';
 import { JobDetail } from '../containers/home/classify/job/detail';
 
 

@@ -75,6 +75,7 @@ class Home extends PureComponent{
     }
 
     componentWillUnmount() {
+        this.props.sortActions.getHouse('no');
         if (Platform.OS === 'android') {
             BackHandler.removeEventListener('hardwareBackPress',()=>{});
         }
@@ -110,6 +111,8 @@ class Home extends PureComponent{
     };
     //上拉页面刷新
     _onRefresh = ()=>{
+        this.setState({refreshing: true});
+        setTimeout(()=>this.setState({refreshing: false}),2000);
         this.props.sortActions.getHouseList({}, {data: []});
     };
 
@@ -320,7 +323,7 @@ class Home extends PureComponent{
 
                     initialNumToRender={5}
 
-                    refreshing={this.props.houseList['data'].length<=0}
+                    refreshing={this.state.refreshing}
                     onEndReachedThreshold={0.3}
                     onRefresh={this._onRefresh.bind(this)}
                     onEndReached={this._getMoreHouse.bind(this)}

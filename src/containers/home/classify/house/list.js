@@ -45,6 +45,7 @@ class HouseList extends Component{
             area: null,
             price: null,
             house_type: null,
+            house_size: null,
             other: null,
             lease_type: null,
         }
@@ -67,6 +68,11 @@ class HouseList extends Component{
         }
 
         this.props.sortActions.getHouseList(filters, {data: []});
+    }
+
+    componentWillUnmount(){
+        this.props.sortActions.getHouseList('no', {data: []});
+
     }
 
     getHouseListByFilter = (data)=>{
@@ -156,8 +162,7 @@ class HouseList extends Component{
     render() {
 
         let { params } = this.props.navigation.state;
-        console.log(params);
-        console.log(this.state);
+
         return (
 
             <View style={styles.container}>
@@ -250,7 +255,13 @@ class HouseList extends Component{
                                 <View style={styles.filterTextBox}>
                                     <View style={styles.filterTextBox}>
                                         <Text style={[styles.filterText, this.state.showOtherModel?{color: '#fa0064'}:null]} numberOfLines={1}>
-                                            {this.state.other?this.state.other:'筛选'}
+                                            {
+                                                params.filter[2].length>1
+                                                ?
+                                                this.state.other?this.state.other:'筛选'
+                                                :
+                                                    params.filter[2][0].name
+                                            }
                                         </Text>
                                         <Icon name="arrow-drop-down" size={18} color={this.state.showOtherModel?"#fa0064":"#999"} />
                                     </View>
@@ -284,12 +295,11 @@ class HouseList extends Component{
                 />
 
                 {/*价格筛选model*/}
-                <PriceModel
-                    showPriceModel={this.state.showPriceModel}
-                    price={this.state.price}
+                <TypeModel
+                    showTypeModel={this.state.showPriceModel}
                     type={this.state[params.filter[0].keyName]}
                     data={params.filter[0]}
-                    choosePrice={(data)=>this.getHouseListByFilter(data)}
+                    chooseType={(price)=>this.getHouseListByFilter(price)}
                     bgClickHideModel={()=>this.setState({showPriceModel: false})}
                 />
 
@@ -306,15 +316,24 @@ class HouseList extends Component{
                     ): null}
 
                 {/*其他筛选条件model*/}
-                {params.filter[2]!=null?
-                    (
-                        <OtherModel
-                            showOtherModel={this.state.showOtherModel}
-                            other={this.state.other}
-                            data={params.filter[2]}
-                            chooseFilter={(data)=>this.getHouseListByFilter(data)}
-                            bgClickHideModel={()=>this.setState({showOtherModel: false})}
-                        />
+                {params.filter[2]!=null?(
+                        params.filter[2].length>1?(
+                            <OtherModel
+                                showOtherModel={this.state.showOtherModel}
+                                other={this.state.other}
+                                data={params.filter[2]}
+                                chooseFilter={(data)=>this.getHouseListByFilter(data)}
+                                bgClickHideModel={()=>this.setState({showOtherModel: false})}
+                            />
+                        ):(
+                            <TypeModel
+                                showTypeModel={this.state.showOtherModel}
+                                type={this.state[params.filter[2][0].keyName]}
+                                data={params.filter[2][0]}
+                                chooseType={(other)=>this.getHouseListByFilter(other)}
+                                bgClickHideModel={()=>this.setState({showTypeModel: false})}
+                            />
+                        )
                     ): null}
                 <Spinner
                     style={{position:'absolute', top: (height-50)/2,left: (width-50)/2}}
@@ -323,7 +342,6 @@ class HouseList extends Component{
                     type='9CubeGrid'
                     color='red'
                 />
-
 
                 {/*无限下拉*/}
                 <FlatList

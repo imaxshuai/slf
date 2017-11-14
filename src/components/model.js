@@ -103,93 +103,6 @@ export class AreaModel extends Component{
 
 }
 
-export class PriceModel extends Component{
-
-    constructor(...props){
-        super(...props);
-        this.state = {
-            priceModelHeight: new Animated.Value(0),
-        };
-    }
-
-    componentDidUpdate(){
-        if(this.props.showPriceModel){
-            this.showPriceModel();
-        }else{
-            this.hidePriceModel();
-        }
-    }
-
-    //区域筛选条件
-    showPriceModel = ()=>{
-        Animated.spring(
-            this.state.priceModelHeight,
-            {
-                toValue: height-111,
-                friction: 20,// 摩擦力，默认为7.
-                tension: 100,// 张力，默认40。
-            }
-        ).start();
-
-    };
-
-    hidePriceModel = ()=>{
-        Animated.spring(
-            this.state.priceModelHeight,
-            {
-                toValue: 0,
-                friction: 30,// 摩擦力，默认为7.
-                tension: 400,// 张力，默认40。
-            }
-        ).start();
-    };
-
-    choosePrice = (data)=>{
-        console.log(data);
-        this.props.choosePrice(data);
-        this.hidePriceModel();
-    };
-
-    render(){
-        return (
-            <Animated.View
-                style={[styles.model, {height: this.state.priceModelHeight}]}
-            >
-                <View style={styles.modelContent}>
-                    <ScrollView>
-
-                        <TouchableOpacity onPress={this.choosePrice.bind(this, ['price', null])}>
-                            <View style={styles.price}>
-                                <Text
-                                    style={this.props.price?styles.priceText:styles.priceTextActive}>
-                                    不限
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-
-                        {this.props.data['data'].map((price, key)=>(
-                            <TouchableOpacity
-                                key={price}
-                                onPress={this.choosePrice.bind(this, ['price', this.props.data['where'][key], price])}>
-                                <View style={styles.price}>
-                                    <Text
-                                        style={price==this.props.price?styles.priceTextActive:styles.priceText}>
-                                        {price}
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
-                </View>
-                <TouchableWithoutFeedback onPress={this.props.bgClickHideModel}>
-                    <View style={{height: '35%'}} />
-                </TouchableWithoutFeedback>
-            </Animated.View>
-        )
-    }
-
-}
-
 export class TypeModel extends Component{
 
     constructor(...props){
@@ -237,6 +150,7 @@ export class TypeModel extends Component{
     };
 
     render(){
+
         return (
             <Animated.View
                 style={[styles.model, {height: this.state.typeModelHeight}]}

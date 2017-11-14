@@ -30,69 +30,55 @@ export const getHouseList = (params, list) =>{
     list.isEnd = false;
     console.log(params);
 
-    return (dispatch)=>{
-        Http.get(Ip+'api/house', params)
-            .then((res)=>{
-                console.log(list);
-                console.log(res);
-                console.log(typeof (res.length));
-                if(res.length<10){
-                    console.log('到底了哦!');
-                    list.isEnd = true;
-                    list.data = list.data.concat(res);
-                }else{
-                    list.data = list.data.concat(res);
-                }
-
-                dispatch({
-                    type: actionTypes.GET_HOUSE_LIST,
-                    data: {
-                        params: list.params,
-                        data : list.data,
-                        isEnd: list.isEnd,
-                    },
-                })
-            })
-    }
-
-};
-
-export const getHouse = (houseData) =>{
-
-    return (dispatch)=> {
-        Http.post('http://rapapi.org/mockjs/26250/api/house')
-            .then((res)=>{
-                if(res.success){
-
+    if(params == 'no'){
+        return {
+            type: actionTypes.GET_HOUSE_LIST,
+            data: {data: []},
+        }
+    }else{
+        return (dispatch)=>{
+            Http.get(Ip+'api/house', params)
+                .then((res)=>{
+                    console.log(list);
                     console.log(res);
-                    let c = Mock.mock(res).data;
-
-                    if(houseData != null){
-                        houseData = houseData.concat(c);
+                    console.log(typeof (res.length));
+                    if(res.length<10){
+                        console.log('到底了哦!');
+                        list.isEnd = true;
+                        list.data = list.data.concat(res);
+                    }else{
+                        list.data = list.data.concat(res);
                     }
 
                     dispatch({
-                        type: actionTypes.HOUSE_CLASSIFY,
-                        data: houseData
+                        type: actionTypes.GET_HOUSE_LIST,
+                        data: {
+                            params: list.params,
+                            data : list.data,
+                            isEnd: list.isEnd,
+                        },
                     })
-
-                }else{
-                    alert('服务器繁忙！！！')
-                }
-            })
+                })
+        }
     }
+
 };
 
-export const getHouseMore = ()=>{
-    console.log('--------加载更多数据...---------');
-    return (dispatch) => {
-        Http.post('http://rapapi.org/mockjs/26250/api/house')
-            .then((res)=>{
-                console.log(res);
+export const getHouse = (houseId) =>{
+
+    if(houseId=='no'){
+        return {
+            type: actionTypes.GET_HOUSE,
+            data: []
+        }
+    }else{
+        return (dispatch)=>Http.get(Ip+'api/house/'+houseId)
+            .then((res)=> {
                 dispatch({
-                    type: actionTypes.GET_HOUSE_MORE,
-                    data: Mock.mock(res)
+                    type: actionTypes.GET_HOUSE,
+                    data: res
                 })
             })
     }
+
 };
