@@ -15,6 +15,10 @@ import { connect } from 'react-redux';
 const {width} = Dimensions.get('window');
 export class Search extends Component{
 
+    static navigationOptions = {
+        header: null,
+    };
+
     _goBack(){
         this.props.navigation.goBack();
     }

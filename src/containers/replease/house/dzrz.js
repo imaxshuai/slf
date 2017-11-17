@@ -13,7 +13,7 @@ import Picker from 'react-native-picker';
 import Spinner from 'react-native-spinkit';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import {HouseBaseInfo} from "../../../components/houseBaseInfo";
+import {HouseBaseInfoDirection, HouseBaseInfoFloors, HouseBaseInfoHouse} from "../../../components/picker";
 import {UploadImages} from "../../../components/uploadImages";
 import {AreaChoose} from "../../../components/areaChoose";
 import {Radio} from "../../../components/radio";
@@ -249,11 +249,17 @@ export class Replease1to4 extends Component {
                             </View>
 
                             {/*厅室、楼层、朝向选择器*/}
-                            <HouseBaseInfo
-                                house={(data)=>this.setState({house: data})}
-                                direction={(data)=>this.setState({direction: data})}
-                                floors={(data)=>this.setState({floors: data})}
-                            />
+                            <View style={styles.pickerGroup}>
+                                <HouseBaseInfoHouse
+                                    house={(data)=>this.setState({house: data})}
+                                />
+                                <HouseBaseInfoDirection
+                                    direction={(data)=>this.setState({direction: data})}
+                                />
+                                <HouseBaseInfoFloors
+                                    floors={(data)=>this.setState({floors: data})}
+                                />
+                            </View>
 
                         </View>
 
@@ -364,7 +370,7 @@ export class Replease1to4 extends Component {
                             <View style={styles.info}>
                                 <Text style={styles.infoTitle}>房屋配置</Text>
                                 <Checkbox
-                                    data={['床','衣柜','沙发','电视','茶几','4人餐桌','冰箱','洗衣机','空调','宽带','热水器','热水器','水暖','地暖']}
+                                    data={['床','衣柜','沙发','电视','茶几','4人餐桌','冰箱','洗衣机','空调','宽带','热水器','水暖','地暖']}
                                     value={[]}
                                     select={(data)=>this.setState({house_configure: data})}
                                 />
@@ -503,7 +509,13 @@ const styles = StyleSheet.create({
         textAlignVertical: 'top',
     },
 
-
+    //picker选择区
+    pickerGroup: {
+        justifyContent: 'space-around',
+        borderBottomWidth: 1,
+        borderColor: '#eee',
+        flexDirection: 'row',
+    },
 
     //发布按钮
     submitBtn: {

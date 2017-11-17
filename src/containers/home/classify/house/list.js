@@ -17,8 +17,10 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Spinner from 'react-native-spinkit';
 
 import * as sortActions from '../../../../redux/actions/sort';
+import * as houseActions from '../../../../redux/actions/house';
+import * as filterActions from '../../../../redux/actions/filter';
 import ListItemHouseComponent from '../../../../components/LisItemHouse'
-import { AreaModel, PriceModel, TypeModel } from '../../../../components/model'
+import { AreaModel, TypeModel } from '../../../../components/model'
 import OtherModel from '../../../../components/filter'
 
 let { width, height } = Dimensions.get("window");
@@ -67,11 +69,11 @@ class HouseList extends Component{
             }
         }
 
-        this.props.sortActions.getHouseList(filters, {data: []});
+        this.props.houseActions.getHouseList(filters, {data: []});
     }
 
     componentWillUnmount(){
-        this.props.sortActions.getHouseList('no', {data: []});
+        this.props.houseActions.getHouseList('no', {data: []});
 
     }
 
@@ -125,7 +127,7 @@ class HouseList extends Component{
 
         this.setState({showLoad: true});
         setTimeout(()=>this.setState({showLoad: false}),1500);
-        this.props.sortActions.getHouseList(filters, {data: []});
+        this.props.houseActions.getHouseList(filters, {data: []});
 
 
     };
@@ -134,7 +136,7 @@ class HouseList extends Component{
     _getMoreHouse = ()=>{
         console.log('无线加载');
         if(this.props.houseList.data.length>=10&&!this.props.houseList.isEnd){
-            this.props.sortActions.getHouseList(this.props.filter, this.props.houseList);
+            this.props.houseActions.getHouseList(this.props.filter, this.props.houseList);
         }
     };
 
@@ -162,6 +164,7 @@ class HouseList extends Component{
     render() {
 
         let { params } = this.props.navigation.state;
+        console.log(params);
 
         return (
 
@@ -346,7 +349,15 @@ class HouseList extends Component{
                 {/*无限下拉*/}
                 <FlatList
                     ListFooterComponent={this._footer}
-                    renderItem={({item})=><ListItemHouseComponent info={item} navigation={this.props.navigation} tags={params.tags} unit={params.unit} />}
+                    renderItem={({item})=>(
+                        <ListItemHouseComponent
+                            routerName='HouseDetail'
+                            info={item}
+                            navigation={this.props.navigation}
+                            tags={params.tags}
+                            unit={params.unit}
+                        />
+                    )}
                     // ListEmptyComponent={this.createEmptyView()}
                     data={this.props.houseList['data']}
                     keyExtractor={(item)=>item.id}
@@ -371,7 +382,9 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
     return {
-        sortActions: bindActionCreators(sortActions, dispatch)
+        sortActions: bindActionCreators(sortActions, dispatch),
+        houseActions: bindActionCreators(houseActions, dispatch),
+        filterActions: bindActionCreators(filterActions, dispatch),
     }
 };
 

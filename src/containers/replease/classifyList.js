@@ -19,10 +19,9 @@ export class ClassifyList extends Component{
     //跳转发布表格页面
     goRepleaseForm = (message)=>{
         message.titleId = this.props.navigation.state.params.id;
-        console.log(message);
         let conponentName = 'Replease'+message.titleId+'to'+message.id;
-        console.log(conponentName);
-       this.props.navigation.navigate(conponentName, message.key)
+        let pickerData = message.pickerData!=null?message.pickerData:null;
+        this.props.navigation.navigate(conponentName, [message.key, pickerData])
     };
 
     render(){
@@ -47,10 +46,9 @@ export class ClassifyList extends Component{
                     renderItem={
                         ({item}) => {
                             return (
-                                <TouchableOpacity >
+                                <TouchableOpacity onPress={this.goRepleaseForm.bind(this, item)}>
                                     <Text
                                         style={styles.item} key={item.id}
-                                        onPress={this.goRepleaseForm.bind(this, item)}
                                     >
                                         {item.key}
                                     </Text>

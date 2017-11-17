@@ -20,41 +20,28 @@ export class JobClassify extends Component{
     static navigationOptions = {
         header: null,
     };
-    //跳转登录页
-    toLogin(){
-        this.props.navigation.navigate('Replease');
-    }
-    //跳转搜索页面
-    toSearch(){
-        this.props.navigation.navigate('Search');
-    }
-    //返回上一界面
-    _goBack(){
-        this.props.navigation.goBack();
-    }
 
-    //跳转列表页
-    toClassifyList(){
-        this.props.navigation.navigate('JobList');
+    componentDidMount(){
     }
 
     render() {
+
         return (
-            <View>
+            <View style={styles.container}>
 
                 {/*分类产品头部搜索部分*/}
                 <View style={styles.homeHeader}>
-                    <TouchableOpacity onPress={this._goBack.bind(this)} style={styles.city} >
+                    <TouchableOpacity onPress={()=>this.props.navigation.goBack()} style={styles.city} >
                         <Icon name="navigate-before" size={25} color="#aaa" />
                     </TouchableOpacity>
-                    <TouchableWithoutFeedback onPress={this.toSearch.bind(this)}>
+                    <TouchableWithoutFeedback onPress={()=>this.props.navigation.navigate('Search')}>
                         <View style={styles.searchInput}>
                             <Icon name="search" size={22} color="#aaa" />
                             <Text style={styles.headerText}>请输入要查询的关键字</Text>
                         </View>
                     </TouchableWithoutFeedback>
                     <View style={styles.userIcon}>
-                        <TouchableOpacity onPress={this.toLogin.bind(this)}>
+                        <TouchableOpacity>
                             <Text style={{color: '#aaa'}}>发布信息</Text>
                         </TouchableOpacity>
                     </View>
@@ -83,28 +70,28 @@ export class JobClassify extends Component{
 
                     {/*分类产品子项目*/}
                     <View style={styles.navClass}>
-                        <TouchableOpacity onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <TouchableOpacity onPress={()=>alert('暂时没连接， 用来做广告位')}>
                             <View style={styles.navItem}>
                                 <Icon name="location-city" size={35} color="#39a0f4" />
-                                <Text style={styles.navItemText}>全职职位</Text>
+                                <Text style={styles.navItemText}>房屋出租</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <TouchableOpacity onPress={()=>alert('暂时没连接， 用来做广告位')}>
                             <View style={styles.navItem}>
                                 <Icon name="card-travel" size={35} color="#fe4a6c" />
-                                <Text style={styles.navItemText} >兼职职位</Text>
+                                <Text style={styles.navItemText} >人才招聘</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <TouchableOpacity  onPress={()=>alert('暂时没连接， 用来做广告位')}>
                             <View style={styles.navItem}>
                                 <Icon name="business-center" size={35} color="#42ba7b" />
-                                <Text style={styles.navItemText} >热门职位</Text>
+                                <Text style={styles.navItemText} >商业服务</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                        <TouchableOpacity  onPress={()=>alert('暂时没连接， 用来做广告位')}>
                             <View style={styles.navItem}>
                                 <Icon name="shop" size={35} color="#f6552c" />
-                                <Text style={styles.navItemText}>推荐职位</Text>
+                                <Text style={styles.navItemText}>同城二手</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -113,70 +100,16 @@ export class JobClassify extends Component{
 
                     <View  style={styles.listArea}>
                         <View style={styles.listTitle}>
-                            <Text  style={styles.titleText}>福利专区</Text>
+                            <Text  style={styles.titleText}>{this.props.navigation.state.params['title']}</Text>
                         </View>
                         <View style={styles.listBody}>
-                            <TouchableOpacity><Text  style={styles.bodyText}>五险一金</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>包吃</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>包住</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>交通补助</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>年底双薪</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>房补</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>员工体检</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>带薪年假</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>双休</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>话补</Text></TouchableOpacity>
-                        </View>
-                    </View>
-                    <View  style={styles.listArea}>
-                        <View style={styles.listTitle}>
-                            <Text  style={styles.titleText}>热门职位</Text>
-                        </View>
-                        <View style={styles.listBody}>
-                            <TouchableOpacity><Text  style={styles.bodyText}>货运司机</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>商务司机</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>出租车司机</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>普工</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>装卸/搬运工</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>电工</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>保安</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>快递员</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>厨师</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>餐厅服务员</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>收银员</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>钟点工</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>保姆</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>营业员</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>销售专员</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>文员</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>其他</Text></TouchableOpacity>
-                        </View>
-                    </View>
-                    <View  style={styles.listArea}>
-                        <View style={styles.listTitle}>
-                            <TouchableOpacity><Text  style={styles.titleText}>商铺   写字楼</Text></TouchableOpacity>
-                        </View>
-                        <View style={styles.listBody}>
-                            <TouchableOpacity><Text  style={styles.bodyText}>商铺出租</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>商铺出售</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>商铺转让</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>写字楼出租</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>写字楼出售</Text></TouchableOpacity>
-                        </View>
-                    </View>
-                    <View  style={styles.listArea}>
-                        <View style={styles.listTitle}>
-                            <Text  style={styles.titleText}>厂房   仓库</Text>
-                        </View>
-                        <View style={styles.listBody}>
-                            <TouchableOpacity><Text  style={styles.bodyText}>厂房出租</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>厂房出售</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>仓库出租</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>仓库出售</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>土地出租</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>土地出售</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>车库出租</Text></TouchableOpacity>
-                            <TouchableOpacity><Text  style={styles.bodyText}>车库出售</Text></TouchableOpacity>
+                            {
+                                this.props.navigation.state.params['label'].map((item)=>(
+                                    <TouchableOpacity key={item.key} onPress={()=>this.props.navigation.navigate('JobList', item)}>
+                                        <Text  style={styles.bodyText}>{item.key}</Text>
+                                    </TouchableOpacity>)
+                                )
+                            }
                         </View>
                     </View>
                     <View style={{height: 100,}}></View>
@@ -283,7 +216,7 @@ const styles = StyleSheet.create({
     bodyText: {
         width: width/3,
         height: 40,
-        lineHeight: Platform.OS=='ios'?40:30,
+        lineHeight: Platform.OS == 'ios'?40:30,
         borderWidth: 1,
         textAlign: 'center',
         borderColor: '#eee',

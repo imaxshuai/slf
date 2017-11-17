@@ -15,7 +15,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-spinkit';
 
-import * as sortActions from '../../../../redux/actions/sort';
+import * as houseActions from '../../../../redux/actions/house';
 import { NavbarTitleComponent } from '../../../../components/NavbarTitle';
 
 
@@ -26,11 +26,11 @@ class HouseDetail extends Component{
         header: null,
     };
     componentDidMount(){
-        this.props.sortActions.getHouse(this.props.navigation.state.params);
+        this.props.houseActions.getHouse(this.props.navigation.state.params);
     }
 
     componentWillUnmount(){
-        this.props.sortActions.getHouse('no');
+        this.props.houseActions.getHouse('no');
     }
 
     _goBack = ()=>{
@@ -100,7 +100,7 @@ class HouseDetail extends Component{
                                 <Text style={{padding: 3, color: '#fa0064', fontSize: 10, borderWidth: 0.5, borderColor: '#fa0064',borderRadius: 2, marginRight: 5, }}>新</Text>
                             </View>
                             <View style={styles.headerInfoBody}>
-                                <Text style={styles.headerInfoBodyTextPrice}>{infos[1][1]} 元/月</Text>
+                                <Text style={styles.headerInfoBodyTextPrice}>{infos[1][1].tag}{infos[1][1].unit}</Text>
                                 <View style={styles.headerInfoBodyText}>
                                     <Text style={styles.headerInfoBodyTextTime}>{infos[1][2]}</Text>
                                     <View style={{backgroundColor: '#ccc', height: 16, width: 1, marginLeft: 10,marginRight: 10}}></View>
@@ -166,7 +166,7 @@ class HouseDetail extends Component{
                         </View>
 
                         <View style={styles.bodyInfoDescribe}>
-                            <Text style={styles.bodyInfoDescribeTitle}>房源详情</Text>
+                            <Text style={styles.bodyInfoDescribeTitle}>详情描述</Text>
                             <View style={styles.infoCheckbox}>
                                 {
                                     infos[5][0]!=null?infos[5][0].map((item)=>(
@@ -206,7 +206,7 @@ const mapStateToProps = (state)=>{
 }
 const mapDispatchToProps = (dispatch)=>{
     return {
-        sortActions: bindActionCreators(sortActions, dispatch),
+        houseActions: bindActionCreators(houseActions, dispatch),
     }
 }
 
@@ -301,9 +301,9 @@ const styles = StyleSheet.create({
     },
     bodyInfoHeader: {
         flexDirection: 'row',
+        justifyContent: 'space-around',
     },
     bodyInfoHeaderText: {
-        width: (width-20)/3,
         alignItems: 'center',
     },
     topText: {
@@ -323,6 +323,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 30,
         alignItems: 'center',
+        // backgroundColor: '#eee',
     },
     infoCityTab: {
         color: '#999',

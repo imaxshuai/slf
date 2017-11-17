@@ -13,7 +13,7 @@ import Picker from 'react-native-picker';
 import Spinner from 'react-native-spinkit';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import {HouseBaseInfo} from "../../../components/houseBaseInfo";
+import {HouseBaseInfo} from "../../../components/picker";
 import {UploadImages} from "../../../components/uploadImages";
 import {AreaChoose} from "../../../components/areaChoose";
 import {Radio} from "../../../components/radio";

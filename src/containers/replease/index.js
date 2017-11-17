@@ -115,12 +115,6 @@ class User extends Component{
                                 <Text style={styles.navItemText}>旧物回收</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity  onPress={this.toClassifyList.bind(this,this.props.sort.jy)}>
-                            <View style={styles.navItem}>
-                                <Icon name="wc" size={40} color="#42ba7b" />
-                                <Text style={styles.navItemText}>交友</Text>
-                            </View>
-                        </TouchableOpacity>
                         <TouchableOpacity  onPress={this.toClassifyList.bind(this,this.props.sort.pk)}>
                             <View style={styles.navItem}>
                                 <Icon name="picture-in-picture" size={40} color="#39a0f4" />

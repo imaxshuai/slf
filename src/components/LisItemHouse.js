@@ -17,9 +17,9 @@ export default class ListItemHouseComponent extends Component{
 
     render(){
 
-        const {info, tags, unit, navigation} = this.props;
+        const {info, tags, unit, navigation, routerName} = this.props;
         return (
-            <TouchableOpacity key={info.id} onPress={()=>navigation.navigate('HouseDetail',info.id)}>
+            <TouchableOpacity key={info.id} onPress={()=>navigation.navigate(routerName,info.id)}>
                 <View style={styles.itemBox}>
                     {info.images&&info.images.length>0
                         ?

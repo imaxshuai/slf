@@ -79,10 +79,6 @@ class OtherModel extends Component{
 
         let value = data;
 
-        console.log(data, item);
-
-        console.log(value=='不限');
-
         if(item.where!=null){
             for(let x in item.data){
                 if(item.data[x]==data){

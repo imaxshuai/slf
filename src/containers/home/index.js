@@ -16,8 +16,10 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Swiper from 'react-native-swiper';
+import Spinner from 'react-native-spinkit';
 
 import * as sortActions from '../../redux/actions/sort';
+import * as homeActions from '../../redux/actions/home';
 import ListItemHouseComponent from '../../components/LisItemHouse'
 
 
@@ -64,18 +66,19 @@ class Home extends PureComponent{
             }
             return true;
         });
-
-        console.log(City);
-
-        this._getMoreHouse();
-
     }
+
     componentDidMount(){
-        this.props.sortActions.getHouseList({}, {data: []});
+        let filters = {};
+
+        filters.sort_name = '房屋出租';
+        filters.city = '南京';
+
+        this.props.homeActions.getHomeList(filters, {data: []});
+
     }
 
     componentWillUnmount() {
-        this.props.sortActions.getHouse('no');
         if (Platform.OS === 'android') {
             BackHandler.removeEventListener('hardwareBackPress',()=>{});
         }
@@ -104,97 +107,90 @@ class Home extends PureComponent{
     }
 
     //获取下拉加载更多数据
-    _getMoreHouse = ()=>{
-        if(this.props.houseList.data.length>=10&&!this.props.houseList.isEnd){
-            this.props.sortActions.getHouseList({}, this.props.houseList);
+    _getMoreHome = ()=>{
+        if(this.props.homeList.data.length>=10&&!this.props.homeList.isEnd){
+            this.props.homeActions.getHomeList({city: '南京', sort_name: '房屋出租'}, this.props.homeList);
         }
     };
     //上拉页面刷新
     _onRefresh = ()=>{
         this.setState({refreshing: true});
         setTimeout(()=>this.setState({refreshing: false}),2000);
-        this.props.sortActions.getHouseList({}, {data: []});
+        this.props.homeActions.getHomeList({}, {data: []});
     };
 
     _header = ()=>(
         <View>
             {/*一级标题分类*/}
             <View style={styles.navClass}>
-                <TouchableOpacity onPress={this.toClassifyList.bind(this,this.props.sort.fczs)}>
+                <TouchableOpacity onPress={()=>this.props.navigation.navigate('HouseClassify', this.props.sort.fczs)}>
                     <View style={styles.navItem}>
                         <Icon name="location-city" size={35} color="#39a0f4" />
                         <Text style={styles.navItemText}>房产租售</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>this.props.navigation.navigate('JobClassify')}>
+                <TouchableOpacity onPress={()=>this.props.navigation.navigate('JobClassify', this.props.sort.rczp)}>
                     <View style={styles.navItem}>
                         <Icon name="card-travel" size={35} color="#fe4a6c" />
                         <Text style={styles.navItemText} >人才招聘</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                <TouchableOpacity  onPress={()=>this.props.navigation.navigate('BusinessClassify', this.props.sort.syfw)}>
                     <View style={styles.navItem}>
                         <Icon name="business-center" size={35} color="#42ba7b" />
                         <Text style={styles.navItemText} >商业服务</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                <TouchableOpacity  onPress={()=>this.props.navigation.navigate('EsClassify', this.props.sort.tces)}>
                     <View style={styles.navItem}>
                         <Icon name="shop" size={35} color="#f6552c" />
                         <Text style={styles.navItemText}>同城二手</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                <TouchableOpacity  onPress={()=>this.props.navigation.navigate('EscClassify', this.props.sort.esc)}>
                     <View style={styles.navItem}>
                         <Icon name="directions-car" size={35} color="#0bbaac" />
                         <Text style={styles.navItemText}>二手车</Text>
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                <TouchableOpacity  onPress={()=>this.props.navigation.navigate('LifeClassify', this.props.sort.shfw)}>
                     <View style={styles.navItem}>
                         <Icon name="card-giftcard" size={35} color="#ffb300" />
                         <Text style={styles.navItemText}>生活服务</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                <TouchableOpacity  onPress={()=>this.props.navigation.navigate('TrainClassify', this.props.sort.jypx)}>
                     <View style={styles.navItem}>
                         <Icon name="school" size={35} color="#42ba7b" />
                         <Text style={styles.navItemText}>教育培训</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                <TouchableOpacity  onPress={()=>this.props.navigation.navigate('PetClassify', this.props.sort.cw)}>
                     <View style={styles.navItem}>
                         <Icon name="pets" size={35} color="#39a0f4" />
                         <Text style={styles.navItemText}>宠物</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                <TouchableOpacity  onPress={()=>this.props.navigation.navigate('CarServerClassify', this.props.sort.qcfw)}>
                     <View style={styles.navItem}>
                         <Icon name="local-car-wash" size={35} color="#fa0064" />
                         <Text style={styles.navItemText}>汽车服务</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                <TouchableOpacity  onPress={()=>this.props.navigation.navigate('TicketClassify', this.props.sort.pk)}>
                     <View style={styles.navItem}>
                         <Icon name="picture-in-picture" size={35} color="#39a0f4" />
                         <Text style={styles.navItemText}>票卡</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                <TouchableOpacity  onPress={()=>this.props.navigation.navigate('RecoveryClassify', this.props.sort.jwhs)}>
                     <View style={styles.navItem}>
                         <Icon name="loop" size={35} color="#ffb300" />
                         <Text style={styles.navItemText}>旧物回收</Text>
                     </View>
                 </TouchableOpacity>
-                {/*<TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
-                        <View style={styles.navItem}>
-                            <Icon name="wc" size={35} color="#42ba7b" />
-                            <Text style={styles.navItemText}>交友</Text>
-                        </View>
-                    </TouchableOpacity>*/}
-
-                <TouchableOpacity  onPress={this.toClassifyList.bind(this,{list: 'xixi'})}>
+                <TouchableOpacity  onPress={()=>this.props.navigation.navigate('ChainClassify', this.props.sort.lsjm)}>
                     <View style={styles.navItem}>
                         <Icon name="stars" size={35} color="#f6552c" />
                         <Text style={styles.navItemText}>连锁加盟</Text>
@@ -238,7 +234,7 @@ class Home extends PureComponent{
                         <Icon name="developer-board" size={40} color="#42ba7b" />
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={this.toFlatList.bind(this)}>
+                <TouchableOpacity onPress={()=>this.props.navigation.navigate('JobsDetail')}>
                     <View style={styles.adItem}>
                         <View style={styles.adTextBox}>
                             <Text style={styles.adInfoTitle}>搜来福金融</Text>
@@ -276,13 +272,25 @@ class Home extends PureComponent{
         </View>
     );
 
-    _footer =()=>(
-        <View>
-            <Text style={{fontSize: 16, color: '#aaa', textAlign: 'center', padding:12,}}>
-                {this.props.houseList.isEnd?'已经没有更多信息了':'正在加载更多数据...'}
-            </Text>
-        </View>
-    )
+    _footer =()=>{
+        return (
+            <View>
+                {this.props.homeList.isEnd
+                    ?
+                    (<Text style={{fontSize: 16, color: '#aaa', textAlign: 'center', padding:12,}}>已经没有更多信息了</Text>)
+                    :
+                    (<Spinner
+                            size={50}
+                            type='ThreeBounce'
+                            color='#fa0064'
+                            style={{marginLeft:width/2-25, marginTop: 20, marginBottom:20,}}
+                        />
+                    )
+                }
+
+            </View>
+        )
+    };
 
     render(){
 
@@ -316,17 +324,22 @@ class Home extends PureComponent{
                 <FlatList
                     ListHeaderComponent={this._header}
                     ListFooterComponent={this._footer}
-                    renderItem={({item})=><ListItemHouseComponent info={item} navigation={this.props.navigation} />}
-                    // ListEmptyComponent={this.createEmptyView()}
-                    data={this.props.houseList['data']}
+                    renderItem={({item})=>(
+                        <ListItemHouseComponent
+                            routerName='HouseDetail'
+                            info={item}
+                            navigation={this.props.navigation}
+                            tags={["room_and_hall", "house_size", "decoration", "lease_type", "area"]}
+                            unit={["元/月","", "㎡", "","",""]}
+                        />
+                    )}
+                    data={this.props.homeList['data']}
                     keyExtractor={(item)=>item.id}
-
                     initialNumToRender={5}
-
                     refreshing={this.state.refreshing}
-                    onEndReachedThreshold={0.3}
                     onRefresh={this._onRefresh.bind(this)}
-                    onEndReached={this._getMoreHouse.bind(this)}
+                    onEndReachedThreshold={0.3}
+                    onEndReached={this._getMoreHome.bind(this)}
                     getItemLayout={(data, index) => ( {length: 130, offset: 130 * index, index} )}
                 />
 
@@ -340,13 +353,14 @@ const mapStateToProps = (state)=>{
     return {
         nav: state.nav,
         sort: state.sort,
-        houseList: state.houseList,
+        homeList: state.homeList,
     }
 };
 
 const mapDispatchToProps = (dispatch)=>{
     return {
-        sortActions: bindActionCreators(sortActions, dispatch)
+        sortActions: bindActionCreators(sortActions, dispatch),
+        homeActions: bindActionCreators(homeActions, dispatch),
     }
 };
 

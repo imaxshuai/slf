@@ -25,20 +25,6 @@ export class HouseClassify extends Component{
         console.log(this.props.navigation)
     }
 
-    //跳转搜索页面
-    toSearch(){
-        this.props.navigation.navigate('Search');
-    }
-    //返回上一界面
-    _goBack(){
-        this.props.navigation.goBack();
-    }
-
-    //跳转列表页
-    toSortList(item){
-        this.props.navigation.navigate('HouseList', item);
-    }
-
     render() {
 
         console.log(this.props)
@@ -49,10 +35,10 @@ export class HouseClassify extends Component{
 
                 {/*分类产品头部搜索部分*/}
                 <View style={styles.homeHeader}>
-                    <TouchableOpacity onPress={this._goBack.bind(this)} style={styles.city} >
+                    <TouchableOpacity onPress={()=>this.props.navigation.goBack()} style={styles.city} >
                         <Icon name="navigate-before" size={25} color="#aaa" />
                     </TouchableOpacity>
-                    <TouchableWithoutFeedback onPress={this.toSearch.bind(this)}>
+                    <TouchableWithoutFeedback onPress={()=>this.props.navigation.navigate('Search')}>
                         <View style={styles.searchInput}>
                             <Icon name="search" size={22} color="#aaa" />
                             <Text style={styles.headerText}>请输入要查询的关键字</Text>
@@ -88,25 +74,25 @@ export class HouseClassify extends Component{
 
                     {/*分类产品子项目*/}
                     <View style={styles.navClass}>
-                        <TouchableOpacity onPress={this.toSortList.bind(this,{list: 'xixi'})}>
+                        <TouchableOpacity onPress={()=>alert('暂时没连接， 用来做广告位')}>
                             <View style={styles.navItem}>
                                 <Icon name="location-city" size={35} color="#39a0f4" />
                                 <Text style={styles.navItemText}>房屋出租</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={this.toSortList.bind(this,{list: 'xixi'})}>
+                        <TouchableOpacity onPress={()=>alert('暂时没连接， 用来做广告位')}>
                             <View style={styles.navItem}>
                                 <Icon name="card-travel" size={35} color="#fe4a6c" />
                                 <Text style={styles.navItemText} >人才招聘</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity  onPress={this.toSortList.bind(this,{list: 'xixi'})}>
+                        <TouchableOpacity  onPress={()=>alert('暂时没连接， 用来做广告位')}>
                             <View style={styles.navItem}>
                                 <Icon name="business-center" size={35} color="#42ba7b" />
                                 <Text style={styles.navItemText} >商业服务</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity  onPress={this.toSortList.bind(this,{list: 'xixi'})}>
+                        <TouchableOpacity  onPress={()=>alert('暂时没连接， 用来做广告位')}>
                             <View style={styles.navItem}>
                                 <Icon name="shop" size={35} color="#f6552c" />
                                 <Text style={styles.navItemText}>同城二手</Text>
@@ -118,12 +104,12 @@ export class HouseClassify extends Component{
 
                     <View  style={styles.listArea}>
                         <View style={styles.listTitle}>
-                            <Text  style={styles.titleText}>房产租售</Text>
+                            <Text  style={styles.titleText}>{this.props.navigation.state.params['title']}</Text>
                         </View>
                         <View style={styles.listBody}>
                             {
                                 this.props.navigation.state.params['label'].map((item)=>(
-                                    <TouchableOpacity key={item.key} onPress={this.toSortList.bind(this,item)}>
+                                    <TouchableOpacity key={item.key} onPress={()=>this.props.navigation.navigate('HouseList', item)}>
                                         <Text  style={styles.bodyText}>{item.key}</Text>
                                     </TouchableOpacity>)
                                 )

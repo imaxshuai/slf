@@ -13,7 +13,7 @@ import Picker from 'react-native-picker';
 import Spinner from 'react-native-spinkit';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import {HouseBaseInfo} from "../../../components/houseBaseInfo";
+import {HouseBaseInfoDirection, HouseBaseInfoFloors, HouseBaseInfoHouse} from "../../../components/picker";
 import {UploadImages} from "../../../components/uploadImages";
 import {AreaChoose} from "../../../components/areaChoose";
 import {Radio} from "../../../components/radio";
@@ -275,11 +275,17 @@ export class Replease1to2 extends Component {
                             </View>
 
                             {/*厅室、楼层、朝向选择器*/}
-                            <HouseBaseInfo
-                                house={(data)=>this.setState({house: data})}
-                                direction={(data)=>this.setState({direction: data})}
-                                floors={(data)=>this.setState({floors: data})}
-                            />
+                            <View style={styles.pickerGroup}>
+                                <HouseBaseInfoHouse
+                                    house={(data)=>this.setState({house: data})}
+                                />
+                                <HouseBaseInfoDirection
+                                    direction={(data)=>this.setState({direction: data})}
+                                />
+                                <HouseBaseInfoFloors
+                                    floors={(data)=>this.setState({floors: data})}
+                                />
+                            </View>
 
                         </View>
 
@@ -524,7 +530,13 @@ const styles = StyleSheet.create({
         textAlignVertical: 'top',
     },
 
-
+    //picker选择区
+    pickerGroup: {
+        justifyContent: 'space-around',
+        borderBottomWidth: 1,
+        borderColor: '#eee',
+        flexDirection: 'row',
+    },
 
     //发布按钮
     submitBtn: {
