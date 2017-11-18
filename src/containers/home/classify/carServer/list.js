@@ -79,8 +79,6 @@ class CarServerList extends Component{
 
     getCarServerListByFilter = (data)=>{
 
-        console.log(data);
-
         //传值类型 ['keyName', [?where], 'value']
 
         let info = data[1];
@@ -99,7 +97,6 @@ class CarServerList extends Component{
         let filters = this.props.filter;
 
         if(typeof(data[1])=='string'){
-            console.log('不是对象');
             filters[data[0]] = info;
         }else{
             if(data[1]==null){
@@ -134,7 +131,6 @@ class CarServerList extends Component{
 
     //获取下拉加载更多数据
     _getMoreCarServer = ()=>{
-        console.log('无线加载');
         if(this.props.carServerList.data.length>=10&&!this.props.carServerList.isEnd){
             this.props.carServerActions.getCarServerList(this.props.filter, this.props.carServerList);
         }
@@ -164,8 +160,6 @@ class CarServerList extends Component{
     render() {
 
         let { params } = this.props.navigation.state;
-        console.log(params);
-        console.log(this.props);
 
         return (
 

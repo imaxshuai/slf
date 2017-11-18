@@ -61,7 +61,6 @@ class CarServerDetail extends Component{
 
     render(){
 
-        console.log(this.props);
         let infos = this.props.carServer;
 
         return (

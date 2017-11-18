@@ -626,7 +626,6 @@ export class JobType extends Component{
             pickerTitleText: '请选择品种',
             pickerConfirmBtnText: '确定',
             pickerCancelBtnText: '取消',
-            selectedValue: this.state.brand!=null?this.state.brand:['充电器'],
             onPickerConfirm: data => {
                 this.setState({
                     brand: data
@@ -678,7 +677,6 @@ export class Education extends Component{
             pickerTitleText: '请选择学历',
             pickerConfirmBtnText: '确定',
             pickerCancelBtnText: '取消',
-            selectedValue: this.state.education!=null?this.state.education:['白'],
             onPickerConfirm: data => {
                 this.setState({
                     education: data
@@ -729,7 +727,6 @@ export class Salary extends Component{
             pickerTitleText: '请选择薪资',
             pickerConfirmBtnText: '确定',
             pickerCancelBtnText: '取消',
-            selectedValue: this.state.salary!=null?this.state.salary:['白'],
             onPickerConfirm: data => {
                 this.setState({
                     salary: data
@@ -780,7 +777,6 @@ export class Experience extends Component{
             pickerTitleText: '请选择工作经验',
             pickerConfirmBtnText: '确定',
             pickerCancelBtnText: '取消',
-            selectedValue: this.state.experience!=null?this.state.experience:['白'],
             onPickerConfirm: data => {
                 this.setState({
                     experience: data

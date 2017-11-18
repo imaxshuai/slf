@@ -23,10 +23,6 @@ export class AreaModel extends Component{
         };
     }
 
-    componentDidMount(){
-        console.log(this.props.showAreaModel);
-    }
-
     componentDidUpdate(){
         if(this.props.showAreaModel){
             this.showAreaModel();

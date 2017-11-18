@@ -134,7 +134,6 @@ class BusinessList extends Component{
 
     //获取下拉加载更多数据
     _getMoreBusiness = ()=>{
-        console.log('无线加载');
         if(this.props.businessList.data.length>=10&&!this.props.businessList.isEnd){
             this.props.businessActions.getBusinessList(this.props.filter, this.props.businessList);
         }
@@ -164,8 +163,6 @@ class BusinessList extends Component{
     render() {
 
         let { params } = this.props.navigation.state;
-        console.log(params);
-        console.log(this.props);
 
         return (
 

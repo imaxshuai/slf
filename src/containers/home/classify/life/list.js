@@ -79,8 +79,6 @@ class LifeList extends Component{
 
     getLifeListByFilter = (data)=>{
 
-        console.log(data);
-
         //传值类型 ['keyName', [?where], 'value']
 
         let info = data[1];
@@ -134,7 +132,6 @@ class LifeList extends Component{
 
     //获取下拉加载更多数据
     _getMoreLife = ()=>{
-        console.log('无线加载');
         if(this.props.lifeList.data.length>=10&&!this.props.lifeList.isEnd){
             this.props.lifeActions.getLifeList(this.props.filter, this.props.lifeList);
         }
@@ -164,9 +161,6 @@ class LifeList extends Component{
     render() {
 
         let { params } = this.props.navigation.state;
-        console.log(params);
-        console.log(this.props);
-
         return (
 
             <View style={styles.container}>

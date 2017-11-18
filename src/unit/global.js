@@ -1,10 +1,10 @@
 //请求IP
 
-// let Ip = 'http://www.hotcc.cn/public/index.php/';
-// let ImageIp = 'http://www.hotcc.cn/public/upload/images/';
+let Ip = 'http://www.hotcc.cn/public/index.php/';
+let ImageIp = 'http://www.hotcc.cn/public/upload/images/';
 
-let Ip = 'http://localhost/public/';
-let ImageIp = 'http://localhost/public/upload/images/';
+// let Ip = 'http://localhost/public/';
+// let ImageIp = 'http://localhost/public/upload/images/';
 global.Ip = Ip;
 global.ImageIp = ImageIp;
 

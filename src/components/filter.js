@@ -85,9 +85,7 @@ class OtherModel extends Component{
                     value=item.where[x]
                 }
             }
-            console.log(value);
             for(let x in value){
-                console.log(value[x]);
                 this.setState({
                     [x]: value[x]
                 })

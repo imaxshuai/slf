@@ -34,8 +34,8 @@ Http.get = (url, params, headers) => {
 
     return new Promise(function(resolve, reject){
 
-        console.log('请求地址：--------------------------');
-        console.log(url);
+        // console.log('请求地址：--------------------------');
+        // console.log(url);
         fetch (url, {
             method: 'GET',
             headers: headers
@@ -73,9 +73,9 @@ Http.post = (url, params, headers) => {
 
     return new Promise(function (resolve, reject) {
 
-        console.log('请求地址：--------------------------');
-        console.log(url);
-        console.log(headers);
+        // console.log('请求地址：--------------------------');
+        // console.log(url);
+        // console.log(headers);
 
         fetch(url, {
             method:'POST',

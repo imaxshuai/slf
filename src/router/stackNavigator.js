@@ -125,7 +125,6 @@ import { Replease8to2 } from '../containers/replease/pet/pet2';
 import { JobClassify } from '../containers/home/classify/job/index';
 import JobList from '../containers/home/classify/job/list';
 import JobDetail from '../containers/home/classify/job/detail';
-import {JobsDetail} from '../containers/home/classify/jobs/detail';
 import { Replease2to1 } from '../containers/replease/job/job';
 
 
@@ -296,7 +295,6 @@ export const AppNavigator = StackNavigator({
     JobClassify: { screen: JobClassify},
     JobList: {screen: JobList},
     JobDetail: {screen: JobDetail},
-    JobsDetail: {screen: JobsDetail},
     Replease2to1: {screen: Replease2to1},
     Replease2to2: {screen: Replease2to1},
     Replease2to3: {screen: Replease2to1},

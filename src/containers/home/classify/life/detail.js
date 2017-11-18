@@ -61,7 +61,6 @@ class LifeDetail extends Component{
 
     render(){
 
-        console.log(this.props);
         let infos = this.props.life;
 
         return (

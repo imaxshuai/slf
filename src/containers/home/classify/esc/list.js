@@ -79,8 +79,6 @@ class EscList extends Component{
 
     getEscListByFilter = (data)=>{
 
-        console.log(data);
-
         //传值类型 ['keyName', [?where], 'value']
 
         let info = data[1];
@@ -134,7 +132,6 @@ class EscList extends Component{
 
     //获取下拉加载更多数据
     _getMoreEsc = ()=>{
-        console.log('无线加载');
         if(this.props.escList.data.length>=10&&!this.props.escList.isEnd){
             this.props.escActions.getEscList(this.props.filter, this.props.escList);
         }
@@ -164,8 +161,6 @@ class EscList extends Component{
     render() {
 
         let { params } = this.props.navigation.state;
-        console.log(params);
-        console.log(this.props);
 
         return (
 

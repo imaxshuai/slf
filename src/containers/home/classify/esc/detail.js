@@ -61,7 +61,6 @@ class EscDetail extends Component{
 
     render(){
 
-        console.log(this.props);
         let infos = this.props.esc;
 
         return (

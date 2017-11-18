@@ -77,8 +77,6 @@ class TrainList extends Component{
 
     getTrainListByFilter = (data)=>{
 
-        console.log(data);
-
         //传值类型 ['keyName', [?where], 'value']
 
         let info = data[1];
@@ -132,7 +130,6 @@ class TrainList extends Component{
 
     //获取下拉加载更多数据
     _getMoreTrain = ()=>{
-        console.log('无线加载');
         if(this.props.trainList.data.length>=10&&!this.props.trainList.isEnd){
             this.props.trainActions.getTrainList(this.props.filter, this.props.trainList);
         }
@@ -162,9 +159,6 @@ class TrainList extends Component{
     render() {
 
         let { params } = this.props.navigation.state;
-        console.log(params);
-        console.log(this.props);
-
         return (
 
             <View style={styles.container}>

@@ -83,7 +83,7 @@ export class Replease1to1 extends Component {
             user_id: currentUser.userinfo.id,
             //单选和复选选取的值
             house_type: this.state.houseType,
-            sort_name: this.props.navigation.state.params,
+            sort_name: this.props.navigation.state.params[0],
 
             //图片
             images: this.state.images,
@@ -104,6 +104,7 @@ export class Replease1to1 extends Component {
         repleaseInfo.area==null?message.push('请选择所属区域!'):null;
         repleaseInfo.room_and_hall==null?message.push('请选择厅室!'):null;
         repleaseInfo.area==null?message.push('请选择所属区域!'):null;
+        repleaseInfo.images==null?message.push('请上传图片!'):null;
 
         if(repleaseInfo.qq){
             !qqPattern.test(repleaseInfo.qq)?message.push('QQ号输入有误!'):null;
@@ -124,6 +125,7 @@ export class Replease1to1 extends Component {
             this.setState({
                 showLoad: true
             });
+            console.log(repleaseInfo);
 
             Http.post(Ip+'api/house/create', repleaseInfo ,{'Content-Type': 'application/json'},)
                 .then( res=>{

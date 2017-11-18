@@ -80,7 +80,7 @@ export class Replease4to9 extends Component {
             //单选和复选选取的值
             agent: this.state.agent,
 
-            sort_name: this.props.navigation.state.params,
+            sort_name: this.props.navigation.state.params[0],
 
             //图片
             images: this.state.images,

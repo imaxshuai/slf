@@ -61,7 +61,6 @@ class TicketDetail extends Component{
 
     render(){
 
-        console.log(this.props);
         let infos = this.props.ticket;
 
         return (

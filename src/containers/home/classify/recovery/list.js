@@ -99,7 +99,6 @@ class RecoveryList extends Component{
         let filters = this.props.filter;
 
         if(typeof(data[1])=='string'){
-            console.log('不是对象');
             filters[data[0]] = info;
         }else{
             if(data[1]==null){
@@ -134,7 +133,6 @@ class RecoveryList extends Component{
 
     //获取下拉加载更多数据
     _getMoreRecovery = ()=>{
-        console.log('无线加载');
         if(this.props.recoveryList.data.length>=10&&!this.props.recoveryList.isEnd){
             this.props.recoveryActions.getRecoveryList(this.props.filter, this.props.recoveryList);
         }
@@ -164,9 +162,6 @@ class RecoveryList extends Component{
     render() {
 
         let { params } = this.props.navigation.state;
-        console.log(params);
-        console.log(this.props);
-
         return (
 
             <View style={styles.container}>

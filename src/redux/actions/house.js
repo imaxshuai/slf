@@ -5,7 +5,6 @@ export const getHouseList = (params, list) =>{
 
     params.page = parseInt(list.data.length/10)+1;
     list.isEnd = false;
-    console.log(params);
 
     if(params == 'no'){
         return {
@@ -16,9 +15,6 @@ export const getHouseList = (params, list) =>{
         return (dispatch)=>{
             Http.get(Ip+'api/house', params)
                 .then((res)=>{
-                    console.log(list);
-                    console.log(res);
-                    console.log(typeof (res.length));
                     if(res.length<10){
                         console.log('到底了哦!');
                         list.isEnd = true;

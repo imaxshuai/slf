@@ -61,7 +61,6 @@ class PetDetail extends Component{
 
     render(){
 
-        console.log(this.props);
         let infos = this.props.pet;
 
         return (

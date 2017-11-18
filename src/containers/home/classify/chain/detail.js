@@ -61,7 +61,6 @@ class ChainDetail extends Component{
 
     render(){
 
-        console.log(this.props);
         let infos = this.props.chain;
 
         return (

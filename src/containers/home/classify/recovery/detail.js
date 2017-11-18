@@ -61,7 +61,6 @@ class RecoveryDetail extends Component{
 
     render(){
 
-        console.log(this.props);
         let infos = this.props.recovery;
 
         return (

@@ -61,7 +61,6 @@ class JobDetail extends Component{
 
     render(){
 
-        console.log(this.props);
         let infos = this.props.job;
 
         return (
@@ -79,43 +78,23 @@ class JobDetail extends Component{
 
                         <View style={styles.headerInfo}>
                             <Text style={styles.headerInfoTitle} >{infos[1][0]}</Text>
-
+                            <View style={styles.extensionBox}>
+                                <Text style={{padding: 3, color: '#fa0064', fontSize: 10, borderWidth: 0.5, borderColor: '#fa0064',borderRadius: 2, marginRight: 5, }}>顶</Text>
+                                <Text style={{padding: 3, color: '#fa0064', fontSize: 10, borderWidth: 0.5, borderColor: '#fa0064',borderRadius: 2, marginRight: 5, }}>火</Text>
+                                <Text style={{padding: 3, color: '#fa0064', fontSize: 10, borderWidth: 0.5, borderColor: '#fa0064',borderRadius: 2, marginRight: 5, }}>折</Text>
+                                <Text style={{padding: 3, color: '#fa0064', fontSize: 10, borderWidth: 0.5, borderColor: '#fa0064',borderRadius: 2, marginRight: 5, }}>新</Text>
+                            </View>
                             <View style={styles.headerInfoBody}>
+                                <Text style={styles.headerInfoBodyTextPrice}>{infos[1][1].tag}{infos[1][1].unit}</Text>
                                 <View style={styles.headerInfoBodyText}>
-                                    <Text style={styles.headerInfoBodyTextTime}>{infos[1][1]}</Text>
+                                    <Text style={styles.headerInfoBodyTextTime}>{infos[1][2]}</Text>
                                     <View style={{backgroundColor: '#ccc', height: 16, width: 1, marginLeft: 10,marginRight: 10}}></View>
-                                    <Text style={styles.headerInfoBodyTextSeeCount}>浏览：{infos[1][2]}次</Text>
-                                </View>
-                                <View style={styles.extensionBox}>
-                                    <Text style={{padding: 3, color: '#fa0064', fontSize: 10, borderWidth: 0.5, borderColor: '#fa0064',borderRadius: 2, marginRight: 5, height: 18 }}>顶</Text>
-                                    <Text style={{padding: 3, color: '#fa0064', fontSize: 10, borderWidth: 0.5, borderColor: '#fa0064',borderRadius: 2, marginRight: 5, height: 18  }}>火</Text>
-                                    <Text style={{padding: 3, color: '#fa0064', fontSize: 10, borderWidth: 0.5, borderColor: '#fa0064',borderRadius: 2, marginRight: 5, height: 18  }}>折</Text>
-                                    <Text style={{padding: 3, color: '#fa0064', fontSize: 10, borderWidth: 0.5, borderColor: '#fa0064',borderRadius: 2, marginRight: 5, height: 18  }}>新</Text>
+                                    <Text style={styles.headerInfoBodyTextSeeCount}>浏览：{infos[1][3]}次</Text>
                                 </View>
                             </View>
                         </View>
 
                         <View style={styles.bodyInfo}>
-
-                            <TouchableOpacity>
-                                <View style={styles.companyArea}>
-                                    <View>
-                                        <Text style={{fontSize: 15,}}>南京农纷期电子商务有限公司</Text>
-                                        <View style={styles.companyInfo}>
-                                            <View style={styles.companyInfoTextBox}>
-                                                <Icon name="person" size={14} color="#fa0064"/>
-                                                <Text style={{marginLeft: 7}}>民营公司</Text>
-                                            </View>
-                                            <View style={styles.companyInfoTextBox}>
-                                                <Icon name="person" size={14} color="#fa0064"/>
-                                                <Text style={{marginLeft: 7}}>500-1000人</Text>
-                                            </View>
-                                        </View>
-                                    </View>
-                                    <Icon name="navigate-next" size={25} color="#333" />
-                                </View>
-                            </TouchableOpacity>
-
                             <View style={styles.bodyInfoHeader}>
                                 {
                                     infos[2].map((item)=>(
@@ -154,25 +133,27 @@ class JobDetail extends Component{
 
                         </View>
 
-                        <View style={styles.contact}>
-                            <Image
-                                source={{uri: 'http://www.hotcc.cn/public/upload/avatar/'+infos[6][2]}}
-                                style={styles.avatar}
-                            />
-                            <View style={styles.contactInfoBox}>
-                                <View style={styles.contactName}>
-                                    <Text style={styles.contactNameText}>{infos[6][1]}</Text>
-                                    <View style={styles.tel}>
-                                        <Icon name='phone' color='#fa0064' size={16}/>
-                                        <Text style={styles.telInfo}>{infos[6][3]}</Text>
+                        <TouchableOpacity>
+                            <View style={styles.companyArea}>
+                                <View>
+                                    <Text style={{fontSize: 15,}}>南京农纷期电子商务有限公司</Text>
+                                    <View style={styles.companyInfo}>
+                                        <View style={styles.companyInfoTextBox}>
+                                            <Icon name="person" size={14} color="#fa0064"/>
+                                            <Text style={{marginLeft: 7}}>民营公司</Text>
+                                        </View>
+                                        <View style={styles.companyInfoTextBox}>
+                                            <Icon name="person" size={14} color="#fa0064"/>
+                                            <Text style={{marginLeft: 7}}>500-1000人</Text>
+                                        </View>
                                     </View>
                                 </View>
-                                <Text style={styles.contactInfo}>这个人很神秘什么都没有留下...</Text>
+                                <Icon name="navigate-next" size={25} color="#333" />
                             </View>
-                        </View>
+                        </TouchableOpacity>
 
-                        <View style={styles.bodyInfoDjobribe}>
-                            <Text style={styles.bodyInfoDjobribeTitle}>详情描述</Text>
+                        <View style={styles.bodyInfoDescribe}>
+                            <Text style={styles.bodyInfoDescribeTitle}>详情描述</Text>
                             <View style={styles.infoCheckbox}>
                                 {
                                     infos[5][0]!=null?infos[5][0].map((item)=>(
@@ -181,7 +162,7 @@ class JobDetail extends Component{
                                 }
                             </View>
                             <View>
-                                <Text style={styles.bodyInfoDjobribeContent}>{infos[5][1]}</Text>
+                                <Text style={styles.bodyInfoDescribeContent}>{infos[5][1]}</Text>
                             </View>
                         </View>
 
@@ -238,9 +219,6 @@ const styles = StyleSheet.create({
         paddingBottom: '50%',
     },
 
-    /*轮播样式*/
-
-
     /*具体信息头部信息介绍*/
     headerInfo: {
         padding: 10,
@@ -290,6 +268,25 @@ const styles = StyleSheet.create({
     headerInfoBodyTextSeeCount: {
         color: '#aaa',
         fontSize:12,
+    },
+
+    //公司信息那一块样式
+    companyArea: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        padding: 10,
+        marginTop: 10,
+    },
+    companyInfo: {
+        flexDirection: 'row',
+    },
+    companyInfoTextBox: {
+        flexDirection: 'row',
+        marginTop: 10,
+        marginRight: 10,
+        alignItems: 'center',
     },
 
     /*底部具体信息介绍*/
@@ -390,17 +387,17 @@ const styles = StyleSheet.create({
     },
 
     /*房子描述*/
-    bodyInfoDjobribe: {
+    bodyInfoDescribe: {
         marginTop: 10,
         padding: 10,
         backgroundColor: '#fff',
     },
-    bodyInfoDjobribeTitle: {
+    bodyInfoDescribeTitle: {
         fontSize: 18,
         fontWeight: '500',
         paddingTop: 5,
     },
-    bodyInfoDjobribeContent: {
+    bodyInfoDescribeContent: {
         fontSize: 14,
         color: '#999',
         lineHeight: 30,

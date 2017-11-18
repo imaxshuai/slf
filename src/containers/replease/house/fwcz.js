@@ -96,7 +96,7 @@ export class Replease1to3 extends Component {
             lease_type: this.state.lease_type,
             house_configure: this.state.house_configure,
 
-            sort_name: this.props.navigation.state.params,
+            sort_name: this.props.navigation.state.params[0],
 
             //图片
             images: this.state.images,
@@ -120,6 +120,7 @@ export class Replease1to3 extends Component {
         repleaseInfo.room_and_hall==null?message.push('请选择厅室!'):null;
         repleaseInfo.decoration==null?message.push('请选择房屋朝向!'):null;
         repleaseInfo.floors==null?message.push('请选择房屋楼层!'):null;
+        repleaseInfo.images==null?message.push('请上传图片!'):null;
 
         if(repleaseInfo.qq){
             !qqPattern.test(repleaseInfo.qq)?message.push('QQ号输入有误!'):null;

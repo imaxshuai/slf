@@ -21,14 +21,7 @@ export class PetClassify extends Component{
         header: null,
     };
 
-    componentDidMount(){
-        console.log(this.props.navigation)
-    }
-
     render() {
-
-        console.log(this.props)
-        console.log(this.props.navigation.state.params.label)
 
         return (
             <View style={styles.container}>

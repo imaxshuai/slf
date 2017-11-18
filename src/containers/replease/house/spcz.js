@@ -88,7 +88,7 @@ export class Replease1to5 extends Component {
             //从本地提取出来的数据
             city: City.name,
             user_id: currentUser.userinfo.id,
-            sort_name: this.props.navigation.state.params,
+            sort_name: this.props.navigation.state.params[0],
 
             //单选和复选选取的值
             agent: this.state.agent,
@@ -113,6 +113,7 @@ export class Replease1to5 extends Component {
         !telPattern.test(repleaseInfo.tel)||(repleaseInfo.tel==null)||(repleaseInfo.tel=='')?message.push('请填写正确的手机号!'):null;
 
         repleaseInfo.area==null?message.push('请选择所属区域!'):null;
+        repleaseInfo.images==null?message.push('请上传图片!'):null;
 
         if(repleaseInfo.qq){
             !qqPattern.test(repleaseInfo.qq)?message.push('QQ号输入有误!'):null;

@@ -77,8 +77,6 @@ class ChainList extends Component{
 
     getChainListByFilter = (data)=>{
 
-        console.log(data);
-
         //传值类型 ['keyName', [?where], 'value']
 
         let info = data[1];
@@ -97,7 +95,6 @@ class ChainList extends Component{
         let filters = this.props.filter;
 
         if(typeof(data[1])=='string'){
-            console.log('不是对象');
             filters[data[0]] = info;
         }else{
             if(data[1]==null){
@@ -132,7 +129,6 @@ class ChainList extends Component{
 
     //获取下拉加载更多数据
     _getMoreChain = ()=>{
-        console.log('无线加载');
         if(this.props.chainList.data.length>=10&&!this.props.chainList.isEnd){
             this.props.chainActions.getChainList(this.props.filter, this.props.chainList);
         }
@@ -162,8 +158,6 @@ class ChainList extends Component{
     render() {
 
         let { params } = this.props.navigation.state;
-        console.log(params);
-        console.log(this.props);
 
         return (
 

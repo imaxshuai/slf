@@ -31,10 +31,6 @@ class User extends Component{
         super(...props);
     }
 
-    componentDidMount(){
-        console.log(currentUser);
-    }
-
     //跳转设置页面
     toSetting = ()=>{
         this.props.navigation.navigate("UserSetting");

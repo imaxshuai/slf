@@ -77,8 +77,6 @@ class TicketList extends Component{
 
     getTicketListByFilter = (data)=>{
 
-        console.log(data);
-
         //传值类型 ['keyName', [?where], 'value']
 
         let info = data[1];
@@ -97,7 +95,6 @@ class TicketList extends Component{
         let filters = this.props.filter;
 
         if(typeof(data[1])=='string'){
-            console.log('不是对象');
             filters[data[0]] = info;
         }else{
             if(data[1]==null){
@@ -132,7 +129,6 @@ class TicketList extends Component{
 
     //获取下拉加载更多数据
     _getMoreTicket = ()=>{
-        console.log('无线加载');
         if(this.props.ticketList.data.length>=10&&!this.props.ticketList.isEnd){
             this.props.ticketActions.getTicketList(this.props.filter, this.props.ticketList);
         }
@@ -162,8 +158,6 @@ class TicketList extends Component{
     render() {
 
         let { params } = this.props.navigation.state;
-        console.log(params);
-        console.log(this.props);
 
         return (
 

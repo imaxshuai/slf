@@ -87,7 +87,7 @@ export class Replease1to10 extends Component {
             //从本地提取出来的数据
             city: City.name,
             user_id: currentUser.userinfo.id,
-            sort_name: this.props.navigation.state.params,
+            sort_name: this.props.navigation.state.params[0],
 
             //单选和复选选取的值
             agent: this.state.agent,
@@ -106,6 +106,7 @@ export class Replease1to10 extends Component {
         (repleaseInfo.house_size==null)||(repleaseInfo.house_size=='')?message.push('请填写面积!'):null;
         (repleaseInfo.price==null)||(repleaseInfo.price=='')?message.push('请填写价格!'):null;
         (repleaseInfo.contacts==null)||(repleaseInfo.contacts=='')?message.push('请填写联系人!'):null;
+        repleaseInfo.images==null?message.push('请上传图片!'):null;
 
 
         !telPattern.test(repleaseInfo.tel)||(repleaseInfo.tel==null)||(repleaseInfo.tel=='')?message.push('请填写正确的手机号!'):null;

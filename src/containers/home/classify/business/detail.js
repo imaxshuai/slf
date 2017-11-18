@@ -61,7 +61,6 @@ class BusinessDetail extends Component{
 
     render(){
 
-        console.log(this.props);
         let infos = this.props.business;
 
         return (

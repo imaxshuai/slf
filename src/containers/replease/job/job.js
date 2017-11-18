@@ -40,6 +40,7 @@ export class Replease2to1 extends Component {
             education: null,                //学历
             experience: null,               //经验
             work_time: null,                //工作时间
+            welfare: null,                  //福利待遇
         }
     }
 
@@ -80,6 +81,7 @@ export class Replease2to1 extends Component {
 
             //单选和复选选取的值
             work_time: this.state.work_time,
+            welfare: this.state.welfare,
 
 
         };
@@ -111,16 +113,14 @@ export class Replease2to1 extends Component {
             });
             setTimeout(()=>{
                 this.setState({
-                    showToast: false
+                    showToast: true
                 });
             },200)
         }else{
 
             this.setState({
-                showLoad: false
+                showLoad: true
             });
-
-            console.log(repleaseInfo);
 
             Http.post(Ip+'api/job/create', repleaseInfo ,{'Content-Type': 'application/json'},)
                 .then( res=>{
