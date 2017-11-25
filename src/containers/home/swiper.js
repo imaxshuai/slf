@@ -11,7 +11,7 @@ var ImagePicker = NativeModules.ImageCropPicker;
 export class SwiperList extends Component {
 
     static navigationOptions = {
-        header: null,
+        headerTitle: '头像上传',
     }
 
     constructor() {
@@ -26,24 +26,22 @@ export class SwiperList extends Component {
     pickSingleWithCamera() {
         ImagePicker.openPicker({
             multiple: true,
-            includeBase64: true
+            includeBase64: false,
         }).then(images => {
             console.log(images);
             this.setState({
-                image: null,
-                images: images.map(i => {
-                    return {uri: i.path, mime: i.mime, imgBase64: i.data};
-                })
+                images: images
             });
         }).catch(e => alert('图片选择出错！'));
     }
 
     uploadImages =()=>{
-        let params = {
-            path:  this.state.images,    //本地文件地址
-        };
-        console.log(params);
-        Http.post('http://localhost/upload/avatar', params ,{'Content-Type': 'application/json'},)
+
+        let data = new FormData();
+        data.append("imgFile", this.state.images[0]);
+
+        console.log(data);
+        Http.post('http://localhost/public/api/user/update', data ,{'Content-Type': 'application/json'},)
             .then( res=>{
                 console.log(res);
             }).catch( err=>{
@@ -52,20 +50,6 @@ export class SwiperList extends Component {
         })
 
     };
-
-
-
-    renderImage(image) {
-        return <Image style={{width: 300, height: 300, resizeMode: 'contain'}} source={image} />
-    }
-
-    renderAsset(image) {
-        if (image.mime && image.mime.toLowerCase().indexOf('video/') !== -1) {
-            return this.renderVideo(image);
-        }
-
-        return this.renderImage(image);
-    }
 
     render() {
         return (
@@ -77,7 +61,11 @@ export class SwiperList extends Component {
                 />
 
                 <ScrollView style={{backgroundColor: '#fff'}}>
-                    {this.state.images ? this.state.images.map(i => <View key={i.uri}>{this.renderAsset(i)}</View>) : null}
+                    {this.state.images ? this.state.images.map((i) => (
+                        <View key={i.path}>
+                            <Image  style={{width: 300, height: 300, resizeMode: 'contain'}} source={{uri:i.path}}/>
+                        </View>
+                    )) : null}
                 </ScrollView>
 
                 <TouchableOpacity onPress={() => this.pickSingleWithCamera(false)} style={styles.button}>

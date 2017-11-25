@@ -6,7 +6,7 @@ import { StackNavigator, addNavigationHelpers, NavigationActions, } from 'react-
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 
 
-import { TabRouter, RepleaseTab } from './tabNavgator';
+import { TabRouter, RepleaseTab, JobTab } from './tabNavgator';
 import Login from '../containers/user/login';
 import Register from '../containers/user/register';
 import { ClassifyList } from '../containers/replease/classifyList';
@@ -15,6 +15,8 @@ import { ModalList } from '../containers/home/modal';
 import { Search } from '../containers/search/search';
 import Provnces from '../containers/home/city/index';
 import CityList from '../containers/home/city/cityList';
+import ResumeDetail from '../containers/user/job/resumeDetail';
+import {ResumeRevise} from '../containers/user/job/resumeRevise';
 
 import UserCollection from '../containers/user/collection';
 import UserSetting from '../containers/user/setting';
@@ -151,8 +153,23 @@ export const AppNavigator = StackNavigator({
             headerTintColor: '#333',
         }
     },
+    JobTab: {
+        screen: JobTab,
+        navigationOptions: {
+            headerTitle: '求职/招聘',
+            headerStyle: {
+                backgroundColor: '#fff',
+            },
+            headerTitleStyle: {
+                fontSize: 16,
+            },
+            headerTintColor: '#333',
+        }
+    },
     UserCollection: {screen: UserCollection,},
     UserSetting: {screen: UserSetting,},
+    ResumeDetail: {screen: ResumeDetail},
+    ResumeRevise: {screen: ResumeRevise},
 
     HouseClassify: { screen: HouseClassify},
     HouseList: {screen: HouseList},

@@ -44,7 +44,6 @@ class UserSetting extends Component{
 
 
     render(){
-        console.log(this.props);
         return(
             <ScrollView style={styles.container}>
                 <View style={styles.settingsArea}>

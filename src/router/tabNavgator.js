@@ -8,6 +8,11 @@ import UserReplease from '../containers/user/replease/index';
 import AuditindReplease from '../containers/user/replease/auditing';
 import DeleteReplease from '../containers/user/replease/delect';
 
+import MyJob from '../containers/user/job/index';
+import MyResume from '../containers/user/job/resume';
+
+
+
 export const TabRouter = TabNavigator({
     Home: {
         screen: Home,
@@ -73,6 +78,41 @@ export const RepleaseTab = TabNavigator({
         labelStyle: {
             fontSize: 16, // 文字大小
             lineHeight: Platform.OS == 'ios'?40:16
+        },
+    },
+
+});
+
+export const JobTab = TabNavigator({
+    MyJob: {
+        screen: MyJob,
+    },
+    MyResume: {
+        screen: MyResume,
+    }
+},{
+    tabBarPosition: 'top',
+    backBehavior: 'none', // 按 back 键是否跳转到第一个 Tab， none 为不跳转
+    animationEnabled: true,
+    swipeEnabled: true,
+    lazy: true,
+    tabBarOptions: {
+        activeTintColor: '#fff',
+        inactiveTintColor: '#fa0064', // 文字和图片默认颜色
+        activeBackgroundColor: '#fa0064',
+        inactiveBackgroundColor: '#fff',
+        showIcon: false,
+        indicatorStyle: {backgroundColor: "#fa0064",height: 1},
+        style: {
+            marginTop: 0,
+            backgroundColor: '#fff', // TabBar 背景色
+            borderBottomWidth: 1,
+            borderColor: 'rgba(250,0,100,0.2)',
+            height: 35,
+        },
+        labelStyle: {
+            fontSize: 16, // 文字大小
+            lineHeight: Platform.OS == 'ios'?35:16
         },
     },
 

@@ -34,7 +34,7 @@ class User extends Component{
     //跳转设置页面
     toSetting = ()=>{
         this.props.navigation.navigate("UserSetting");
-    }
+    };
     //跳转登录页面
     toLogin(){
         if(currentUser.loginState){
@@ -42,15 +42,6 @@ class User extends Component{
         }else{
             this.props.navigation.navigate("Login");
         }
-    }
-    //跳转我的发布页面
-    toUserReplease = ()=> {
-        this.props.navigation.navigate('UserReplease');
-    };
-    //跳转我的收藏页面
-    toUserCollection = ()=> {
-        console.log(this.props);
-        this.props.navigation.navigate('UserCollection');
     };
     //跳转推广页面
     toExtension =()=>{
@@ -67,7 +58,7 @@ class User extends Component{
             .catch(err=>{
                 console.log('用户数据获取不到！');
             })
-    }
+    };
 
     render(){
 
@@ -101,19 +92,19 @@ class User extends Component{
                 {/*中间图标功能区域*/}
 
                 <View style={styles.userNav}>
-                    <TouchableOpacity onPress={this.toUserReplease} >
+                    <TouchableOpacity onPress={()=>this.props.navigation.navigate('UserReplease')} >
                         <View style={styles.navItem}>
                             <Icon name="description" size={40} color="#00aea1" />
                             <Text style={styles.navItemText}>我的发布</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={this.toUserCollection} >
+                    <TouchableOpacity onPress={()=>this.props.navigation.navigate('UserCollection')} >
                         <View style={styles.navItem}>
                             <Icon name="collections" size={40} color="#fe4a6c" />
                             <Text style={styles.navItemText} >我的收藏</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={this.toSetting} >
+                    <TouchableOpacity onPress={()=>this.props.navigation.navigate('JobTab')} >
                         <View style={styles.navItem}>
                             <Icon name="card-travel" size={40} color="#ffb300" />
                             <Text style={styles.navItemText}>我的招聘</Text>

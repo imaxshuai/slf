@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import Spinner from 'react-native-spinkit';
 
 import * as recoveryActions from '../../../../redux/actions/recovery';
-import { NavbarTitleComponent } from '../../../../components/NavbarTitle';
+import {HeaderComponent} from "../../../../components/header";
 
 
 let { width, height } = Dimensions.get("window");
@@ -33,32 +33,6 @@ class RecoveryDetail extends Component{
         this.props.recoveryActions.getRecovery('no');
     }
 
-    _goBack = ()=>{
-        this.props.navigation.goBack();
-    };
-
-    renderLeftItem = ()=>{
-        return (
-            <TouchableOpacity onPress={this._goBack}>
-                <Icon name="navigate-before" size={25} color="#aaa" />
-            </TouchableOpacity>
-        )
-    };
-    renderTitleItem = ()=>{
-        return (
-            <Text>详情</Text>
-        )
-    };
-    renderRightItem = ()=>{
-        return (
-            this.props.navigation.state.params.is_delete==1
-                ?
-                (<Icon name="favorite" color="#fa0064" size={20} />)
-                :
-                (<Icon name="favorite-border" color="#fa0064" size={20} />)
-        )
-    };
-
     render(){
 
         let infos = this.props.recovery;
@@ -66,11 +40,15 @@ class RecoveryDetail extends Component{
         return (
             <View style={styles.container}>
 
-                {/*头部Navbar部分*/}
-                <NavbarTitleComponent
-                    leftItem={this.renderLeftItem}
-                    titleItem={this.renderTitleItem}
-                    rightItem={this.renderRightItem}  />
+                <HeaderComponent
+                    headerLeft={
+                        <TouchableOpacity onPress={()=>this.props.navigation.goBack()}>
+                            <Icon name='navigate-before' size={25} color='#aaa' />
+                        </TouchableOpacity>
+                    }
+                    headerTitle={<Text style={{fontSize: 18}}>详情</Text>}
+                    headerRight={<Icon name="favorite" color="#fa0064" size={20} />}
+                />
 
                 {infos.length>1
                     ?

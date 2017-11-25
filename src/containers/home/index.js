@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Swiper from 'react-native-swiper';
 import Spinner from 'react-native-spinkit';
+import SplashScreen from 'react-native-splash-screen';
 
 import * as sortActions from '../../redux/actions/sort';
 import * as homeActions from '../../redux/actions/home';
@@ -69,6 +70,7 @@ class Home extends PureComponent{
     }
 
     componentDidMount(){
+        SplashScreen.hide();//关闭启动屏幕
         let filters = {};
 
         filters.sort_name = '房屋出租';
